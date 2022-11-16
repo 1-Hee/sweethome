@@ -32,5 +32,9 @@ export default {
         // user-inquiry-form
         
     },
+    giveAnimation(){
+        
+    }
+    
 }
 

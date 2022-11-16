@@ -161,4 +161,7 @@ ul {
 :root {
     --defColor : #ffaa66;
     --defColorDark : #e99a5a;
+    --dangerColor : rgb(218, 49, 49);
+    --dangerColorDark : rgb(187, 38, 38);
+
 }

@@ -92,7 +92,7 @@ export default {
     },
     async addBoard() {
       await axios({
-        url: "http://localhost:8080/board",
+        url: "http://localhost:8080/board/write",
         method: "post",
         data: this.newBoard,
       }).then((res) => {
@@ -102,7 +102,7 @@ export default {
     },
     async addNotice() {
       await axios({
-        url: "http://localhost:8080/notice",
+        url: "http://localhost:8080/notice/write",
         method: "post",
         data: this.newBoard,
       }).then((res) => {

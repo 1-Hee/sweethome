@@ -115,6 +115,7 @@ export default {
     logOut() {
       this.isLogin = false;
       this.$store.state.loginUser = null;
+      this.goIndex();
     },
   },
   components: {
@@ -143,6 +144,7 @@ export default {
       return this.$store.state.loginUser == null;
     },
   },
+  watch: {},
 };
 </script>
 
