@@ -40,9 +40,9 @@ public class BoardController {
 
 	@PostMapping("write")
 	private ResponseEntity<?> write(@RequestBody Board board, HttpSession session) throws Exception {
-		Member member = (Member) session.getAttribute("userInfo");
+//		Member member = (Member) session.getAttribute("userInfo");
 		Board board2 = new Board();
-		board2.setUserId(member.getId());
+		board2.setUserId(board.getUserId());
 		board2.setTitle(board.getTitle());
 		board2.setContent(board.getContent());
 		boardService.writeArticle(board2);

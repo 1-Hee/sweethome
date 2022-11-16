@@ -44,9 +44,9 @@ public class NoticeController extends HttpServlet{
 
 	@PostMapping("write")
 	private ResponseEntity<?> write(@RequestBody Notice notice, HttpSession session) throws Exception {
-		Member member = (Member) session.getAttribute("userInfo");
+//		Member member = (Member) session.getAttribute("userInfo");
 			Notice notice2 = new Notice();
-			notice2.setUserId(member.getId());
+			notice2.setUserId(notice.getUserId());
 			notice2.setTitle(notice.getTitle());
 			notice2.setContent(notice.getContent());
 			noticeService.writeArticle(notice2);

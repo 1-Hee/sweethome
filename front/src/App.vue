@@ -2,6 +2,7 @@
   <div id="app">
     <the-header-view />
     <router-view
+      v-on:go-index="goIndex"
       v-on:notice-view="noticeView"
       v-on:board-view="boardView"
       v-on:board-list="boardList"
@@ -38,6 +39,9 @@ export default {
     },
     boardWrite() {
       this.$router.push({ name: "BoardWrite" });
+    },
+    goIndex() {
+      this.$router.push({ name: "Index" });
     },
   },
 };
