@@ -94,7 +94,7 @@ export default {
         data: this.newUser,
       }).then((res) => {
         console.log(res.data);
-        console.log(res.response);
+        console.dir(res);
       });
       await this.closeRegistModal();
     },
