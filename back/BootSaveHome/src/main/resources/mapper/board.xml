@@ -17,7 +17,7 @@
 	
 	<insert id="writeArticle" parameterType="board">
 		insert into board (user_id, title, content, hit, regist_date)
-		values (#{board.userId}, #{board.title}, #{board.content}, 0, now())
+		values (#{userId}, #{title}, #{content}, 0, now())
 		<selectKey resultType="int" keyProperty="articleNo" order="AFTER">
 			select last_insert_id()
 		</selectKey>

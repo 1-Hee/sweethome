@@ -4,8 +4,8 @@
       <p class="login-title">로그인</p>
       <hr class="login-hr" />
       <div class="login-img-container">
-        <a href="#">
-          <i class="fa-solid fa-cookie-bite"></i>
+        <a href="#" @click="spinIcon">
+          <i id="cookie-logo" class="fa-solid fa-cookie-bite"></i>
         </a>
       </div>
       <form class="id-form" action="#" method="post">
@@ -68,6 +68,14 @@ export default {
     closeLoginModal() {
       document.getElementById("login-modal-form").setAttribute("style", "display: none");
       document.getElementById("background1").setAttribute("style", "display: none");
+    },
+    spinIcon() {
+      if (!document.getElementById("cookie-logo").classList.contains("rotate")) {
+        document.getElementById("cookie-logo").classList.add("rotate");
+        setTimeout(() => {
+          document.getElementById("cookie-logo").classList.remove("rotate");
+        }, 2000);
+      }
     },
   },
   mounted() {

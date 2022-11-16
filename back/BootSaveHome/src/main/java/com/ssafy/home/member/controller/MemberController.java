@@ -8,9 +8,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -69,11 +71,11 @@ public class MemberController {
 		return new ResponseEntity<Member>(member,HttpStatus.OK);
 	}
 	
-	@PostMapping("update")
+	@PutMapping("update")
 	private ResponseEntity<?> update(@RequestBody Member member) throws Exception {
 		Member member2 = service.selectById(member.getId());
 		String password = member.getPassword();
-		String fullEmail = member.getEmail()+member.getDomain();
+		String fullEmail = member.getEmail()+"@"+member.getDomain();
 		if(password==null&&fullEmail==null) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
@@ -90,7 +92,7 @@ public class MemberController {
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
-	@GetMapping("delete/{id}")
+	@DeleteMapping("delete/{id}")
 	private ResponseEntity<?> delete(@PathVariable String id) throws Exception{
 		service.deleteById(id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
