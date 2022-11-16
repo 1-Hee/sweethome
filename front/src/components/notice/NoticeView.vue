@@ -85,7 +85,7 @@ export default {
   methods: {
     async sendModifyBoard() {
       await axios({
-        url: "http://localhost:8080/notice",
+        url: `http://localhost:8080/notice/modify/${this.Notice.articleNo}`,
         method: "put",
         data: this.Notice,
       }).then((res) => {
@@ -96,7 +96,7 @@ export default {
     async deleteBoard(articleNo) {
       if (confirm("정말로 삭제하시겠습니까?")) {
         await axios({
-          url: `http://localhost:8080/notice/${articleNo}`,
+          url: `http://localhost:8080/notice/delete/${this.Notice.articleNo}`,
           method: "delete",
         }).then((res) => {
           console.dir(res);

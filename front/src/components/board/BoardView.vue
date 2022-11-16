@@ -80,7 +80,7 @@ export default {
   methods: {
     async sendModifyBoard() {
       await axios({
-        url: "http://localhost:8080/board",
+        url: `http://localhost:8080/board/modify/${this.Board.articleNo}`,
         method: "put",
         data: this.Board,
       }).then((res) => {
@@ -91,7 +91,7 @@ export default {
     async deleteBoard(articleNo) {
       if (confirm("정말로 삭제하시겠습니까?")) {
         await axios({
-          url: `http://localhost:8080/board/${articleNo}`,
+          url: `http://localhost:8080/board/delete/${this.Board.articleNo}`,
           method: "delete",
         }).then((res) => {
           // console.dir(res);

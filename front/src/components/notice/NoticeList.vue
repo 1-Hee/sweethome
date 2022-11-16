@@ -55,7 +55,7 @@ export default {
     async view(articleNo) {
       // console.log(articleNo);
       await axios({
-        url: `http://localhost:8080/notice/${articleNo}`,
+        url: `http://localhost:8080/notice/view/${articleNo}`,
         method: "get",
       }).then(({ data }) => {
         // localStorage.setItem("notice", data);
