@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.home.apt.model.mapper.AptMapper">
+
+	<select id="selectSido" resultType="apt">
+		select * 
+		from sidocode
+		order by code
+	</select>
+	
+	<select id="selectGugun" parameterType="string" resultType="apt">
+		select * 
+		from guguncode 
+		where code like concat(#{code}, '%') 
+		and name is not null 
+		order by code
+	</select>
+	
+	<select id="selectDong" parameterType="string" resultType="apt">
+		select * 
+		from dongcode 
+		where code like concat(#{code}, '%') 
+		and name is not null 
+		order by code
+	</select>
+	
+	<select id="selectDongGetPos" parameterType="string" resultType="apt">
+		select dongCode, dong, lng, lat 
+		from houseinfo 
+		where dongCode = #{code}
+	</select>
+	
+	<select id="selectAptList" parameterType="string" resultType="aptInfo">
+		select * 
+		from apt_table
+		where dongCode= #{code} 
+	</select>
+	
+	<select id="selectAptListByLatLng" parameterType="map" resultType="aptInfo">
+		select * 
+		from apt_table
+		where lat = #{lat} and lng = #{lng}
+	</select>
+	
+	<select id="selectAptListByDongName" parameterType="string" resultType="aptInfo">
+		select * 
+		from apt_table
+		where dong = #{dongName}
+	</select>
+</mapper>
+
