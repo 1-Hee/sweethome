@@ -13,13 +13,7 @@
           <input type="text" class="default-input" name="name" placeholder="이름" v-model="newUser.name" />
         </div>
         <div class="id">
-          <input
-            type="text"
-            class="id-input default-input"
-            name="userId"
-            placeholder="아이디"
-            v-model="newUser.userId"
-          />
+          <input type="text" class="id-input default-input" name="id" placeholder="아이디" v-model="newUser.id" />
         </div>
         <div class="password">
           <input
@@ -91,7 +85,7 @@ export default {
       let isOk = false;
       if (this.newUser.password == this.confirmPassword) {
         await axios({
-          url: "http://localhost:8080/user",
+          url: "http://localhost:8080/member/signup",
           method: "post",
           data: this.newUser,
         })

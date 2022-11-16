@@ -84,7 +84,7 @@ export default {
         method: "put",
         data: this.Board,
       }).then((res) => {
-        console.dir(res);
+        // console.dir(res);
       });
       await this.backToList();
     },
