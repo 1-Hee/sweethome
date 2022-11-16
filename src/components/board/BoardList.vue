@@ -4,7 +4,7 @@
     <hr />
     <div class="table-container">
       <div class="board-write-container">
-        <button class="board-write-btn" @click="BoardWrite">글쓰기</button>
+        <button class="board-write-btn">글쓰기</button>
       </div>
       <table class="custom-table" id="table">
         <thead>
@@ -55,7 +55,7 @@ export default {
     async view(articleNo) {
       // console.log(articleNo);
       await axios({
-        url: `http://localhost:8080/board/${articleNo}`,
+        url: `http://localhost:8080/board/view/${articleNo}`,
         method: "get",
       }).then(({ data }) => {
         // localStorage.setItem("notice", data);
@@ -64,9 +64,6 @@ export default {
       });
       // await console.dir(localStorage.getItem("notice"));
       this.$emit("board-view");
-    },
-    BoardWrite() {
-      this.$emit("board-write");
     },
   },
   mounted() {
