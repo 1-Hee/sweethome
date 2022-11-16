@@ -19,7 +19,7 @@
     </div>
     <div id="view" class="view-container">
       <div class="title-section">
-        <h1 id="category-text">공지사항</h1>
+        <h1 id="category-text">자유게시판</h1>
       </div>
       <div class="content-box">
         <hr />
@@ -37,7 +37,7 @@
     <div id="modiform" style="display: none">
       <div id="modify-view" class="view-container">
         <div class="title-section">
-          <h1 id="category-text">공지사항</h1>
+          <h1 id="category-text">자유게시판</h1>
         </div>
         <hr />
         <div class="content-box">
@@ -80,7 +80,7 @@ export default {
   methods: {
     async sendModifyBoard() {
       await axios({
-        url: `http://localhost:8080/board/modify/${this.Board.articleNo}`,
+        url: "http://localhost:8080/board",
         method: "put",
         data: this.Board,
       }).then((res) => {
@@ -91,10 +91,10 @@ export default {
     async deleteBoard(articleNo) {
       if (confirm("정말로 삭제하시겠습니까?")) {
         await axios({
-          url: `http://localhost:8080/board/delete/${articleNo}`,
+          url: `http://localhost:8080/board/${articleNo}`,
           method: "delete",
         }).then((res) => {
-          console.dir(res);
+          // console.dir(res);
         });
         await this.backToList();
       }
@@ -108,7 +108,7 @@ export default {
   },
   created() {
     this.Board = JSON.parse(localStorage.getItem("board"));
-    console.dir(this.Board);
+    // console.dir(this.Board);
     localStorage.removeItem("board");
   },
 };

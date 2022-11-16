@@ -5,24 +5,29 @@
     border: 1px solid black;
     border-radius: 10px;
     top: 100px;
-    left: 36vw;
+    left: 38vw;
     background-color: white;
     z-index: 7;
 }
 
 @media(max-width:1024px){
     .login-container {
-        left: 18vw;
+        left: 25vw;
     }
 }
 @media(max-width:720px){
     .login-container {
-        left: 9vw;
+        left: 20vw;
     }
 }
 @media(max-width:480px){
     .login-container {
-        left: 0;
+        left: 10vw;
+    }
+}
+@media(max-width:580px){
+    .regist-container {
+        left: 7vw;
     }
 }
 

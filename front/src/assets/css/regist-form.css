@@ -1,28 +1,33 @@
 .regist-container{
     position: fixed;
     width: 450px;
-    height: 600px;
+    height: 650px;
     border: 1px solid black;
     background-color: white;
     border-radius: 10px;
     z-index: 7;
     top: 100px;
-    left: 36vw;
+    left: 38vw;
 }
 
 @media(max-width:1024px){
     .regist-container {
-        left: 18vw;
+        left: 25vw;
     }
 }
 @media(max-width:720px){
     .regist-container {
-        left: 9vw;
+        left: 20vw;
     }
 }
-@media(max-width:480px){
+@media(max-width:580px){
     .regist-container {
-        left: 0;
+        left: 10vw;
+    }
+}
+@media(max-width:580px){
+    .regist-container {
+        left: 7vw;
     }
 }
 
@@ -121,6 +126,10 @@
     font-size: 20px;
     padding-left: 15px;
     padding-right: 15px;
+}
+
+.regist-container > form > .age{
+    margin-top: 10px;
 }
 
 /* 회원가입 모달용 백그라운드 창 */
