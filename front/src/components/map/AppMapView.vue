@@ -12,6 +12,7 @@
           <select id="gugun" class="gugun-select" @change="getCode('dong', gugunList[gugun].code)" v-model="gugun">
             <!-- <option value="">시/군/구</option> -->
             <option v-for="(gugun, index) in gugunList" :key="index" :value="index">{{ gugun.name }}</option>
+          </select>
           <select id="gugun" class="gugun-select" onchange="getCode('dong', this.value)">
             <option value="">시/군/구</option>
           </select>
