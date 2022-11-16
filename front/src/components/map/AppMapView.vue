@@ -6,18 +6,17 @@
     <div class="map-container">
       <div class="items">
         <div class="select-box">
-          <select id="sido" class="sido-select" onchange="getCode('gugun', this.value)">
-            <option value="">시/도</option>
+          <select id="sido" class="sido-select" @change="getCode('gugun', sidoList[sido].code)" v-model="sido">
+            <!-- <option value="">시/도</option> -->
+            <option v-for="(sido, index) in sidoList" :key="index" :value="index">{{ sido.name }}</option>
           </select>
           <select id="gugun" class="gugun-select" @change="getCode('dong', gugunList[gugun].code)" v-model="gugun">
             <!-- <option value="">시/군/구</option> -->
             <option v-for="(gugun, index) in gugunList" :key="index" :value="index">{{ gugun.name }}</option>
           </select>
-          <select id="gugun" class="gugun-select" onchange="getCode('dong', this.value)">
-            <option value="">시/군/구</option>
-          </select>
-          <select id="dong" class="dong-select" onchange="onChangeOption('pos', this.value)">
-            <option value="">읍/면/동</option>
+          <select id="dong" class="dong-select" @change="getCode('pos', dong)" v-model="dong">
+            <!-- <option value="">읍/면/동</option> -->
+            <option v-for="(dong, index) in dongList" :key="index" :value="dong.code">{{ dong.name }}</option>
           </select>
           <h2>아파트 거래정보</h2>
         </div>
@@ -37,8 +36,56 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "AppMapView",
+  data() {
+    return {
+      sidoList: [],
+      gugunList: [],
+      dongList: [],
+      aptList: [],
+      sido: "",
+      gugun: "",
+      dong: "",
+    };
+  },
+  methods: {
+    async getCode(type, code) {
+      console.log("getCode 동작");
+      console.log(type, code);
+      console.dir(code);
+      await axios({
+        url: `http://localhost:8080/apt/box?type=${type}&code=${code}`,
+        method: "get",
+      }).then(({ data }) => {
+        if (type === "gugun") this.gugunList = data;
+        else if (type === "dong") this.dongList = data;
+        else if (type === "pos") this.aptList = data;
+      });
+    },
+    //     async onChangeOption(type = "pos", dong) {
+    //     getAptList(dong);
+    //     await axios({
+    //       url: `http://localhost:8080/apt/box?type=${type}&code=${dong}`,
+    //       method: "get"
+    //     })
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //     	setCenter(data[0].lat, data[0].lng);
+    //     });
+    // }
+  },
+  mounted() {
+    axios({
+      url: `http://localhost:8080/apt/box?type=sido&code=""`,
+      method: "get",
+    }).then(({ data }) => {
+      this.sidoList = data;
+      console.dir(this.sidoList);
+    });
+  },
 };
 </script>
 
