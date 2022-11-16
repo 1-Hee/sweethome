@@ -8,7 +8,28 @@
     border-radius: 16px;
     padding: 20px;
     top: 100px;
-    left: 36vw;
+    left: 37vw;
+}
+
+@media(max-width:1024px){
+    .user-inquiry-container {
+        left: 25vw;
+    }
+}
+@media(max-width:720px){
+    .user-inquiry-container {
+        left: 20vw;
+    }
+}
+@media(max-width:480px){
+    .user-inquiry-container {
+        left: 10vw;
+    }
+}
+@media(max-width:580px){
+    .user-inquiry-container {
+        left: 7vw;
+    }
 }
 
 .user-inquiry-title{

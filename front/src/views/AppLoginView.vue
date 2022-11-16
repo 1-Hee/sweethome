@@ -10,7 +10,13 @@
       </div>
       <form class="id-form" action="#" method="post">
         <div class="id">
-          <input type="text" class="id-input default-input" name="id" placeholder="아이디" v-model="loginUser.id" />
+          <input
+            type="text"
+            class="id-input default-input"
+            name="userId"
+            placeholder="아이디"
+            v-model="loginUser.userId"
+          />
         </div>
         <div class="password">
           <input
@@ -55,7 +61,7 @@ export default {
   methods: {
     dologinUser() {
       axios({
-        url: `http://localhost:8080/member/login`,
+        url: `http://localhost:8080/user/${this.loginUser.userId}`,
         method: "post",
         data: this.loginUser,
       }).then(({ data }) => {

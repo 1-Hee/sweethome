@@ -87,16 +87,37 @@ export default {
   },
   methods: {
     async doRegistUser() {
-      console.dir(this.newUser);
-      await axios({
-        url: "http://localhost:8080/user",
-        method: "post",
-        data: this.newUser,
-      }).then((res) => {
-        console.log(res.data);
-        console.dir(res);
-      });
-      await this.closeRegistModal();
+      // console.dir(this.newUser);
+      let isOk = false;
+      if (this.newUser.password == this.confirmPassword) {
+        await axios({
+          url: "http://localhost:8080/user",
+          method: "post",
+          data: this.newUser,
+        })
+          .then((res) => {
+            // console.log(res.data);
+            // console.dir(res);
+            console.log(res.status);
+            isOk = res.status == "200";
+            if (isOk) {
+              alert("회원가입에 성공하였습니다!");
+              this.closeRegistModal();
+              this.clearUserInfo();
+            }
+          })
+          .catch((err) => {
+            alert("로그인에 실패하였습니다. 다시 시도해주세요.");
+            this.clearUserInfo();
+          });
+      } else {
+        alert("비밀번호가 일치하지 않습니다 올바르게 입력해주세요.");
+      }
+    },
+    clearUserInfo() {
+      this.newUser = {};
+      this.confirmPassword = "";
+      document.getElementById("confirm-password-text").childNodes[0].textContent = "";
     },
     checkIsSamePassWord() {
       // console.log(this.confirmPassword, this.newUser.password);
