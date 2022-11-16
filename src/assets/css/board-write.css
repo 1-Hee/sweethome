@@ -1,0 +1,82 @@
+
+/* 글쓰기 영역 속성 */
+.write-form-container{
+    width: 700px;
+    height: max-content ;
+    min-height: 500px;
+    margin: 50px auto;
+    text-align: left;
+}
+
+/* 테이블 속성 */
+.write-table{
+    border-collapse: collapse;
+}
+
+/* 테이블 속 내용 들의 input 속성 */
+/* items...*/
+.category{
+    width: 100px;
+    height: 50px;
+    text-align: center;
+    border-top: 1px solid black;  
+    border-bottom: 1px solid black;  
+}
+
+
+.input-item{
+    width: 600px;
+    height: 55px;
+    padding-left: 25px;
+    border-top: 1px solid black;  
+    border-left: 1px solid black;  
+    border-bottom: 1px solid black; 
+}
+
+.input-item > .title-input{
+    width: 90%;
+    height: 40px;
+}
+
+.division-select{
+    width: 200px;
+    height: 35px;
+    border-radius: 3px;
+    padding: 5px;
+    font-size: 16px;
+}
+
+.content-item{
+    width: 600px;
+    height: 400px;
+}
+.content-item > .content{
+    width: 100%;
+    height: 90%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.file-input{
+    font-size: 18px;    
+}
+
+.write-btn{
+    display: block;
+    width: 70%;
+    background-color: aqua;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    color: white;
+    margin: 0 auto;
+    margin-top: 30px;
+    height: 50px;
+    text-align: center;
+    font-size: 32px;
+    background-color: var(--defColor);
+}
+
+.write-btn:hover{
+    background-color: var(--defColorDark);
+}

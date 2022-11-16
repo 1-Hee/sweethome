@@ -1,0 +1,292 @@
+.user-info-conatiner * {
+  padding: 1px;
+  text-align: left;
+}
+
+.user-info-conatiner > hr {
+  padding: 0;
+  margin: 0;
+  border: 2px solid black;
+  
+}
+
+.user-info-conatiner{
+    width: 600px;
+    min-height: 600px;
+    height: max-content;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.user-info-conatiner > div > p {
+  margin-bottom: 10px;
+}
+
+/* user-info 영역 속성 */
+.user-info-box > ul{
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+}
+.user-info-box > ul{
+    list-style: none;
+}
+.user-info-box > ul > li{
+    font-size: 18px;
+    margin-top: 20px;
+}
+.user-info-box > ul > li > *{
+    margin-top: 15px;
+}
+
+.user-info-box > ul > li > div> img {
+    width: 120px;
+    height: 120px;
+    border-radius: 60px;
+}
+
+.sort{
+    font-size: 28px;
+}
+
+/* 사진 쪽 속성 */
+
+#file{
+    display: none;
+}
+
+.upload-file{
+    padding: 8px;
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+
+.btn-custom{
+    background-color: lightgrey;
+}
+.btn-custom:hover{
+    background-color: darkgrey;
+    color: whitesmoke;
+}
+
+/* 개인정보쪽 속성 */
+
+.form-input{
+    font-size: 16px;
+}
+
+.user-info > *{
+    margin-top: 8px;
+    font-size: 18px;
+}
+
+
+/*모달창 속성 */
+
+
+body{
+  margin: 0;
+  padding: 0;
+}
+
+.background{
+  position: absolute;
+  top: 0;
+  z-index: 3;
+  width: 100%;
+  height: 280%;
+  background-color: rgba(2, 2, 2, 0.299);
+}
+
+
+
+.modi-info-modal{
+  position: absolute;
+  top: 10%;
+  left: 35%;
+  z-index: 999;
+  background-color: white;
+  border: 3px solid black;
+  border-radius: 10px;
+  width: 500px;
+  height: 650px;
+}
+
+@media(max-width:560px){
+  .modi-info-modal{
+    left: 5%;
+  }
+}
+@media(max-width:720px){
+  .modi-info-modal{
+    left: 7%;
+  }
+}
+
+.modi-info-modal > form{
+  padding: 0;
+  margin: 0;
+}
+
+
+.modi-info-modal input{
+  text-align: center;
+}
+
+
+.modi-info-modal > .modi-title {
+  text-align: center;
+  width: 90%;
+  height: 60px;
+  padding: 10px;
+  margin: 0 auto;
+  border-bottom: 1.5px solid black;
+}
+
+.modi-title > * {
+  padding: 0;
+  margin: 0;
+}
+
+.modi-title > p {
+  color: var(--defColor);
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 40px;
+}
+
+.modi-title > .modi-close-btn{
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  font-size: 30px;
+  right: 25px;
+  top: 15px;
+  background-color: rgba(0,0,0,0);
+  border: none;
+  cursor: pointer;
+  color: darkgray;
+}
+
+.user-modi-info{
+  width: 90%;
+  height: 30px;
+  margin: 0 auto;
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* */
+.user-img {
+  width: 120px;
+  height: 120px;
+}
+.user-modi-info > img {
+  width: 120px;
+  height: 120px;
+  border-radius: 60px;
+  margin: 0 auto;
+  
+}
+
+.user-modi-info > .upload-btn{
+  position: absolute;
+  margin-top: 20px;
+  right: 40px;
+  width: 80px;
+  height: 40px;
+  background-color: var(--defColor);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  line-height: 40px;    
+}
+
+
+.user-modi-info > .upload-btn:hover{
+  transition: .3s;
+  color: whitesmoke;
+  background-color: var(--defColorDark);
+}
+
+
+.user-modi-info > label{
+  width: 100px;
+}
+.user-modi-info > input{
+  padding: 0;
+  width: 60%;
+  height: 40px;
+  font-size: 20px;
+  border: 1.3px solid black;
+  border-radius: 6px;
+}
+
+.user-modi-info > input:focus{
+  padding: 0;
+  margin: 0;
+  border:  1.3px solid #c0c0c0;
+  outline: none;
+  box-shadow: 3px 3px 3px #c0c0c0,
+  -3px -3px 3px #c0c0c0,
+  -3px 3px 3px #c0c0c0,
+  3px -3px 3px #c0c0c0;
+  transition: .3s;
+
+}
+
+.user-modi-info >input[type='number'] {
+  width: 44%;
+}
+.user-modi-info >input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none
+}
+
+
+.modi-email-div >input[type='text']{
+  width: 145px;
+} 
+.email-span {
+  font-size: 30px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+
+
+
+/**/
+
+.submit-container{
+  width: 330px;
+  margin: 0 auto;
+}
+.modify-btn{
+  width: 100%;
+  height: 50px;
+  margin: 30px auto;
+  font-size: 20px;
+  background-color: var(--defColor);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+#modishow{
+	width: 200px;
+}
+
+.modify-btn{
+  margin-top: 50px;
+}
+.modify-btn:hover{
+  transition: .3s;
+  color: whitesmoke;
+  background-color: var(--defColorDark);
+}

@@ -1,0 +1,41 @@
+/* footer 관련 속성 */
+
+@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic:400');
+
+.footer * {
+    font-size: 12px;
+    font-family: 'Nanum Gothic', 'sans-serif';
+}
+
+.footer > div {
+    cursor: default;
+}
+
+.footer-primary-menus > div {
+    text-align: center;
+}
+.footer-primary-menus > div > a {
+    font-size: 16px;
+}
+
+.info-text > p:first-child, 
+.open-times > p:first-child,
+.contact-us > p:first-child{
+    font-size: 20px;
+}
+
+
+.copyright > p{
+    text-align: right;
+    padding-right: 2rem;
+}
+
+.footer-secondary-menus> .item {
+    width: 400px;
+    margin: 15px;
+}
+.item> *{
+    padding: 5px;
+}
+
+

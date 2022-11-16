@@ -1,0 +1,88 @@
+<template>
+  <div>
+    <!-- 공지사항 리스트 영역-->
+    <hr />
+    <div class="table-container">
+      <div class="board-write-container">
+        <button class="board-write-btn" @click="BoardWrite">글쓰기</button>
+      </div>
+      <table class="custom-table" id="table">
+        <thead>
+          <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>조회수</th>
+            <th>작성일</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item, index) in boardList" :key="index" @click="view(item.articleNo)">
+            <td>{{ index + 1 }}</td>
+            <td>{{ item.title }}</td>
+            <td>{{ item.userId }}</td>
+            <td>{{ item.hit }}</td>
+            <td>{{ item.registDate }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <ul class="page-tab">
+        <li class="pg-first"><a href="#">◀</a></li>
+        <li class="pg-common select"><a href="#">1</a></li>
+        <li class="pg-common"><a href="#">2</a></li>
+        <li class="pg-common"><a href="#">3</a></li>
+        <li class="pg-common"><a href="#">4</a></li>
+        <li class="pg-common"><a href="#">5</a></li>
+        <li class="pg-last"><a href="#">▶</a></li>
+      </ul>
+    </div>
+    <!-- 공지사항 리스트 영역-->
+  </div>
+</template>
+
+<script>
+import boardList from "@/assets/js/board-list";
+import axios from "axios";
+
+export default {
+  name: "NoticeList",
+  data() {
+    return {
+      boardList: [],
+    };
+  },
+  methods: {
+    async view(articleNo) {
+      // console.log(articleNo);
+      await axios({
+        url: `http://localhost:8080/notice/${articleNo}`,
+        method: "get",
+      }).then(({ data }) => {
+        // localStorage.setItem("notice", data);
+        // console.dir(data);
+        localStorage.setItem("notice", JSON.stringify(data));
+      });
+      // await console.dir(localStorage.getItem("notice"));
+      this.$emit("notice-view");
+    },
+    BoardWrite() {
+      this.$emit("board-write");
+    },
+  },
+  mounted() {
+    boardList.init();
+    axios({
+      url: "http://localhost:8080/notice/list",
+      method: "get",
+    }).then(({ data }) => {
+      // console.dir(data);
+      this.boardList = data;
+    });
+  },
+};
+</script>
+
+<style>
+@import url("../../assets/css/common.css");
+@import url("../../assets/css/board-list.css");
+</style>

@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css?family=Jua:400');
+
+* {
+    font-family: 'Jua', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: .15s;
+}
+
+hr{
+    margin-top: 0;
+   margin-left: 15px;
+   margin-right: 15px;
+   margin-bottom: 0;
+}
+
+body{
+    background-color: rgba(255, 255, 255, 0.666);
+}
+
+/* a태그 기본속성 제거 */
+a {
+    text-decoration: none;
+    color: black;
+}
+a:hover{
+    color: black;
+}
+
+/* ul li 태그 기본속성 제거 */
+ul {
+    list-style: none;
+}
+
+/* 화면에 여백을 주는 div 요소용 css */
+.divider-min {height: 2vh;}
+.divider1 {height: 8vh;}
+.divider2 {height: 12vh;}
+.divider3 {height: 16vh;}
+.divider4 {height: 20vh;}
+.div-silver{background-color: silver;}
+
+/* 웹에서 스크롤바 안보이게 하는 설정 */
+*::-webkit-scrollbar{display: none; /* Chrome, Safari, Opera*/}
+
+
+/* 기본 버튼 css */
+
+.defbtn {
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    background-color: none;
+    border: none;
+    background-color: rgba(0,0,0,0);
+}
+
+
+
+/* 기본 폼태그 관련 css */
+.default-input {
+    width: 100%;
+    height: 45px;
+    outline: none;
+    border: 1.3px solid black;
+    border-radius: 8px; 
+    padding: 12px; 
+    font-size: large;
+}
+
+.default-input:focus{
+    transition: .1s;
+    box-shadow: 
+    3px 3px 3px rgb(191, 226, 226),
+    -3px -3px 3px rgb(191, 226, 226),
+    3px -3px 3px rgb(191, 226, 226),
+    -3px 3px 3px rgb(191, 226, 226);
+}
+
+/* 뱃지 관련 속성 */
+/* 뱃지 속성 */
+
+.badge {
+    display: inline-block;
+    width: 70px;
+    height: 35px;
+    text-align: center;
+    line-height: 35px;
+    font-weight: 100;
+    border-radius: 10px;
+    color: white;
+}
+
+.lcy-badge{
+    background-color: lightcyan;
+    font-size: 16px;
+}
+
+
+.dgr-badge{
+    background-color: darkgrey;
+    font-size: 16px;
+}
+
+.def-badge{
+    background-color: var(--defColor);
+    font-size: 16px;
+}
+
+.r-badge{
+    background-color: red;
+    font-size: 16px;
+}
+
+.b-badge{
+    background-color: skyblue;
+    font-size: 16px;
+}
+
+
+.y-badge{
+    background-color: yellow;
+    font-size: 16px;
+    color: black;
+}
+
+
+.g-badge{
+    background-color: green;
+    font-size: 16px;
+}
+
+.o-badge{
+    background-color: orange;
+    font-size: 16px;
+}
+
+
+/* 플렉스 속성 */
+.flex-def{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.flex-even{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+
+/* 폼태그 속성 */
+
+
+/* 메인 테마 색상 */
+:root {
+    --defColor : #ffaa66;
+    --defColorDark : #e99a5a;
+}

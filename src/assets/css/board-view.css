@@ -1,0 +1,164 @@
+
+
+/* 글 수정 버튼 부근 속성 */
+.view-form-container{
+    width: 700px;
+    height: 50px;
+    margin: 50px auto;
+    display: flex;
+    justify-content: space-between;
+}
+.view-form-container > .right-menu{
+    display: flex;
+    width: 200px;
+    justify-content: space-evenly;
+}
+
+.btn-back{
+    display: block;    
+    width: 70px;
+    height: 40px;
+    border-radius: 10px;
+    line-height: 40px;
+    text-align: center;
+    background-color: lightgray;
+    color: white;
+}
+.btn-back:hover{
+    background-color: rgb(188, 186, 186);
+    color: whitesmoke;
+}
+
+.modify {
+    width: 70px;
+    height: 40px;
+    border-radius: 10px;
+    line-height: 40px;
+    font-size: 16px;
+    background-color: var(--defColor);
+    color: white;
+}
+.modify:hover{
+    background-color: var(--defColorDark);
+}
+
+.cancel{
+    display: block;
+    text-align: center;
+    width: 70px;
+    height: 40px;
+    border-radius: 10px;
+    line-height: 40px;
+    font-size: 16px;
+    background-color: rgb(231, 59, 59);
+    color: white;
+}
+.cancel:hover{
+    background-color: rgb(189, 37, 37);
+    color: white;
+}
+
+
+
+.content-input{
+    width: 100%;
+    height: max-content;
+    min-height: 350px;
+}
+
+.send-modify{
+    width: 400px;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+.send-modify>button{
+    width: 80%;
+    height: 60px;
+    background-color: var(--defColor);
+    border-radius: 10px;
+    color: white;
+    font-size: 28px;
+}
+.send-modify>button:hover{
+    background-color: var(--defColorDark);
+}
+
+/* view 속성 */
+.view-container{
+    text-align: left;
+    width: 700px;
+    height: max-content;
+    min-height : 600px;
+    margin: 10px auto;
+}
+.article-info-section{
+    text-align: right;
+}
+
+.view-container span {    
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.content-box > hr {
+    margin: none;
+}
+.content-box > div {
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+
+#category-text{
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+@media(max-width:500px) { 
+    .view-container, .view-form-container, #modiform{
+        width: 100%;
+        font-size: 12px;
+        padding: 3%;
+    }
+}
+
+
+.modi-title{
+    height: 40px;
+}
+
+#mtitle{
+    width: 80%;
+}
+.content-box{
+    font-size: 20px;
+}
+.content-box>.content{
+    font-size: 18px;    
+}
+
+/* 내용 부분인 textarea 태그 관련 속성 */
+.content-textarea{
+    padding: 15px;
+    width: 100%;
+    resize: none;
+    height: max-content;
+    min-height : 400px;
+    border: none;
+}
+.content-textarea:focus {
+    outline: none;
+}
+#mcontent{
+    resize: none;
+}
+
+
+.view-container > hr{
+    border: 2px solid black;
+    color: black;
+}
+.content-box > hr{
+    border: 1px solid black;
+}
