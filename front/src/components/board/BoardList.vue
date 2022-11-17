@@ -42,7 +42,7 @@
 
 <script>
 import boardList from "@/assets/js/board-list";
-import axios from "axios";
+import { getBoardList, getBoard } from "@/api/board";
 
 export default {
   name: "BoardList",
@@ -51,19 +51,33 @@ export default {
       boardList: [],
     };
   },
+  created() {
+    let param = {
+      pageNo=1,
+      listSize=10
+    };
+    getBoardList(
+      param,
+      ({ data }) => {
+        this.boardList = data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  },
   methods: {
     async view(articleNo) {
-      // console.log(articleNo);
-      await axios({
-        url: `http://localhost:8080/board/view/${articleNo}`,
-        method: "get",
-      }).then(({ data }) => {
-        // localStorage.setItem("notice", data);
-        // console.dir(data);
-        localStorage.setItem("board", JSON.stringify(data));
-      });
-      // await console.dir(localStorage.getItem("notice"));
-      this.$emit("board-view");
+      await getBoard(
+        articleNo,
+        ({ data }) => {
+          localStorage.setItem("board", JSON.stringify(data)); // 이부분 store(vuex) 로 바꿀 것.
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+      await this.$emit("board-view");
     },
     BoardWrite() {
       this.$emit("board-write");
@@ -71,14 +85,6 @@ export default {
   },
   mounted() {
     boardList.init();
-
-    axios({
-      url: "http://localhost:8080/board/list",
-      method: "get",
-    }).then(({ data }) => {
-      // console.dir(data);
-      this.boardList = data;
-    });
   },
 };
 </script>

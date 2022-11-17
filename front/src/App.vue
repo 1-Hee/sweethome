@@ -42,6 +42,7 @@ export default {
     },
     goIndex() {
       this.$router.push({ name: "Index" });
+      location.reload();
     },
   },
 };

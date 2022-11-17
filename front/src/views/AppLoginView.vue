@@ -59,7 +59,7 @@ export default {
         method: "post",
         data: this.loginUser,
       }).then(({ data }) => {
-        console.dir(data);
+        // console.dir(data);
         this.$store.state.loginUser = data;
         this.loginUser = {};
       });
