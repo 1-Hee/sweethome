@@ -43,4 +43,22 @@
 		from member
 	</select>
 	
+	<update id="saveRefreshToken" parameterType="map">
+		update member
+		set token = #{token}
+		where user_id = #{id}
+	</update>
+	
+	<update id="deleteRefreshToken" parameterType="map">
+		update member
+		set token = #{token, jdbcType=VARCHAR}
+		where user_id = #{id}
+	</update>
+	
+	<select id="getRefreshToken" parameterType="string" resultType="string">
+		select token
+		from member
+		where user_id = #{id}
+	</select>
+	
 </mapper>
