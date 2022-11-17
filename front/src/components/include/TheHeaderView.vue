@@ -42,13 +42,13 @@
           </li>
         </ul>
         <ul class="nav-ul">
-          <li class="head-menu" v-show="checkUser"><a class="login-btn" id="do-login-btn">로그인</a></li>
-          <li v-show="!checkUser" class="head-menu user-greet b-hover">
+          <li class="head-menu" v-show="isLogin"><a class="login-btn" id="do-login-btn">로그인</a></li>
+          <li v-show="!isLogin" class="head-menu user-greet b-hover">
             <span
               ><span>{{ getName }}</span> 님 안녕하세요</span
             >
           </li>
-          <li v-show="!checkUser" class="head-menu b-hover" id="profile-li">
+          <li v-show="!isLogin" class="head-menu b-hover" id="profile-li">
             <div class="drop-down-menu">
               <button class="defbtn drop-down-btn">
                 <img />
@@ -126,22 +126,26 @@ export default {
   mounted() {
     this.$store.state.loginUser = null;
     loginForm.init();
+    header.allMenuInit();
     header.setLoginModal();
   },
   computed: {
     getName() {
-      if (this.isLogin) {
-        return "";
-      } else {
-        return this.$store.state.loginUser.name;
-      }
+      return "";
+
+      // if (this.isLogin) {
+      //   return "";
+      // } else {
+      //   return this.$store.state.loginUser.name;
+      // }
     },
     checkUser() {
-      this.isLogin = this.$store.state.loginUser == null;
-      if (this.isLogin) {
-        header.init();
-      }
-      return this.$store.state.loginUser == null;
+      return "";
+      // this.isLogin = this.$store.state.loginUser == null;
+      // if (this.isLogin) {
+      //   header.userProfileInit();
+      // }
+      // return this.$store.state.loginUser == null;
     },
   },
   watch: {},
