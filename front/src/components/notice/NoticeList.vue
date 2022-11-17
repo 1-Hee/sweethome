@@ -42,7 +42,7 @@
 
 <script>
 import boardList from "@/assets/js/board-list";
-import axios from "axios";
+import { getNoticeList, getNotice } from "@/api/board";
 
 export default {
   name: "NoticeList",
@@ -50,6 +50,9 @@ export default {
     return {
       boardList: [],
     };
+  },
+  created() {
+    getNoticeList();
   },
   methods: {
     async view(articleNo) {
