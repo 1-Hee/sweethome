@@ -52,9 +52,10 @@ export default {
     };
   },
   created() {
+    boardList.init();
     let param = {
-      pageNo=1,
-      listSize=10
+      pageNo: 1,
+      listSize: 10,
     };
     getBoardList(
       param,
@@ -68,7 +69,7 @@ export default {
   },
   methods: {
     async view(articleNo) {
-      await getBoard(
+      await getArticle(
         articleNo,
         ({ data }) => {
           localStorage.setItem("board", JSON.stringify(data)); // 이부분 store(vuex) 로 바꿀 것.
@@ -83,9 +84,7 @@ export default {
       this.$emit("board-write");
     },
   },
-  mounted() {
-    boardList.init();
-  },
+  mounted() {},
 };
 </script>
 

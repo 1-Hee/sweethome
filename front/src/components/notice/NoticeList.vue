@@ -17,7 +17,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in boardList" :key="index" @click="view(item.articleNo)">
+          <tr v-for="(item, index) in noticeList" :key="index" @click="view(item.articleNo)">
             <td>{{ index + 1 }}</td>
             <td>{{ item.title }}</td>
             <td>{{ item.userId }}</td>
@@ -42,31 +42,43 @@
 
 <script>
 import boardList from "@/assets/js/board-list";
-import { getNoticeList, getNotice } from "@/api/board";
+import { getNoticeList, getNotice } from "@/api/notice";
 
 export default {
   name: "NoticeList",
   data() {
     return {
-      boardList: [],
+      noticeList: [],
     };
   },
   created() {
-    getNoticeList();
+    let param = {
+      pageNo: 1,
+      listSize: 20,
+    };
+    getNoticeList(
+      param,
+      ({ data }) => {
+        this.noticeList = data;
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   },
   methods: {
     async view(articleNo) {
-      // console.log(articleNo);
-      await axios({
-        url: `http://localhost:8080/notice/view/${articleNo}`,
-        method: "get",
-      }).then(({ data }) => {
-        // localStorage.setItem("notice", data);
-        // console.dir(data);
-        localStorage.setItem("notice", JSON.stringify(data));
-      });
-      // await console.dir(localStorage.getItem("notice"));
-      this.$emit("notice-view");
+      await getNotice(
+        articleNo,
+        ({ data }) => {
+          localStorage.setItem("notice", JSON.stringify(data));
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+
+      await this.$emit("notice-view");
     },
     BoardWrite() {
       this.$emit("board-write");
@@ -74,13 +86,6 @@ export default {
   },
   mounted() {
     boardList.init();
-    axios({
-      url: "http://localhost:8080/notice/list",
-      method: "get",
-    }).then(({ data }) => {
-      // console.dir(data);
-      this.boardList = data;
-    });
   },
 };
 </script>

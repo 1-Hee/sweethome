@@ -68,8 +68,7 @@
 
 <script>
 import boardView from "@/assets/js/board-view";
-import axios from "axios";
-
+import { modifyNotice, deleteNotice } from "@/api/notice";
 export default {
   name: "NoticeView",
   data() {
@@ -84,23 +83,29 @@ export default {
   },
   methods: {
     async sendModifyBoard() {
-      await axios({
-        url: `http://localhost:8080/notice/modify/${this.Notice.articleNo}`,
-        method: "put",
-        data: this.Notice,
-      }).then((res) => {
-        console.dir(res);
-      });
+      await modifyNotice(
+        this.Notice,
+        ({ data }) => {
+          console.log(data);
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
       await this.backToList();
     },
     async deleteBoard(articleNo) {
       if (confirm("정말로 삭제하시겠습니까?")) {
-        await axios({
-          url: `http://localhost:8080/notice/delete/${this.Notice.articleNo}`,
-          method: "delete",
-        }).then((res) => {
-          console.dir(res);
-        });
+        await deleteNotice(
+          articleNo,
+          ({ data }) => {
+            console.log(data);
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+
         await this.backToList();
       }
     },
