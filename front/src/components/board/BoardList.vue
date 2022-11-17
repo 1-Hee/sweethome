@@ -53,13 +53,13 @@ export default {
   },
   created() {
     let param = {
-      pageNo=1,
-      listSize=10
+      pageNo: 1,
+      listSize: 10,
     };
     getBoardList(
       param,
       ({ data }) => {
-        this.boardList = data;
+        this.boardList = data.list;
       },
       (error) => {
         console.log(error);
