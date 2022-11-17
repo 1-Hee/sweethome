@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.ssafy.home.board.dto.Board;
+import com.ssafy.home.board.dto.Search;
 import com.ssafy.home.board.model.service.BoardService;
 import com.ssafy.home.member.dto.Member;
 
@@ -33,14 +36,14 @@ public class BoardController {
 	}
 	
 	@GetMapping("list")
-	private ResponseEntity<?> list() throws Exception {
-			List<Board> list = boardService.listArticle();
-			return new ResponseEntity<List<Board>>(list,HttpStatus.OK);
+	private ResponseEntity<?> list(Search search) throws Exception {
+		PageHelper.startPage(search);
+		List<Board> list = boardService.listArticle();
+		return new ResponseEntity<PageInfo>(PageInfo.of(list),HttpStatus.OK);
 	}
 
 	@PostMapping("write")
-	private ResponseEntity<?> write(@RequestBody Board board, HttpSession session) throws Exception {
-//		Member member = (Member) session.getAttribute("userInfo");
+	private ResponseEntity<?> write(@RequestBody Board board) throws Exception {
 		Board board2 = new Board();
 		board2.setUserId(board.getUserId());
 		board2.setTitle(board.getTitle());

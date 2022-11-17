@@ -7,7 +7,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ssafy.home.board.dto.Board;
 import com.ssafy.home.board.dto.Notice;
 import com.ssafy.home.board.model.mapper.NoticeMapper;
 import com.ssafy.home.util.SizeConstant;

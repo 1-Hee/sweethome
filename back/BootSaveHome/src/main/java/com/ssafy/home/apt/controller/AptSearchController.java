@@ -1,5 +1,6 @@
 package com.ssafy.home.apt.controller;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +34,6 @@ public class AptSearchController{
 			System.out.println(type+" "+code);
 			List<Apt> aptList = aptService.getList(type, code);
 			if(!aptList.isEmpty()) {
-				System.out.println(aptList.toString());
 				return new ResponseEntity<List<Apt>>(aptList, HttpStatus.OK);
 			}else return new ResponseEntity(HttpStatus.NO_CONTENT);
  

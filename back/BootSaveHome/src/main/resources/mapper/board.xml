@@ -7,7 +7,6 @@
 	<resultMap type="board" id="article">
 		<result column="article_no" property="articleNo"/>
 		<result column="user_id" property="userId"/>
-		<result column="name" property="userName"/>
 		<result column="title" property="title"/>
 		<result column="content" property="content"/>
 		<result column="hit" property="hit"/>
@@ -23,6 +22,7 @@
 		</selectKey>
 	</insert>
 
+	<!-- 
 	<sql id="search">
 		<if test="word != null and word != ''">
 			<if test="key == 'subject'">
@@ -33,14 +33,15 @@
 			</if>
 		</if>
 	</sql>
+	 -->
 
-	<select id="listArticle" parameterType="map" resultMap="article">
+	<select id="listArticle" parameterType="search" resultMap="article">
 		select b.article_no, b.user_id, m.name, b.title, b.content, b.hit, b.regist_date
 		from board b, member m
 		where b.user_id = m.user_id 
-		<include refid="search"></include>
-		order by b.article_no desc
-		limit #{start}, #{spl}
+		<!-- <include refid="search"></include> -->
+		<!-- order by b.article_no desc
+		limit #{begin}, #{listSize} -->
 	</select>
 	
 	<select id="getArticle" parameterType="int" resultMap="article">

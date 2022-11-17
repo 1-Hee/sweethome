@@ -12,7 +12,6 @@ import lombok.Setter;
 public class Board {
 	private int articleNo;
 	private String userId;
-	private String userName;
 	private String title;
 	private String content;
 	private int hit;
