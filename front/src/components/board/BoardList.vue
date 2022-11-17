@@ -69,7 +69,7 @@ export default {
   },
   methods: {
     async view(articleNo) {
-      await getArticle(
+      await getBoard(
         articleNo,
         ({ data }) => {
           localStorage.setItem("board", JSON.stringify(data)); // 이부분 store(vuex) 로 바꿀 것.
