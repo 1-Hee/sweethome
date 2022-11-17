@@ -56,7 +56,9 @@
 </template>
 
 <script>
-import axios from "axios";
+import { writeBoard } from "@/api/board";
+import { writeNotice } from "@/api/notice";
+
 export default {
   name: "BoardWrite",
   data() {
@@ -91,23 +93,28 @@ export default {
       }
     },
     async addBoard() {
-      await axios({
-        url: "http://localhost:8080/board/write",
-        method: "post",
-        data: this.newBoard,
-      }).then((res) => {
-        console.log(res);
-      });
+      await writeBoard(
+        this.newBoard,
+        ({ data }) => {
+          console.log(data);
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+
       await this.moveList();
     },
     async addNotice() {
-      await axios({
-        url: "http://localhost:8080/notice/write",
-        method: "post",
-        data: this.newBoard,
-      }).then((res) => {
-        console.log(res);
-      });
+      await writeNotice(
+        this.newBoard,
+        ({ data }) => {
+          console.log(data);
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
       await this.moveList();
     },
     backToList() {

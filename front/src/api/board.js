@@ -11,16 +11,16 @@ function writeBoard(board, success, fail) {
   api.post(`${cURL}/write`, JSON.stringify(board)).then(success).catch(fail);
 }
 
-function getBoard(articleno, success, fail) {
-  api.get(`${cURL}/view/${articleno}`).then(success).catch(fail);
+async function getBoard(articleno, success, fail) {
+  await api.get(`${cURL}/view/${articleno}`).then(success).catch(fail);
 }
 
-function modifyBoard(board, success, fail) {
-  api.put(`${cURL}/modify/${board.articleNo}`, JSON.stringify(board)).then(success).catch(fail);
+async function modifyBoard(board, success, fail) {
+  await api.put(`${cURL}/modify/${board.articleNo}`, JSON.stringify(board)).then(success).catch(fail);
 }
 
-function deleteBoard(articleno, success, fail) {
-  api.delete(`${cURL}/delete/${articleno}`).then(success).catch(fail);
+async function deleteBoard(articleno, success, fail) {
+  await api.delete(`${cURL}/delete/${articleno}`).then(success).catch(fail);
 }
 
 export { getBoardList,  writeBoard, getBoard, modifyBoard, deleteBoard};
