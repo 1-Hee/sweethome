@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ssafy.home.board.dto.Board;
+import com.ssafy.home.board.dto.Search;
 
 
 public interface BoardService {

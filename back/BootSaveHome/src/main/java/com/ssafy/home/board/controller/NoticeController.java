@@ -43,14 +43,12 @@ public class NoticeController extends HttpServlet{
 	}
 
 	@PostMapping("write")
-	private ResponseEntity<?> write(@RequestBody Notice notice, HttpSession session) throws Exception {
-//		Member member = (Member) session.getAttribute("userInfo");
+	private ResponseEntity<?> write(@RequestBody Notice notice) throws Exception {
 			Notice notice2 = new Notice();
 			notice2.setUserId(notice.getUserId());
 			notice2.setTitle(notice.getTitle());
 			notice2.setContent(notice.getContent());
 			noticeService.writeArticle(notice2);
-			System.out.println("공지사항 작성완료");
 			return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	

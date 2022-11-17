@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.home.board.dto.Board;
+import com.ssafy.home.board.dto.Search;
 import com.ssafy.home.board.model.mapper.BoardMapper;
 import com.ssafy.home.util.SizeConstant;
 
@@ -28,13 +29,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public List<Board> listArticle() throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
-		int pgno = 1;
-		int spl = SizeConstant.SIZE_PER_LIST;
-		int start = (pgno - 1) * spl;
-		map.put("start", start);
-		map.put("spl", spl);
-		return mapper.listArticle(map);
+		return mapper.listArticle();
 	}
 
 	@Override
