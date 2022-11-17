@@ -68,7 +68,7 @@
 
 <script>
 import boardView from "@/assets/js/board-view";
-import axios from "axios";
+import { modifyBoard, deleteBoard } from "@/api/board";
 
 export default {
   name: "BoardView",
@@ -79,23 +79,28 @@ export default {
   },
   methods: {
     async sendModifyBoard() {
-      await axios({
-        url: `http://localhost:8080/board/modify/${this.Board.articleNo}`,
-        method: "put",
-        data: this.Board,
-      }).then((res) => {
-        // console.dir(res);
-      });
+      await modifyBoard(
+        this.Board,
+        ({ data }) => {
+          console.log(data);
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
       await this.backToList();
     },
     async deleteBoard(articleNo) {
       if (confirm("정말로 삭제하시겠습니까?")) {
-        await axios({
-          url: `http://localhost:8080/board/delete/${this.Board.articleNo}`,
-          method: "delete",
-        }).then((res) => {
-          // console.dir(res);
-        });
+        await deleteBoard(
+          articleNo,
+          ({ data }) => {
+            console.log(data);
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
         await this.backToList();
       }
     },
@@ -108,7 +113,6 @@ export default {
   },
   created() {
     this.Board = JSON.parse(localStorage.getItem("board"));
-    // console.dir(this.Board);
     localStorage.removeItem("board");
   },
 };
