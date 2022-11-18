@@ -7,10 +7,18 @@
         <a href="#" class="defbtn btn-back" @click="backToList">뒤로가기</a>
       </div>
 
-      <div class="right-menu">
+      <div class="right-menu" v-if="detectAdmin">
         <div class="modify-div">
-          <button type="button" id="modify-btn" class="modify defbtn">글 수정</button>
-          <button type="button" id="modify-cancel-btn" style="display: none" class="modify defbtn">수정 취소</button>
+          <button type="button" id="modify-btn" class="modify defbtn" @click="doModifyNotice">글 수정</button>
+          <button
+            type="button"
+            id="modify-cancel-btn"
+            style="display: none"
+            class="modify defbtn"
+            @click="unDoModifyNotice"
+          >
+            수정 취소
+          </button>
         </div>
         <div class="cancel-div">
           <a class="cancel defbtn" id="delete-btn" @click="deleteBoard(Notice.articleNo)">글 삭제</a>
@@ -67,9 +75,9 @@
 </template>
 
 <script>
-import boardView from "@/assets/js/board-view";
 import { mapGetters, mapActions } from "vuex";
 const noticeStore = "noticeStore";
+const memberStore = "memberStore";
 
 export default {
   name: "NoticeView",
@@ -81,6 +89,7 @@ export default {
   },
   methods: {
     ...mapGetters(noticeStore, ["getNoticeList", "getNotice", "getPgInfo"]),
+    ...mapGetters(memberStore, ["getLoginMember"]),
     ...mapActions(noticeStore, ["modifyNotice", "removeNotice", "setNoticeList"]),
     async sendModifyBoard() {
       this.modifyNotice(this.Notice);
@@ -102,13 +111,28 @@ export default {
         this.$emit("notice-list");
       }, 100);
     },
+    doModifyNotice() {
+      document.getElementById("view").setAttribute("style", "display:none;");
+      document.getElementById("modiform").setAttribute("style", "display:block;");
+      document.getElementById("modify-btn").setAttribute("style", "display:none;");
+      document.getElementById("modify-cancel-btn").setAttribute("style", "display:block;");
+    },
+    unDoModifyNotice() {
+      document.getElementById("modiform").setAttribute("style", "display:none;");
+      document.getElementById("view").setAttribute("style", "display:block;");
+      document.getElementById("modify-btn").setAttribute("style", "display:block;");
+      document.getElementById("modify-cancel-btn").setAttribute("style", "display:none;");
+    },
   },
-  mounted() {
-    boardView.init();
-  },
+  mounted() {},
   created() {
     this.Notice = this.getNotice();
     this.pgInfo = this.getPgInfo();
+  },
+  computed: {
+    detectAdmin() {
+      return this.getLoginMember().grade == 9;
+    },
   },
 };
 </script>

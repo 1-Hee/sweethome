@@ -4,7 +4,7 @@
     <hr />
     <div class="table-container">
       <div class="board-write-container">
-        <button class="board-write-btn" @click="BoardWrite">글쓰기</button>
+        <button v-if="detectAdmin" class="board-write-btn" @click="BoardWrite">글쓰기</button>
       </div>
       <table class="custom-table" id="table">
         <thead>
@@ -17,11 +17,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr
-            v-for="(item, index) in initList"
-            :key="index"
-            @click="view(item.articleNo)"
-          >
+          <tr v-for="(item, index) in initList" :key="index" @click="view(item.articleNo)">
             <td>{{ index + 1 }}</td>
             <td>{{ item.title }}</td>
             <td>{{ item.userId }}</td>
@@ -31,11 +27,7 @@
         </tbody>
       </table>
       <ul class="page-tab">
-        <li
-          class="pg-first"
-          v-show="initPgInfo.navigateFirstPage > 1"
-          @click="getList(selectNo - 1)"
-        >
+        <li class="pg-first" v-show="initPgInfo.navigateFirstPage > 1" @click="getList(selectNo - 1)">
           <a href="#">◀</a>
         </li>
         <li
@@ -47,11 +39,7 @@
         >
           <a href="#">{{ key }}</a>
         </li>
-        <li
-          class="pg-last"
-          v-show="initPgInfo.navigateLastPage != initPgInfo.pages"
-          @click="getList(selectNo + 1)"
-        >
+        <li class="pg-last" v-show="initPgInfo.navigateLastPage != initPgInfo.pages" @click="getList(selectNo + 1)">
           <a href="#">▶</a>
         </li>
       </ul>
@@ -61,8 +49,9 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapMutations, mapGetters, mapActions } from "vuex";
 const noticeStore = "noticeStore";
+const memberStore = "memberStore";
 
 export default {
   name: "NoticeList",
@@ -84,7 +73,9 @@ export default {
   },
   methods: {
     ...mapGetters(noticeStore, ["getNoticeList", "getNotice", "getPgInfo"]),
+    ...mapGetters(memberStore, ["getLoginMember"]),
     ...mapActions(noticeStore, ["setNoticeList", "setNotice"]),
+    ...mapMutations(memberStore, ["EDIT_LAST_PAGE_NO"]),
     async view(articleNo) {
       this.setNotice(articleNo);
       setTimeout(() => {
@@ -92,6 +83,7 @@ export default {
       }, 100);
     },
     BoardWrite() {
+      this.EDIT_LAST_PAGE_NO(1);
       this.$emit("board-write");
     },
     async getList(pgNo) {
@@ -105,6 +97,9 @@ export default {
   },
   mounted() {},
   computed: {
+    detectAdmin() {
+      return this.getLoginMember().grade == 9;
+    },
     initList() {
       let param = {
         pageNo: 1,

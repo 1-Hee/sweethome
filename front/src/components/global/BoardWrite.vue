@@ -56,34 +56,38 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 const boardStore = "boardStore";
 const noticeStore = "noticeStore";
+const memberStore = "memberStore";
 
 export default {
   name: "BoardWrite",
   data() {
     return {
       divisionList: [
-        { text: "공지사항", value: "0" },
-        { text: "자유게시판", value: "1" },
+        { text: "선택하세요", value: "0" },
+        { text: "공지사항", value: "1" },
+        { text: "자유게시판", value: "2" },
       ],
       division: "0",
       newBoard: {
         userId: "admin",
       },
+      pastListNo: 0,
     };
   },
   methods: {
+    ...mapGetters(memberStore, ["getLoginMember", "getPastListNo"]),
     ...mapActions(boardStore, ["addBoard"]),
     ...mapActions(noticeStore, ["addNotice"]),
     getValue() {
       //console.log(this.division);
     },
     createArticle() {
-      if (this.division == "0") {
+      if (this.division == "1") {
         this.makeNotice();
-      } else if (this.division == "1") {
+      } else if (this.division == "2") {
         this.makeBoard();
       }
     },
@@ -97,15 +101,28 @@ export default {
     },
     async backToList() {
       setTimeout(() => {
-        if (this.division == "0") {
+        //        console.log(this.pastListNo);
+        if (this.pastListNo == "1") {
           this.$emit("notice-list");
-        } else if (this.division == "1") {
+        } else if (this.pastListNo == "2") {
           this.$emit("board-list");
         }
       }, 100);
     },
   },
-  mounted() {},
+  created() {
+    this.pastListNo = this.getPastListNo();
+  },
+  mounted() {
+    if (!this.detectAdmin) {
+      this.divisionList.splice(1, 1);
+    }
+  },
+  computed: {
+    detectAdmin() {
+      return this.getLoginMember().grade == 9;
+    },
+  },
 };
 </script>
 
