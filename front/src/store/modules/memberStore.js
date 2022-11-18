@@ -8,6 +8,7 @@ const memberStore = {
     loginMember: null,
     memberList: [],
     token: {},
+    pastListNo: 0,
   },
   getters: {
     getMemberList(state) {
@@ -21,6 +22,9 @@ const memberStore = {
     },
     clearMemberInfo(state) {
       state.loginMember = null;
+    },
+    getPastListNo(state) {
+      return state.pastListNo;
     },
   },
   actions: {
@@ -91,6 +95,9 @@ const memberStore = {
     // ADD_MEMBER(state) {
     //   // 로그인을 하면...? state에 등록을 해야할까..?
     // },
+    EDIT_LAST_PAGE_NO(state, no) {
+      state.pastListNo = no;
+    },
   },
 };
 

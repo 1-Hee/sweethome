@@ -16,11 +16,11 @@
                   <i class="fa-solid fa-building"></i>
                   <a class="drop-down-item" href="#">회사 소개</a>
                 </li>
-                <li @click="noticeList">
+                <li @click="detectLogin(noticeList)">
                   <i class="fa-solid fa-list-ul"></i>
                   <a class="drop-down-item" href="#">공지 사항</a>
                 </li>
-                <li @click="boardList">
+                <li @click="detectLogin(boardList)">
                   <i class="fa-solid fa-align-justify"></i>
                   <a class="drop-down-item" href="#">자유게시판</a>
                 </li>
@@ -64,7 +64,7 @@
               <ul class="drop-down-items" id="profile-menu">
                 <li>
                   <i class="fa-regular fa-circle-user"></i>
-                  <a class="drop-down-item" href="#" @click="myPage">마이 페이지</a>
+                  <a class="drop-down-item" href="#" @click="detectLogin(myPage)">마이 페이지</a>
                 </li>
                 <li>
                   <i class="fa-solid fa-heart"></i>
@@ -105,6 +105,7 @@ export default {
   data() {
     return {
       loginUser: {},
+      code: 9,
     };
   },
   methods: {
@@ -140,6 +141,14 @@ export default {
     },
     hideProfileMenu(e) {
       document.getElementById("profile-menu").setAttribute("style", "display:none;");
+    },
+    detectLogin(methods) {
+      if (this.getUser == null) {
+        this.showLoginModal();
+        alert("로그인 이후 이용할 수 있는 기능입니다.");
+      } else {
+        methods();
+      }
     },
   },
   components: {

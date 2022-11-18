@@ -18,6 +18,11 @@ import TheHeaderView from "@/components/include/TheHeaderView";
 import TheFooterView from "@/components/include/TheFooterView";
 
 export default {
+  data() {
+    return {
+      value: "",
+    };
+  },
   methods: {},
   components: {
     TheHeaderView,

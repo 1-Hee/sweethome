@@ -60,6 +60,20 @@ public class MemberController {
 		}
 	}
 	
+	@PostMapping("login/user")
+	private ResponseEntity<?> tempLogin(@RequestBody Member member) throws Exception {
+		String id = member.getId();
+		System.out.println(id);
+		String password = member.getPassword();
+		System.out.println(password);
+		Member member2 = service.selectById(id);
+		if(member2!=null&&member2.getPassword().equals(password)) {
+			return new ResponseEntity<Member>(member2,HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	@GetMapping("logout/{id}")
 	private ResponseEntity<?> logout(@PathVariable String id) throws Exception {
 		service.deleteRefreshToken(id);
