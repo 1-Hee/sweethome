@@ -18,17 +18,19 @@
       </div>
       <div class="background" id="background" style="display: none"></div>
     </div>
-    <div id="background3" style="display: none"></div>
+    <div id="background3" style="display: none" @click="closeInquiryModal"></div>
   </div>
 </template>
 
 <script>
-import UserInquiry from "@/assets/js/user-inquiry";
-
 export default {
   name: "AppUserInquiry",
-  mounted() {
-    UserInquiry.init();
+  mounted() {},
+  methods: {
+    closeInquiryModal() {
+      document.getElementById("user-inquiry-div").setAttribute("style", "display: none");
+      document.getElementById("background3").setAttribute("style", "display: none");
+    },
   },
 };
 </script>
