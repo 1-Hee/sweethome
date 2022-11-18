@@ -20,7 +20,7 @@ async function selectMemberList(success, fail) {
 
 // 로그인
 async function doLogin(member, success, fail) {
-  api.post(`${cURL}/login/user`, JSON.stringify(member)).then(success).catch(fail);
+  api.post(`${cURL}/login`, JSON.stringify(member)).then(success).catch(fail);
 }
 
 async function updateMember(member, success, fail) {
