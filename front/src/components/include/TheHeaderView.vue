@@ -42,13 +42,21 @@
           </li>
         </ul>
         <ul class="nav-ul">
-          <li class="head-menu" v-show="isLogin"><a class="login-btn" id="do-login-btn">로그인</a></li>
-          <li v-show="!isLogin" class="head-menu user-greet b-hover">
+          <li class="head-menu" v-if="getUser == null" @click="showLoginModal">
+            <a class="login-btn" id="do-login-btn">로그인</a>
+          </li>
+          <li v-if="getUser != null" class="head-menu user-greet b-hover">
             <span
-              ><span>{{ getName }}</span> 님 안녕하세요</span
+              ><span>{{ getUser.name }}</span> 님 안녕하세요</span
             >
           </li>
-          <li v-show="!isLogin" class="head-menu b-hover" id="profile-li">
+          <li
+            v-if="getUser != null"
+            class="head-menu b-hover"
+            id="profile-li"
+            @mouseenter="showProfileMenu"
+            @mouseleave="hideProfileMenu"
+          >
             <div class="drop-down-menu">
               <button class="defbtn drop-down-btn">
                 <img />
@@ -62,9 +70,9 @@
                   <i class="fa-solid fa-heart"></i>
                   <a class="drop-down-item" href="#">찜목록</a>
                 </li>
-                <li>
+                <li @click="logOut">
                   <i class="fa-solid fa-right-from-bracket"></i>
-                  <a class="drop-down-item" href="#" @click="logOut">로그아웃</a>
+                  <a class="drop-down-item" href="#">로그아웃</a>
                 </li>
               </ul>
             </div>
@@ -89,14 +97,22 @@ import AppLoginView from "@/views/AppLoginView";
 import AppRegistView from "@/views/AppRegistView";
 import AppUserInquiry from "@/views/AppUserInquiry";
 
+import { mapGetters } from "vuex";
+const memberStore = "memberStore";
+
 export default {
   name: "TheHeaderView",
   data() {
     return {
-      isLogin: false,
+      loginUser: {},
     };
   },
   methods: {
+    ...mapGetters(memberStore, ["getLoginMember", "clearMemberInfo"]),
+    showLoginModal() {
+      document.getElementById("login-modal-form").setAttribute("style", "display: block;");
+      document.getElementById("background1").setAttribute("style", "display: block;");
+    },
     goIndex() {
       this.$router.push({ name: "Index" }).catch(() => {});
     },
@@ -104,10 +120,9 @@ export default {
       this.$router.push({ name: "NoticeList" }).catch(() => {});
     },
     boardList() {
-      setTimeout(
-        ()=>{this.$router.push({ name: "BoardList" }).catch(() => {});},
-        100);
-      
+      setTimeout(() => {
+        this.$router.push({ name: "BoardList" }).catch(() => {});
+      }, 100);
     },
     myPage() {
       this.$router.push({ name: "MyPage" }).catch(() => {});
@@ -115,10 +130,16 @@ export default {
     goMap() {
       this.$router.push({ name: "MapView" }).catch(() => {});
     },
-    logOut() {
-      this.isLogin = false;
-      this.$store.state.loginUser = null;
+    async logOut() {
+      this.clearMemberInfo();
       this.goIndex();
+      location.reload();
+    },
+    showProfileMenu(e) {
+      document.getElementById("profile-menu").setAttribute("style", "display:block;");
+    },
+    hideProfileMenu(e) {
+      document.getElementById("profile-menu").setAttribute("style", "display:none;");
     },
   },
   components: {
@@ -126,29 +147,17 @@ export default {
     AppRegistView,
     AppUserInquiry,
   },
+  created() {
+    this.loginUser = this.getLoginMember();
+  },
   mounted() {
-    this.$store.state.loginUser = null;
+    // this.$store.state.loginUser = null;
     loginForm.init();
     header.allMenuInit();
-    header.setLoginModal();
   },
   computed: {
-    getName() {
-      return "";
-
-      // if (this.isLogin) {
-      //   return "";
-      // } else {
-      //   return this.$store.state.loginUser.name;
-      // }
-    },
-    checkUser() {
-      return "";
-      // this.isLogin = this.$store.state.loginUser == null;
-      // if (this.isLogin) {
-      //   header.userProfileInit();
-      // }
-      // return this.$store.state.loginUser == null;
+    getUser() {
+      return this.getLoginMember();
     },
   },
   watch: {},

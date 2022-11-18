@@ -22,19 +22,13 @@
           />
         </div>
         <div class="button-div">
-          <input
-            type="button"
-            id="do-login-btn"
-            class="defbtn default-input login-btn"
-            value="로그인"
-            @click="dologinUser"
-          />
+          <input type="button" id="do-login-btn" class="defbtn default-input login-btn" value="로그인" @click="Login" />
         </div>
       </form>
       <div class="mv-regist-container flex-even">
-        <a href="#" class="item" id="do-regist-btn">회원가입</a>
+        <a href="#" class="item" id="do-regist-btn" @click="showRegistModal">회원가입</a>
         <span>|</span>
-        <a href="#" class="item" id="do-find-user-btn">계정을 잊으셨나요?</a>
+        <a href="#" class="item" id="do-find-user-btn" @click="showFindUserInfo">계정을 잊으셨나요?</a>
       </div>
     </div>
     <div id="background1" style="display: none"></div>
@@ -42,8 +36,8 @@
 </template>
 
 <script>
-import loginForm from "@/assets/js/login-form";
-import axios from "axios";
+import { mapGetters, mapActions } from "vuex";
+const memberStore = "memberStore";
 
 export default {
   name: "AppLoginView",
@@ -53,21 +47,33 @@ export default {
     };
   },
   methods: {
-    dologinUser() {
-      axios({
-        url: `http://localhost:8080/member/login`,
-        method: "post",
-        data: this.loginUser,
-      }).then(({ data }) => {
-        // console.dir(data);
-        this.$store.state.loginUser = data;
-        this.loginUser = {};
-      });
+    ...mapGetters(memberStore, ["getLoginMember"]),
+    ...mapActions(memberStore, ["doLoginMember"]),
+    clearUserInfo() {
+      this.loginUser = {};
+    },
+    async Login() {
+      await this.doLoginMember(this.loginUser);
+      this.clearUserInfo();
       this.closeLoginModal();
     },
     closeLoginModal() {
       document.getElementById("login-modal-form").setAttribute("style", "display: none");
       document.getElementById("background1").setAttribute("style", "display: none");
+    },
+    showRegistModal(e) {
+      document.getElementById("regist-modal-form").setAttribute("style", "display: block");
+      document.getElementById("background2").setAttribute("style", "display: block");
+      document.getElementById("login-modal-form").setAttribute("style", "display: none");
+      document.getElementById("background1").setAttribute("style", "display: none");
+      this.clearUserInfo();
+    },
+    showFindUserInfo(e) {
+      document.getElementById("user-inquiry-div").setAttribute("style", "display: block");
+      document.getElementById("background3").setAttribute("style", "display: block");
+      document.getElementById("login-modal-form").setAttribute("style", "display: none");
+      document.getElementById("background1").setAttribute("style", "display: none");
+      this.clearUserInfo();
     },
     spinIcon() {
       if (!document.getElementById("cookie-logo").classList.contains("rotate")) {
@@ -78,8 +84,11 @@ export default {
       }
     },
   },
-  mounted() {
-    loginForm.init();
+  mounted() {},
+  computed: {
+    getUser() {
+      return this.getLoginMember();
+    },
   },
 };
 </script>

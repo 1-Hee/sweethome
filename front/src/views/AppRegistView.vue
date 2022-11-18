@@ -63,12 +63,11 @@
         </div>
       </form>
     </div>
-    <div id="background2" style="display: none"></div>
+    <div id="background2" style="display: none" @click="closeRegistModal"></div>
   </div>
 </template>
 
 <script>
-import registForm from "@/assets/js/regist-form";
 import axios from "axios";
 
 export default {
@@ -80,9 +79,10 @@ export default {
     };
   },
   methods: {
+    goIndex() {
+      this.$router.push({ name: "Index" }).catch(() => {});
+    },
     async doRegistUser() {
-      // console.dir(this.newUser);
-      let isOk = false;
       if (this.newUser.password == this.confirmPassword) {
         await axios({
           url: "http://localhost:8080/member/signup",
@@ -90,19 +90,14 @@ export default {
           data: this.newUser,
         })
           .then((res) => {
-            // console.log(res.data);
-            // console.dir(res);
-            console.log(res.status);
-            isOk = res.status == "200";
-            if (isOk) {
+            if (res.status == "200") {
               alert("회원가입에 성공하였습니다!");
               this.closeRegistModal();
               this.clearUserInfo();
             }
           })
           .catch((err) => {
-            alert("로그인에 실패하였습니다. 다시 시도해주세요.");
-            this.clearUserInfo();
+            alert("회원 가입에 실패하였습니다. 다시 시도해주세요.");
           });
       } else {
         alert("비밀번호가 일치하지 않습니다 올바르게 입력해주세요.");
@@ -114,8 +109,6 @@ export default {
       document.getElementById("confirm-password-text").childNodes[0].textContent = "";
     },
     checkIsSamePassWord() {
-      // console.log(this.confirmPassword, this.newUser.password);
-      // console.dir(document.getElementById("confirm-password-text").childNodes[0]);
       if (this.newUser.password == this.confirmPassword) {
         document.getElementById("confirm-password-text").childNodes[0].classList.remove("wrong");
         document.getElementById("confirm-password-text").childNodes[0].classList.add("ok");
@@ -131,9 +124,7 @@ export default {
       document.getElementById("background2").setAttribute("style", "display: none");
     },
   },
-  mounted() {
-    registForm.init();
-  },
+  mounted() {},
 };
 </script>
 

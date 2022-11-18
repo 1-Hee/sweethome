@@ -7,7 +7,7 @@
         <h3>프로필 수정</h3>
         <div class="user-info-text-line">
           <p>마이홈 대표 프로필과 별명을 수정할 수 있습니다.</p>
-          <button id="withdrawal" class="withdrawal" @click="doWithdrawal">회원탈퇴</button>
+          <button id="withdrawal" class="withdrawal" @click="eraseMember">회원탈퇴</button>
         </div>
       </div>
       <hr />
@@ -47,7 +47,7 @@
     </div>
 
     <!-- 모달창 -->
-    <div id="filter" class="background" style="display: none"></div>
+    <div id="filter" class="background" style="display: none" @click="closeUserInfoModal"></div>
     <div id="modal" class="modi-info-modal" style="display: none">
       <div class="modi-title">
         <p>회원정보 수정</p>
@@ -93,7 +93,9 @@
 <script>
 // user-info js 적용 필요.
 import modal from "@/assets/js/modal";
-import axios from "axios";
+
+import { mapGetters, mapActions } from "vuex";
+const memberStore = "memberStore";
 
 export default {
   name: "UserInfo",
@@ -105,50 +107,36 @@ export default {
   },
   mounted() {
     modal.init();
-    this.loginUser = this.$store.state.loginUser;
+    // this.loginUser = this.$store.state.loginUser;
+  },
+  created() {
+    this.loginUser = this.getLoginMember();
   },
   computed: {
     getUser() {
-      this.loginUser = this.$store.state.loginUser;
+      return this.getLoginMember();
     },
   },
   methods: {
-    async doWithdrawal() {
-      let user = this.$store.state.loginUser;
-      await axios({
-        url: `http://localhost:8080/member/delete/${user.id}`,
-        method: "delete",
-        data: this.loginUser,
-      })
-        .then((res) => {
-          // console.log(res);
-          alert("회원 탈퇴가 완료되었습니다.");
-          this.$store.state.loginUser = {};
-          this.loginUser = {};
-          this.goIndex();
-        })
-        .catch((err) => {
-          alert("회원 탈퇴 중 오류가 발생하였습니다.");
-        });
+    ...mapGetters(memberStore, ["getLoginMember", "getToken"]),
+    ...mapActions(memberStore, ["modifyMember", "removeMember"]),
+    async eraseMember() {
+      if (confirm("확인을 누르시면 회원탈퇴가 진행됩니다.")) {
+        this.removeMember(this.loginUser.userId);
+        this.goIndex();
+      }
     },
     async modifyUser() {
+      let userInfo = this.loginUser;
+      let isReload = false;
       if (this.newPassword != "") {
-        this.loginUser.password = this.newPassword;
+        userInfo.password = this.newPassword;
+        isReload = true;
       }
-      await axios({
-        url: "http://localhost:8080/member/update",
-        method: "put",
-        data: this.loginUser,
-      })
-        .then((res) => {
-          // console.log(res);
-          alert("회원정보 수정이 완료되었습니다.");
-        })
-        .catch((err) => {
-          alert("회원정보 수정 중 오류가 발생하였습니다.");
-        });
-
+      console.log(isReload);
+      this.modifyMember(this.loginUser, isReload);
       this.closeUserInfoModal();
+      if (isReload) this.goIndex();
     },
     closeUserInfoModal() {
       document.getElementById("modal").setAttribute("style", "display: none;");
