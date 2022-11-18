@@ -1,0 +1,70 @@
+
+
+.regist-container {
+    width: 500px; 
+    height: 700px;
+    margin: 5% auto;
+    border: 2px solid black;
+    border-radius: 16px;
+}
+
+.regist-container > * {
+    padding: 20px;
+}
+.regist-container > hr {
+    width: 85%;
+    margin: 0 auto;
+}
+
+.regist-container > .regist-title {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 30px;
+}
+.regist-container > .regist-img-container{
+    text-align: center;
+    margin: 0 auto;
+}
+
+/* id & pass word */
+
+.regist-form {
+    width: 100%;
+}
+
+.regist-form> * {
+    width: 100%;
+    height: 40px;
+    margin-top: 10px;
+}
+
+.email-group{
+    display: flex;
+    justify-content: space-between;    
+    box-sizing: border-box;
+}
+.email-group > *{
+    width: 220px;
+}
+.email-group > span {
+    width: 60px;
+    display: inline-block;
+    text-align: center;
+    font-size: 25px;
+}
+
+.button-div {
+    margin-top: 30px;
+}
+
+.button-div > input {
+    height: 50px;
+}
+
+
+/* input number에 화살표 안뜨게 하는 속성 */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

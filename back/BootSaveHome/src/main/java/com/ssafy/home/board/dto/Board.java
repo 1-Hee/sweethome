@@ -17,5 +17,4 @@ public class Board {
 	private int hit;
 	private int commentNo;
 	private String registDate;
-	
 }

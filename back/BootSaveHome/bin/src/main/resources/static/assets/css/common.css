@@ -1,0 +1,48 @@
+
+@import url('https://fonts.googleapis.com/css?family=Jua:400');
+
+
+* {
+    font-family: 'Jua', sans-serif;
+}
+
+body{
+    background-color: rgba(255, 255, 255, 0.666);
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+a:hover{
+    color: black;
+}
+
+
+
+.divider-min {
+    height: 2vh;
+}
+
+.divider1 {
+    height: 8vh;
+}
+
+
+.divider2 {
+    height: 12vh;
+}
+
+
+.divider3 {
+    height: 16vh;
+}
+
+
+.divider4 {
+    height: 20vh;
+}
+
+.div-silver{
+    background-color: silver;
+}
