@@ -17,7 +17,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) in boardList" :key="index" @click="view(item.articleNo)">
+          <tr
+            v-for="(item, index) in initList"
+            :key="index"
+            @click="view(item.articleNo)"
+          >
             <td>{{ index + 1 }}</td>
             <td>{{ item.title }}</td>
             <td>{{ item.userId }}</td>
@@ -27,13 +31,29 @@
         </tbody>
       </table>
       <ul class="page-tab">
-        <li class="pg-first"><a href="#">◀</a></li>
-        <li class="pg-common select"><a href="#">1</a></li>
-        <li class="pg-common"><a href="#">2</a></li>
-        <li class="pg-common"><a href="#">3</a></li>
-        <li class="pg-common"><a href="#">4</a></li>
-        <li class="pg-common"><a href="#">5</a></li>
-        <li class="pg-last"><a href="#">▶</a></li>
+        <li
+          class="pg-first"
+          v-show="initPgInfo.navigateFirstPage > 1"
+          @click="getList(selectNo - 1)"
+        >
+          <a href="#">◀</a>
+        </li>
+        <li
+          class="pg-common"
+          :class="{ select: getPgInfo().pageNum == key }"
+          v-for="(key, index) in getPgInfo().navigatepageNums"
+          :key="index"
+          @click="getList(key)"
+        >
+          <a href="#">{{ key }}</a>
+        </li>
+        <li
+          class="pg-last"
+          v-show="initPgInfo.navigateLastPage != initPgInfo.pages"
+          @click="getList(selectNo + 1)"
+        >
+          <a href="#">▶</a>
+        </li>
       </ul>
     </div>
     <!-- 공지사항 리스트 영역-->
@@ -41,50 +61,65 @@
 </template>
 
 <script>
-import boardList from "@/assets/js/board-list";
-import { getBoardList, getBoard } from "@/api/board";
+import { mapGetters, mapActions } from "vuex";
+const boardStore = "boardStore";
 
 export default {
   name: "BoardList",
   data() {
     return {
       boardList: [],
+      pgInfo: {},
+      selectNo: "",
     };
   },
   created() {
-    boardList.init();
     let param = {
-      pageNo: 1,
+      pageNo: this.getPgInfo().pageNum,
       listSize: 10,
     };
-    getBoardList(
-      param,
-      ({ data }) => {
-        this.boardList = data.list;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    this.boardList = this.setBoardList(param);
+    this.pgInfo = this.getPgInfo();
+    this.selectNo = this.getPgInfo().pageNum;
   },
   methods: {
+    ...mapGetters(boardStore, ["getBoardList", "getBoard", "getPgInfo"]),
+    ...mapActions(boardStore, ["setBoardList", "setBoard"]),
     async view(articleNo) {
-      await getBoard(
-        articleNo,
-        ({ data }) => {
-          localStorage.setItem("board", JSON.stringify(data)); // 이부분 store(vuex) 로 바꿀 것.
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
-      await this.$emit("board-view");
+      this.setBoard(articleNo);
+      setTimeout(() => {
+        this.$emit("board-view");
+      }, 100);
     },
     BoardWrite() {
       this.$emit("board-write");
     },
+    async getList(pgNo) {
+      this.selectNo = pgNo;
+      let param = {
+        pageNo: pgNo,
+        listSize: 10,
+      };
+      this.setBoardList(param);
+    },
   },
-  mounted() {},
+  mounted() {
+    //console.dir(this.pgInfo);
+  },
+  computed: {
+    initList() {
+      let param = {
+        pageNo: 1,
+        listSize: 10,
+      };
+      return this.getBoardList(param);
+    },
+    initPgInfo() {
+      let tempPgInfo = this.getPgInfo();
+      this.selectNo = tempPgInfo.pageNum;
+      return tempPgInfo;
+    },
+  },
 };
 </script>
 

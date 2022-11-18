@@ -68,53 +68,47 @@
 
 <script>
 import boardView from "@/assets/js/board-view";
-import { modifyNotice, deleteNotice } from "@/api/notice";
+import { mapGetters, mapActions } from "vuex";
+const noticeStore = "noticeStore";
+
 export default {
   name: "NoticeView",
   data() {
     return {
       Notice: {},
+      pgInfo: {},
     };
   },
-
-  created() {
-    this.Notice = JSON.parse(localStorage.getItem("notice"));
-    localStorage.removeItem("notice");
-  },
   methods: {
+    ...mapGetters(noticeStore, ["getNoticeList", "getNotice", "getPgInfo"]),
+    ...mapActions(noticeStore, ["modifyNotice", "removeNotice", "setNoticeList"]),
     async sendModifyBoard() {
-      await modifyNotice(
-        this.Notice,
-        ({ data }) => {
-          console.log(data);
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
-      await this.backToList();
+      this.modifyNotice(this.Notice);
+      this.backToList();
     },
     async deleteBoard(articleNo) {
       if (confirm("정말로 삭제하시겠습니까?")) {
-        await deleteNotice(
-          articleNo,
-          ({ data }) => {
-            console.log(data);
-          },
-          (err) => {
-            console.log(err);
-          }
-        );
-
-        await this.backToList();
+        this.removeNotice(articleNo);
+        this.backToList();
       }
     },
     backToList() {
-      this.$emit("notice-list");
+      let param = {
+        pageNo: this.pgInfo.pageNum,
+        listSize: 10,
+      };
+      this.setNoticeList(param);
+      setTimeout(() => {
+        this.$emit("notice-list");
+      }, 100);
     },
   },
   mounted() {
     boardView.init();
+  },
+  created() {
+    this.Notice = this.getNotice();
+    this.pgInfo = this.getPgInfo();
   },
 };
 </script>

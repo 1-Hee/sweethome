@@ -68,52 +68,49 @@
 
 <script>
 import boardView from "@/assets/js/board-view";
-import { modifyBoard, deleteBoard } from "@/api/board";
+import { mapGetters, mapActions } from "vuex";
+const boardStore = "boardStore";
 
 export default {
   name: "BoardView",
   data() {
     return {
       Board: {},
+      pgInfo: {},
     };
   },
   methods: {
+    ...mapGetters(boardStore, ["getBoardList", "getBoard", "getPgInfo"]),
+    ...mapActions(boardStore, ["modifyBoard", "removeBoard", "setBoardList"]),
+
     async sendModifyBoard() {
-      await modifyBoard(
-        this.Board,
-        ({ data }) => {
-          console.log(data);
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
-      await this.backToList();
+      this.modifyBoard(this.Board);
+
+      this.backToList();
     },
     async deleteBoard(articleNo) {
       if (confirm("정말로 삭제하시겠습니까?")) {
-        await deleteBoard(
-          articleNo,
-          ({ data }) => {
-            console.log(data);
-          },
-          (err) => {
-            console.log(err);
-          }
-        );
-        await this.backToList();
+        this.removeBoard(articleNo);
+        this.backToList();
       }
     },
     backToList() {
-      this.$emit("board-list");
+      let param = {
+        pageNo: this.pgInfo.pageNum,
+        listSize: 10,
+      };
+      this.setBoardList(param);
+      setTimeout(() => {
+        this.$emit("board-list");
+      }, 100);
     },
   },
   mounted() {
     boardView.init();
   },
   created() {
-    this.Board = JSON.parse(localStorage.getItem("board"));
-    localStorage.removeItem("board");
+    this.Board = this.getBoard();
+    this.pgInfo = this.getPgInfo();
   },
 };
 </script>

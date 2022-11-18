@@ -117,7 +117,7 @@
 
 /* 페이지 관련 CSS 속성 */
 .page-tab{
-    width: 330px;
+    width: 450px;
     height: 45px;
     list-style: none;
     padding: 0;
@@ -125,8 +125,8 @@
     justify-content: center;
 
     margin: 0 auto;
-    margin-top: 150px;
-
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
 
 .page-tab>li{

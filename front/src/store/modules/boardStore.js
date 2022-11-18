@@ -1,5 +1,5 @@
 
-import { getBoardList,  writeBoard, getBoard, modifyBoard, deleteBoard } from "@/api/board";
+import { selectBoardList, selectBoard, createBoard, updateBoard, deleteBoard  } from "@/api/board";
 
 const userStore = {
 
@@ -7,40 +7,103 @@ const userStore = {
     state: {
         BoardList : [],
         Board : {},
+        pgInfo : {},
     },
     getters : {
-        // getBoardList(state) {
-        //     return state.BoardList;
-        // },
-        // getBoard(state) {
-        //     return state.Board;
-        // },
+        getBoardList(state){
+            return state.BoardList;
+        },
+        getBoard(state) {
+            return state.Board;
+        },
+        getPgInfo(state){
+            return state.pgInfo;
+        },
     },
     actions: { 
-        searchBoardList(param){
-            getBoardList(param,  
-            ({ data }) => {
-                localStorage.setItem("board", JSON.stringify(data)); // 이부분 store(vuex) 로 바꿀 것.
+        
+        setBoardList(context, params){     
+            selectBoardList(params,
+                ({data})=> {
+                    context.commit("SET_BOARD_LIST", data);
+                },
+                (err)=> {
+                    console.log(err);
+                });
+        },
+
+        setBoard(context, articleNo){            
+            selectBoard(articleNo,
+                ({data})=>{
+                    context.commit("SET_BOARD", data);
+                },
+                (err)=>{
+                    console.log(err);
+                });
+        },
+        
+        addBoard({commit}, board){
+            createBoard(
+                board,
+                ({data})=>{
+                    console.log(data);
+                    commit("ADD_BOARD", board);
+                },
+                (err)=>{console.log(err);}
+            );
+        },
+
+        modifyBoard(context, board){
+            updateBoard(
+                board,
+            ({data})=>{
+                console.log(data);
+                context.commit("MODIFY_BOARD", board);
             },
-              (err) => {
+            (err)=>{
                 console.log(err);
-              })
-        },
-        searchBoard(){
+            }
+            );
 
         },
-        addBoard() {
 
+        removeBoard(context, articleNo){
+            deleteBoard(
+                articleNo,
+                ({data})=>{
+                    console.log(data);
+                    context.commit("REMOVE_BOARD");
+                },
+                (err)=>{
+                    console.log(err);
+                }
+            );
         },
-        modifyBoard(){
-
-        },
-        removeBroad(){
-            
-        }
 
     },
     mutations: { 
+
+        SET_BOARD_LIST(state, data){        
+            state.BoardList = data.list;
+            state.pgInfo = data;
+        },
+
+        SET_BOARD(state, board){
+            state.Board= board;           
+        },
+        
+        ADD_BOARD(state, board){
+            state.Board=board;
+            state.BoardList.push(board);           
+        },
+
+        MODIFY_BOARD(state, board){
+           state.Board = board;
+        },
+
+        REMOVE_BOARD(state){
+            state.board = null;
+        },
 
     },
 
