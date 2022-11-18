@@ -14,4 +14,10 @@ public interface MemberService {
 	int insertUser(Member member) throws Exception;
 
 	List<Member> selectAll() throws Exception;
+
+	void saveRefreshToken(String id, String refreshToken) throws Exception;
+
+	void deleteRefreshToken(String id) throws Exception;
+
+	String getRefreshToken(String id) throws Exception;
 }

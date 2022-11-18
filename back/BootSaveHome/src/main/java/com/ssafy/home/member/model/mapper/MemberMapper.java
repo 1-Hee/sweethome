@@ -2,6 +2,7 @@ package com.ssafy.home.member.model.mapper;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -18,4 +19,10 @@ public interface MemberMapper {
 	int insert(Member member) throws SQLException;
 
 	List<Member> selectAll() throws SQLException;
+
+	void saveRefreshToken(Map<String, String> map);
+
+	void deleteRefreshToken(Map<String, String> map);
+
+	String getRefreshToken(String id);
 }

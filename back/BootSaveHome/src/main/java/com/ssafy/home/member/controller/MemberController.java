@@ -1,10 +1,12 @@
 package com.ssafy.home.member.controller;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.home.jwt.model.service.JwtServiceImpl;
 import com.ssafy.home.member.dto.Member;
 import com.ssafy.home.member.model.service.MemberService;
 import com.ssafy.home.util.VerifyEmail;
@@ -23,31 +26,43 @@ import com.ssafy.home.util.VerifyEmail;
 @RequestMapping("/member")
 public class MemberController {
 
-	private final MemberService service;
-	private final VerifyEmail verifyemail;
+	public static final Logger logger = LoggerFactory.getLogger(MemberController.class);
+	private static final String SUCCESS = "success";
+	private static final String FAIL = "fail";
 	
 	@Autowired
-	private MemberController(MemberService service, VerifyEmail verifyemail) {
-		this.service = service;
-		this.verifyemail = verifyemail;
-	}
+	private JwtServiceImpl jwtService;
+	@Autowired
+	private MemberService service;
+	@Autowired
+	private VerifyEmail verifyemail;
 	
 	@PostMapping("login")
 	private ResponseEntity<?> login(@RequestBody Member member) throws Exception {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
 		String id = member.getId();
 		System.out.println(id);
 		String password = member.getPassword();
 		System.out.println(password);
 		Member member2 = service.selectById(id);
 		if(member2!=null&&member2.getPassword().equals(password)) {
-			return new ResponseEntity<Member>(member2,HttpStatus.OK);
+			String accessToken = jwtService.createAccessToken("userid", member2.getId());// key, data
+			String refreshToken = jwtService.createRefreshToken("userid", member2.getId());// key, data
+			service.saveRefreshToken(member.getId(),refreshToken);
+			resultMap.put("access-token", accessToken);
+			resultMap.put("refresh-token", refreshToken);
+			resultMap.put("message", SUCCESS);
+			return new ResponseEntity<Map<String, Object>>(resultMap,HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+			resultMap.put("message", FAIL);
+			return new ResponseEntity<Map<String, Object>>(resultMap,HttpStatus.BAD_REQUEST);
 		}
 	}
 	
-	@GetMapping("logout")
-	private ResponseEntity<?> logout() throws Exception {
+	@GetMapping("logout/{id}")
+	private ResponseEntity<?> logout(@PathVariable String id) throws Exception {
+		service.deleteRefreshToken(id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
@@ -113,5 +128,10 @@ public class MemberController {
 	private ResponseEntity<?> list() throws Exception{
 		List<Member> list = service.selectAll();
 		return new ResponseEntity<List<Member>>(list,HttpStatus.OK);
+	}
+	
+	private ResponseEntity<?> refreshToken(@RequestBody Member member) throws Exception {
+		String refreshToken = service.getRefreshToken(member.getId());
+		return null;
 	}
 }
