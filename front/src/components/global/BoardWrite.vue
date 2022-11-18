@@ -56,8 +56,9 @@
 </template>
 
 <script>
-import { writeBoard } from "@/api/board";
-import { writeNotice } from "@/api/notice";
+import { mapActions } from "vuex";
+const boardStore = "boardStore";
+const noticeStore = "noticeStore";
 
 export default {
   name: "BoardWrite",
@@ -74,55 +75,34 @@ export default {
     };
   },
   methods: {
+    ...mapActions(boardStore, ["addBoard"]),
+    ...mapActions(noticeStore, ["addNotice"]),
     getValue() {
-      console.log(this.division);
+      //console.log(this.division);
     },
-    moveList() {
-      if (this.division == "0") {
-        this.$emit("notice-list");
-      } else if (this.division == "1") {
-        this.$emit("board-list");
-      }
-    },
-
     createArticle() {
       if (this.division == "0") {
-        this.addNotice();
+        this.makeNotice();
       } else if (this.division == "1") {
-        this.addBoard();
+        this.makeBoard();
       }
     },
-    async addBoard() {
-      await writeBoard(
-        this.newBoard,
-        ({ data }) => {
-          console.log(data);
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
-
-      await this.moveList();
+    async makeBoard() {
+      this.addBoard(this.newBoard);
+      this.backToList();
     },
-    async addNotice() {
-      await writeNotice(
-        this.newBoard,
-        ({ data }) => {
-          console.log(data);
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
-      await this.moveList();
+    async makeNotice() {
+      this.addNotice(this.newBoard);
+      this.backToList();
     },
-    backToList() {
-      if (this.division == "0") {
-        this.$emit("notice-list");
-      } else if (this.division == "1") {
-        this.$emit("board-list");
-      }
+    async backToList() {
+      setTimeout(() => {
+        if (this.division == "0") {
+          this.$emit("notice-list");
+        } else if (this.division == "1") {
+          this.$emit("board-list");
+        }
+      }, 100);
     },
   },
   mounted() {},

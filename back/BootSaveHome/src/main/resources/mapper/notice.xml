@@ -36,10 +36,10 @@
 	<select id="listArticle" parameterType="map" resultMap="article">
 		select b.article_no, b.user_id, b.title, b.content, b.hit, b.comment_no, b.regist_date
 		from notice b, member m
-		where b.user_id = m.user_id 
-		<include refid="search"></include>
+		where b.user_id = m.user_id  order by b.article_no desc
+		<!-- <include refid="search"></include>
 		order by b.article_no desc
-		limit #{start}, #{spl}
+		limit #{start}, #{spl} -->
 	</select>
 	
 	<select id="getArticle" parameterType="int" resultMap="article">

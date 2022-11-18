@@ -16,13 +16,13 @@
                   <i class="fa-solid fa-building"></i>
                   <a class="drop-down-item" href="#">회사 소개</a>
                 </li>
-                <li>
+                <li @click="noticeList">
                   <i class="fa-solid fa-list-ul"></i>
-                  <a class="drop-down-item" href="#" @click="noticeList">공지 사항</a>
+                  <a class="drop-down-item" href="#">공지 사항</a>
                 </li>
-                <li>
+                <li @click="boardList">
                   <i class="fa-solid fa-align-justify"></i>
-                  <a class="drop-down-item" href="#" @click="boardList">자유게시판</a>
+                  <a class="drop-down-item" href="#">자유게시판</a>
                 </li>
                 <li>
                   <i class="fa-brands fa-youtube"></i>
@@ -104,7 +104,10 @@ export default {
       this.$router.push({ name: "NoticeList" }).catch(() => {});
     },
     boardList() {
-      this.$router.push({ name: "BoardList" }).catch(() => {});
+      setTimeout(
+        ()=>{this.$router.push({ name: "BoardList" }).catch(() => {});},
+        100);
+      
     },
     myPage() {
       this.$router.push({ name: "MyPage" }).catch(() => {});
