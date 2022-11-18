@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,16 +42,14 @@ public class MemberController {
 	@PostMapping("login")
 	private ResponseEntity<?> login(@RequestBody Member member) throws Exception {
 		Map<String, Object> resultMap = new HashMap<>();
-		HttpStatus status = null;
 		String id = member.getId();
-		System.out.println(id);
 		String password = member.getPassword();
-		System.out.println(password);
 		Member member2 = service.selectById(id);
 		if(member2!=null&&member2.getPassword().equals(password)) {
 			String accessToken = jwtService.createAccessToken("userid", member2.getId());// key, data
 			String refreshToken = jwtService.createRefreshToken("userid", member2.getId());// key, data
 			service.saveRefreshToken(member.getId(),refreshToken);
+			resultMap.put("member", member2);
 			resultMap.put("access-token", accessToken);
 			resultMap.put("refresh-token", refreshToken);
 			resultMap.put("message", SUCCESS);
@@ -63,7 +63,7 @@ public class MemberController {
 	@GetMapping("logout/{id}")
 	private ResponseEntity<?> logout(@PathVariable String id) throws Exception {
 		service.deleteRefreshToken(id);
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
 	}
 	
 	@PostMapping("find")
@@ -130,8 +130,23 @@ public class MemberController {
 		return new ResponseEntity<List<Member>>(list,HttpStatus.OK);
 	}
 	
-	private ResponseEntity<?> refreshToken(@RequestBody Member member) throws Exception {
-		String refreshToken = service.getRefreshToken(member.getId());
-		return null;
+	@PostMapping("/refresh")
+	private ResponseEntity<?> refreshToken(@RequestBody Member member, HttpServletRequest request) throws Exception {
+		Map<String, Object> resultMap = new HashMap<>();
+		String token = request.getHeader("refresh-token");
+		logger.debug("token : {}, member : {}", token, member);
+		if(jwtService.checkToken(token)) {
+			if(token.equals(service.getRefreshToken(member.getId()))) {
+				String accessToken = jwtService.createAccessToken("id", member.getId());
+				logger.debug("token : {}", accessToken);
+				logger.debug("정상적으로 액세스토큰 재발급!!!");
+				resultMap.put("access-token", accessToken);
+				resultMap.put("message", SUCCESS);
+			}
+		} else {
+			logger.debug("리프레쉬토큰도 사용불!!!!!!!");
+			return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.UNAUTHORIZED);
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.ACCEPTED);
 	}
 }
