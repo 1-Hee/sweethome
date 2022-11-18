@@ -54,6 +54,7 @@ export default {
     },
     async Login() {
       await this.doLoginMember(this.loginUser);
+      // await console.dir(this.getLoginMember());
       this.clearUserInfo();
       this.closeLoginModal();
     },

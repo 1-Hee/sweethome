@@ -32,7 +32,7 @@ const memberStore = {
       doLogin(
         member,
         ({ data }) => {
-          // console.dir(data);
+          //console.dir(data);
           commit("DO_LOGIN_MEMBER", data);
         },
         (err) => {

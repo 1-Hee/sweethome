@@ -4,8 +4,8 @@
       <p class="regist-title">회원가입</p>
       <hr class="regist-hr" />
       <div class="regist-img-container">
-        <a href="#">
-          <i class="fa-solid fa-cookie-bite"></i>
+        <a href="#" @click="spinBling()">
+          <i id="re-cookie-icon" class="fa-solid fa-cookie-bite"></i>
         </a>
       </div>
       <form class="id-form" action="#" method="post">
@@ -122,6 +122,14 @@ export default {
     closeRegistModal() {
       document.getElementById("regist-modal-form").setAttribute("style", "display: none");
       document.getElementById("background2").setAttribute("style", "display: none");
+    },
+    spinBling() {
+      if (!document.getElementById("re-cookie-icon").classList.contains("rotate")) {
+        document.getElementById("re-cookie-icon").classList.add("bling");
+        setTimeout(() => {
+          document.getElementById("re-cookie-icon").classList.remove("bling");
+        }, 3000);
+      }
     },
   },
   mounted() {},
