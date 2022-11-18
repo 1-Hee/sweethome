@@ -81,7 +81,7 @@ export default {
         document.getElementById("cookie-logo").classList.add("rotate");
         setTimeout(() => {
           document.getElementById("cookie-logo").classList.remove("rotate");
-        }, 2000);
+        }, 1500);
       }
     },
   },

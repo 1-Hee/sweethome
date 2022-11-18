@@ -14,7 +14,9 @@
         </div>
       </form>
       <div class="home-container">
-        <a href="#" class="home"><i class="fa-solid fa-cookie-bite"></i></a>
+        <a href="#" class="home">
+          <i id="inq-bite-cookie1" class="fa-solid fa-cookie-bite animate__animated" @click="countCookie"></i>
+        </a>
       </div>
       <div class="background" id="background" style="display: none"></div>
     </div>
@@ -26,10 +28,21 @@
 export default {
   name: "AppUserInquiry",
   mounted() {},
+  data() {
+    return {};
+  },
   methods: {
     closeInquiryModal() {
       document.getElementById("user-inquiry-div").setAttribute("style", "display: none");
       document.getElementById("background3").setAttribute("style", "display: none");
+    },
+    countCookie() {
+      if (!document.getElementById("inq-bite-cookie1").classList.contains("animate__jello")) {
+        document.getElementById("inq-bite-cookie1").classList.add("animate__heartBeat", "colorChange");
+        setTimeout(() => {
+          document.getElementById("inq-bite-cookie1").classList.remove("animate__heartBeat", "colorChange");
+        }, 1000);
+      }
     },
   },
 };

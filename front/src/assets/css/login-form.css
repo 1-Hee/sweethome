@@ -57,10 +57,6 @@
   margin: 10px auto;
 }
 
-.rotate {
-  animation: rotate 2s infinite ease;
-}
-
 .login-container > .login-img-container > a > i {
   font-size: 70px;
   color: var(--defColor);
@@ -124,4 +120,10 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.rotate {
+  color: skyblue !important;
+  transition: 0.8s;
+  animation: rotate 1.5s infinite ease;
 }

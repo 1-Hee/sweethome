@@ -5,7 +5,7 @@
       <hr class="regist-hr" />
       <div class="regist-img-container">
         <a href="#" @click="spinBling()">
-          <i id="re-cookie-icon" class="fa-solid fa-cookie-bite"></i>
+          <i id="re-cookie-icon" class="fa-solid fa-cookie-bite animate__animated"></i>
         </a>
       </div>
       <form class="id-form" action="#" method="post">
@@ -124,11 +124,11 @@ export default {
       document.getElementById("background2").setAttribute("style", "display: none");
     },
     spinBling() {
-      if (!document.getElementById("re-cookie-icon").classList.contains("rotate")) {
-        document.getElementById("re-cookie-icon").classList.add("bling");
+      if (!document.getElementById("re-cookie-icon").classList.contains("purple")) {
+        document.getElementById("re-cookie-icon").classList.add("animate__bounce", "purple");
         setTimeout(() => {
-          document.getElementById("re-cookie-icon").classList.remove("bling");
-        }, 3000);
+          document.getElementById("re-cookie-icon").classList.remove("animate__bounce", "purple");
+        }, 1000);
       }
     },
   },

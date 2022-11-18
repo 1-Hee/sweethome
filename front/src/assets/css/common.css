@@ -167,3 +167,5 @@ ul {
   --pastelPink: #f28cd0d0;
   --pastelPurple: #af6cbec1;
 }
+
+@import "animate.css";

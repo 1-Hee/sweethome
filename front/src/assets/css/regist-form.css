@@ -57,11 +57,6 @@
   color: var(--defColorDark);
 }
 
-.bling {
-  animation-duration: 3s;
-  animation-name: changeColor;
-}
-
 .regist-container > form > div {
   width: 400px;
   height: 50px;
@@ -146,31 +141,8 @@
   top: 0;
 }
 
-/* 회원가입 로고의 애니메이션 속성 */
-
-@keyframes changeColor {
-  0% {
-    transform: rotate(0deg);
-    color: #e99a5a;
-  }
-  25% {
-    transform: rotate(45deg);
-
-    color: #f28cd0d0;
-  }
-  45% {
-  }
-  50% {
-    transform: rotate(-10deg);
-    color: skyblue;
-  }
-  75% {
-    transform: rotate(-30deg);
-
-    color: #af6cbec1;
-  }
-  100% {
-    transform: rotate(0deg);
-    color: #ffaa66;
-  }
+/* 애니메이션 관련 속성 */
+.purple {
+  color: var(--pastelPurple) !important;
+  transition: 0.3s;
 }
