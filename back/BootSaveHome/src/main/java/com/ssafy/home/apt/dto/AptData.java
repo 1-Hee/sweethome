@@ -11,7 +11,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class AptData {
+public class AptData { // added 11/19
 	String apartmentName; 
 	int dealAmount;
 	int area;

@@ -48,5 +48,13 @@
 		from apt_table
 		where dong = #{dongName}
 	</select>
+	
+	<!-- added 11/19 -->
+	<select id="selectAptListByFullCode" parameterType="string" resultType="aptData">
+		select 
+		apartmentName, dealAmount, area, date, dong 
+		from home.apt_table 
+		where dongCode=#{fullCode};
+	</select>
 </mapper>
 

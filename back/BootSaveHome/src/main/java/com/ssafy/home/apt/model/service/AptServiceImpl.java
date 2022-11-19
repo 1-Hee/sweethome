@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.home.apt.dto.Apt;
+import com.ssafy.home.apt.dto.AptData;
 import com.ssafy.home.apt.dto.AptInfo;
 import com.ssafy.home.apt.model.mapper.AptMapper;
 
@@ -51,5 +52,12 @@ public class AptServiceImpl implements AptService {
 	@Override
 	public List<AptInfo> getAptListByDongName(String dong) throws Exception {
 		return aptMapper.selectAptListByDongName(dong);
+	}
+
+
+	// added 11/19
+	@Override
+	public List<AptData> getAptListByFullCode(String fullCode) throws Exception {		
+		return aptMapper.selectAptListByFullCode(fullCode);
 	}
 }

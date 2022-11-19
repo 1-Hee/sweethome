@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.home.apt.dto.Apt;
+import com.ssafy.home.apt.dto.AptData;
 import com.ssafy.home.apt.dto.AptInfo;
 import com.ssafy.home.apt.model.service.AptService;
 
@@ -85,6 +87,21 @@ public class AptSearchController{
 				return new ResponseEntity<List>(aptInfoList, HttpStatus.OK);
 			}else return new ResponseEntity(HttpStatus.NO_CONTENT);
 			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}	
+	}
+	
+	// created 11/19 , 아파트 정보를 db로부터 가져오는 메서드 추가!. com.ssafy.home.apt.dto 패키지에 AptData도 만듦.
+	@GetMapping("/search/apt-list")
+	public ResponseEntity<?> getAptListByDongCode(String fullCode) {		
+		try {
+			List<AptData> aptDataList = aptService.getAptListByFullCode(fullCode);
+			if(aptDataList != null && !aptDataList.isEmpty()) {
+				return new ResponseEntity<List<AptData>>(aptDataList, HttpStatus.OK);
+			}else return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
