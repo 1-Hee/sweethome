@@ -22,7 +22,14 @@
           />
         </div>
         <div class="button-div">
-          <input type="button" id="do-login-btn" class="defbtn default-input login-btn" value="로그인" @click="Login" />
+          <input
+            type="button"
+            id="do-login-btn"
+            class="defbtn default-input login-btn"
+            value="로그인"
+            @click="Login"
+            @keyup.enter="Login"
+          />
         </div>
       </form>
       <div class="mv-regist-container flex-even">
@@ -54,9 +61,14 @@ export default {
     },
     async Login() {
       await this.doLoginMember(this.loginUser);
-      // await console.dir(this.getLoginMember());
       this.clearUserInfo();
-      this.closeLoginModal();
+      setTimeout(() => {
+        if (this.getLoginMember() == null) {
+          alert("로그인에 실패하였습니다. 다시 시도해주세요.");
+        } else {
+          this.closeLoginModal();
+        }
+      }, 100);
     },
     closeLoginModal() {
       document.getElementById("login-modal-form").setAttribute("style", "display: none");

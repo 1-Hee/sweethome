@@ -169,3 +169,34 @@ ul {
 }
 
 @import "animate.css";
+
+/* 대기열 폰트 */
+.wating-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 998;
+  width: 100vw;
+  height: 150vh;
+  background-color: rgba(0, 0, 0, 0.045) !important;
+  transition: 0.7s;
+}
+
+.wating-icon {
+  z-index: 999;
+  position: fixed;
+  top: 40vh;
+  left: 50vw;
+  font-size: 70px;
+  animation-duration: 0.4s;
+  animation-iteration-count: infinite;
+  animation-name: spin;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

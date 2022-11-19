@@ -59,7 +59,13 @@
         </div>
 
         <div class="button-div">
-          <input type="button" class="defbtn default-input regist-btn" value="회원가입" @click="doRegistUser" />
+          <input
+            type="button"
+            class="defbtn default-input regist-btn"
+            value="회원가입"
+            @click="doRegistUser"
+            @keyup.enter="doRegistUser"
+          />
         </div>
       </form>
     </div>

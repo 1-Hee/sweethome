@@ -1,111 +1,162 @@
-
 /* select box 속성  */
 
-.select-box{
-    position: sticky;
-    top: 0;
-    width: 100%;
-    margin: 0 auto;
-    margin-bottom: 20px;
-    background-color: white;
+.select-box {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  background-color: white;
 }
 
-.select-box > select{    
-    margin-top: 15px;
-    width: 150px;
-    height: 50px;
-    border-radius: 5px;
-    text-align: center;
-    font-size: 18px;
+.select-box > select {
+  margin-top: 15px;
+  width: 150px;
+  height: 50px;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 18px;
 }
 
 .select-box > h2 {
-    margin-top: 10px;
-    margin-bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 /* map 관련 속성 (kakao) */
 
-.map-container{
-    display: flex;
-    padding: 30px;
+.map-container {
+  display: flex;
+  padding: 30px;
 }
 
 /* 지도 옆 items 에 대한 설정들 */
-.items{
-    width: 500px;
-    height: 800px;
-    overflow: scroll;
-    margin-right: 30px;
-
+.items {
+  width: 500px;
+  height: 800px;
+  overflow: scroll;
+  margin-right: 30px;
 }
 
 .items::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera*/
+  display: none; /* Chrome, Safari, Opera*/
 }
-
 
 .items > h2 {
-    display: block;
-    position: sticky;
-    top : 0px;
-    background-color: white;
-    margin-bottom: 30px;
+  display: block;
+  position: sticky;
+  top: 0px;
+  background-color: white;
+  margin-bottom: 30px;
 }
 
-.apt-info{
-    cursor: pointer;
-    padding: 20px;
-    width: 100%;
-    height: 200px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    font-size: 20px;
-    overflow: hidden;
-    list-style: none;
-    background-color: var(--defColor);
-    border-radius: 15px;
+.apt-info {
+  cursor: pointer;
+  padding: 20px;
+  width: 100%;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 20px;
+  overflow: hidden;
+  list-style: none;
+  background-color: var(--defColor);
+  border-radius: 15px;
 }
 .apt-info > li {
-    width: 100%;
+  width: 100%;
 }
 
-.apt-info:hover{
-    background-color: var(--defColorDark);
-    transition: .15s;    
-}
-
-.loading{
-	width: 100%;
-    background-color: white;
-}
-
-.loading > p {
-    padding-left:10%;
-}
-.loading > img {
-    content: url("../img/loading-gif.gif");
- 	width: 150px;
-    margin: 0 25%;
+.apt-info:hover {
+  background-color: var(--defColorDark);
+  transition: 0.15s;
 }
 
 /* 대기열 발생시 이미지 */
 
-
-
 /* 카카오 지도 관련 CSS 속성 */
-#map{
-    border: 2px solid black;
-    border-radius: 5px;
-    width: 70%;
-    height: 800px;
+#map {
+  border: 2px solid black;
+  border-radius: 5px;
+  width: 70%;
+  height: 800px;
 }
 
+/* 맵 인포박스 css */
+.addr-dong-info-box {
+  padding-left: 5px;
+  margin: 0;
+  padding-top: 10px;
+  width: 250px;
+  height: 70px;
+  border: 1px solid black;
+  text-align: center;
+}
+.addr-dong-info-box > hr {
+  border: 1px solid #ffaa66;
+}
+.addr-dong-info-box > p:nth-child(3) {
+  padding-top: 10px;
+}
 
+.addr-apt-info-box {
+  padding-left: 5px;
+  margin: 0;
+  padding-top: 10px;
+  width: 250px;
+  height: 70px;
+  border: 1px solid black;
+  text-align: center;
+}
+.addr-apt-info-box > hr {
+  border: 1px solid #e99a5a;
+}
+.addr-apt-info-box > p:nth-child(3) {
+  padding-top: 10px;
+}
 
-.customoverlay {position:relative;bottom:85px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
-.customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
-.customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
-.customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
-.customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+.customoverlay {
+  position: relative;
+  bottom: 85px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  border-bottom: 2px solid #ddd;
+  float: left;
+}
+.customoverlay:nth-of-type(n) {
+  border: 0;
+  box-shadow: 0px 1px 2px #888;
+}
+.customoverlay a {
+  display: block;
+  text-decoration: none;
+  color: #000;
+  text-align: center;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: bold;
+  overflow: hidden;
+  background: #d95050;
+  background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px
+    center;
+}
+.customoverlay .title {
+  display: block;
+  text-align: center;
+  background: #fff;
+  margin-right: 35px;
+  padding: 10px 15px;
+  font-size: 14px;
+  font-weight: bold;
+}
+.customoverlay:after {
+  content: "";
+  position: absolute;
+  margin-left: -12px;
+  left: 50%;
+  bottom: -12px;
+  width: 22px;
+  height: 12px;
+  background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
+}
