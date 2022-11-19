@@ -13,8 +13,8 @@ import lombok.ToString;
 @ToString
 public class AptData { // added 11/19
 	String apartmentName; 
-	int dealAmount;
-	int area;
+	String dealAmount;
+	String area;
 	String date;
 	String dong;
 

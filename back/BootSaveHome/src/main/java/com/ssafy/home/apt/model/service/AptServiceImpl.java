@@ -1,6 +1,7 @@
 package com.ssafy.home.apt.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import com.ssafy.home.apt.dto.Apt;
 import com.ssafy.home.apt.dto.AptData;
 import com.ssafy.home.apt.dto.AptInfo;
 import com.ssafy.home.apt.model.mapper.AptMapper;
+import com.ssafy.home.board.dto.Search;
 
 @Service
 public class AptServiceImpl implements AptService {
@@ -57,7 +59,13 @@ public class AptServiceImpl implements AptService {
 
 	// added 11/19
 	@Override
-	public List<AptData> getAptListByFullCode(String fullCode) throws Exception {		
-		return aptMapper.selectAptListByFullCode(fullCode);
+	public List<AptData> getAptListByFullCode(int pageNum, int pageSize, String fullCode) throws Exception {		
+		return aptMapper.selectAptListByFullCode(pageNum, pageSize, fullCode);
+	}
+
+
+	@Override
+	public List<AptData> getAptListByDong(int pageNum, int pageSize, String dongName) throws Exception {		
+		return aptMapper. selectAptListByDong(pageNum,pageSize,dongName);
 	}
 }

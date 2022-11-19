@@ -13,7 +13,7 @@
           id="search-box"
           type="search"
           class="default-input"
-          onkeyup="searchWithKeyWord(this.value)"
+          @keyup.enter="searchWithKeyWord"
           placeholder="주소를 입력해보세요!"
         />
       </div>
@@ -153,6 +153,13 @@
 <script>
 export default {
   name: "AppIndex",
+  methods: {
+    searchWithKeyWord(e) {
+      //console.log(e.target.value);
+      this.$router.push({ name: "MapView" });
+      localStorage.setItem("keyword", e.target.value);
+    },
+  },
   mounted() {},
 };
 </script>

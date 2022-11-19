@@ -50,11 +50,21 @@
 	</select>
 	
 	<!-- added 11/19 -->
-	<select id="selectAptListByFullCode" parameterType="string" resultType="aptData">
+	<select id="selectAptListByFullCode" parameterType="map" resultType="aptData">
 		select 
 		apartmentName, dealAmount, area, date, dong 
 		from home.apt_table 
-		where dongCode=#{fullCode};
+		where dongCode=#{fullCode}
+		limit #{pageNum}, #{pageSize};
+	</select>
+	
+		<!-- added 11/19 -->
+	<select id="selectAptListByDong" parameterType="map" resultType="aptData">
+		select 
+		apartmentName, dealAmount, area, date, dong 
+		from home.apt_table 
+		where dong=#{dongName}
+		limit #{pageNum}, #{pageSize};
 	</select>
 </mapper>
 

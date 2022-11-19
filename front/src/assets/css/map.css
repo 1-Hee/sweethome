@@ -11,8 +11,9 @@
 
 .select-box > select {
   margin-top: 15px;
-  width: 150px;
+  width: 105px;
   height: 50px;
+  margin: 2px;
   border-radius: 5px;
   text-align: center;
   font-size: 18px;
@@ -32,46 +33,56 @@
 
 /* 지도 옆 items 에 대한 설정들 */
 .items {
-  width: 500px;
-  height: 800px;
+  width: 330px;
+  height: 68vh;
+  margin-right: 5px;
+}
+.items > .apt-items-container {
+  height: 68vh;
   overflow: scroll;
-  margin-right: 30px;
 }
 
-.items::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera*/
-}
+/* .items > .apt-items-container::-webkit-scrollbar { 
+  display: none;  Chrome, Safari, Opera
+}*/
 
 .items > h2 {
-  display: block;
-  position: sticky;
+  position: absolute;
   top: 0px;
   background-color: white;
   margin-bottom: 30px;
 }
 
+/* 아파트 정보 하나하나에 대한 설정 */
 .apt-info {
   cursor: pointer;
   padding: 20px;
-  width: 100%;
-  height: 200px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  width: 95%;
+  height: 220px;
+  margin-left: 10px;
   font-size: 20px;
-  overflow: hidden;
-  list-style: none;
-  background-color: var(--defColor);
+  border: 2px solid #ffaa66;
+  background-color: white;
   border-radius: 15px;
-}
-.apt-info > li {
-  width: 100%;
+  margin-bottom: 10px;
 }
 
 .apt-info:hover {
-  background-color: var(--defColorDark);
+  border: 2px solid rgb(234, 98, 98);
   transition: 0.15s;
 }
+
+.apt-info > * {
+  width: max-content;
+  margin-top: 10px;
+  text-align: left;
+}
+.apt-info > * td[colSpan] {
+  text-align: right;
+  /* background-color: black; */
+}
+
+/* 여기 까지... */
 
 /* 대기열 발생시 이미지 */
 
@@ -79,8 +90,8 @@
 #map {
   border: 2px solid black;
   border-radius: 5px;
-  width: 70%;
-  height: 800px;
+  width: 82%;
+  height: 80vh;
 }
 
 /* 맵 인포박스 css */
@@ -100,6 +111,7 @@
   padding-top: 10px;
 }
 
+/*아파트 개발 인포박스 css */
 .addr-apt-info-box {
   padding-left: 5px;
   margin: 0;
