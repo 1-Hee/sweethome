@@ -42,12 +42,15 @@ const memberStore = {
       confirmMemberById(
         decodeToken.userid,
         ({ data }) => {
-          //console.dir(data);
-          commit("SET_ACCESS_TOKEN", token);
+          // console.dir(data); // 여긴 유저 정보만 줌,
+          // commit("SET_ACCESS_TOKEN", data);
+          // console.log("엑세스에 성공함");
+          commit("SET_TOKEN_VARIABLE");
         },
         (err) => {
           //console.log(err);
-          console.log("getUserInfo() error code [토큰 만료되어 사용 불가능.] ::: ", err.response.status);
+          // console.log("엑세스에 실패해서 리프레시로 재발급");
+          // console.log("getUserInfo() error code [토큰 만료되어 사용 불가능.] ::: ", err.response.status);
           dispatch("doTokenRegeneration");
         }
       );
@@ -56,11 +59,14 @@ const memberStore = {
       tokenRegeneration(
         state.loginMember,
         ({ data }) => {
-          console.dir(data);
+          // console.dir(data);
+          // console.log("리프레시로 엑세스 발급 성공");
           commit("SET_ACCESS_TOKEN", data);
+          commit("SET_TOKEN_VARIABLE");
         },
         (err) => {
-          console.log(err.response.status);
+          // console.log("리프레시도 만료...");
+          // console.log(err.response.status);
           commit("SET_TOKEN_ERROR");
         }
       );
@@ -106,6 +112,7 @@ const memberStore = {
   },
   mutations: {
     DO_LOGIN_MEMBER(state, data) {
+      // console.dir(data);
       state.loginMember = data["member"];
       sessionStorage.setItem("access-token", data["access-token"]);
       sessionStorage.setItem("refresh-token", data["refresh-token"]);
@@ -113,12 +120,12 @@ const memberStore = {
       // state.token["access-token"] = data["access-token"];
       // state.token["refresh-token"] = data["refresh-token"];
     },
-    SET_USER_TOKEN(state, data) {
+    SET_ACCESS_TOKEN(state, data) {
       state.token["access-token"] = data["access-token"];
       sessionStorage.setItem("access-token", data["access-token"]);
     },
-    SET_ACCESS_TOKEN(state, token) {
-      state.token["access-token"];
+    SET_TOKEN_VARIABLE(state) {
+      state.tokenError = false;
     },
     SET_TOKEN_ERROR(state) {
       state.tokenError = true;
