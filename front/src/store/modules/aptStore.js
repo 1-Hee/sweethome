@@ -1,4 +1,4 @@
-import { selectAptDataList, selectAptDataListDong, selectAptDataListPos } from "@/api/apt";
+import { selectAptDataList, selectAptDataListDong, selectAptDataListAptName } from "@/api/apt";
 
 const aptStore = {
   namespaced: true,
@@ -23,7 +23,7 @@ const aptStore = {
         code,
         params,
         ({ data }) => {
-          console.dir(data);
+          //console.dir(data);
           context.commit("SET_APT_DATA_LIST", data);
         },
         (err) => {
@@ -43,13 +43,12 @@ const aptStore = {
         }
       );
     },
-    async setAptDataAptPos(context, params) {
-      selectAptDataListPos(
+    async setAptDataAptName(context, params) {
+      selectAptDataListAptName(
         params,
         ({ data }) => {
-          //console.dir(data);
           console.dir(data);
-          context.commit("SET_APT_DATA_LIST_POS", data);
+          context.commit("SET_APT_DATA_LIST_NAME", data);
         },
         (err) => {
           console.log(err);
@@ -68,10 +67,13 @@ const aptStore = {
         state.AptDataList.push(el);
       });
     },
-    SET_APT_DATA_LIST_POS(state, data) {
+    SET_APT_DATA_LIST_NAME(state, data) {
       data.forEach((el) => {
         state.AptDataList.push(el);
       });
+    },
+    SET_APT_DATA_LIST_NULL(state) {
+      state.AptDataList = [];
     },
   },
 };

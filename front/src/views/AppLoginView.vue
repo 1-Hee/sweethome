@@ -62,13 +62,11 @@ export default {
     async Login() {
       await this.doLoginMember(this.loginUser);
       this.clearUserInfo();
-      setTimeout(() => {
-        if (this.getToken() == null) {
-          alert("로그인에 실패하였습니다. 다시 시도해주세요.");
-        } else {
-          this.closeLoginModal();
-        }
-      }, 100);
+      if ((await this.getToken()) == null) {
+        alert("로그인에 실패하였습니다. 다시 시도해주세요.");
+      } else {
+        this.closeLoginModal();
+      }
     },
     closeLoginModal() {
       document.getElementById("login-modal-form").setAttribute("style", "display: none");

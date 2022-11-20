@@ -14,6 +14,7 @@
               setSidoText();
             "
             v-model="sido"
+            @click="clearSido"
           >
             <!-- <option value="">시/도</option> -->
             <option v-for="(sido, index) in sidoList" :key="index" :value="index">{{ sido.name }}</option>
@@ -26,6 +27,7 @@
               setGugunText();
             "
             v-model="gugun"
+            @click="clearGugun"
           >
             <!-- <option value="">시/군/구</option> -->
             <option v-for="(gugun, index) in gugunList" :key="index" :value="index">{{ gugun.name }}</option>
@@ -49,7 +51,7 @@
             class="apt-info"
             v-for="(item, index) in getAptDataList"
             :key="index"
-            @click="requestItems(item.lng, item.lat), addAptMarkers(item.lng, item.lat, item.apartmentName)"
+            @click="addMarkerByKeyword(item.dong + ' ' + item.apartmentName)"
           >
             <tr>
               <th>아파트 이름</th>
@@ -87,8 +89,8 @@
 
 <script>
 import axios from "axios";
-import { kakomapInit, searchByAddress } from "@/assets/js/map";
-import { mapGetters, mapActions } from "vuex";
+import { kakomapInit, searchByAddress, addMarker, markKeywordMarker } from "@/assets/js/map";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 const aptStore = "aptStore";
 
 export default {
@@ -108,15 +110,13 @@ export default {
       isWait: false,
       pageNo: 1,
       searchKeyword: "",
-      searchPos: {
-        lng: "",
-        lat: "",
-      },
+      searchName: "",
     };
   },
   created() {},
   methods: {
-    ...mapActions(aptStore, ["setAptDataList", "setAptDataListDong", "setAptDataAptPos"]),
+    ...mapActions(aptStore, ["setAptDataList", "setAptDataListDong", "setAptDataAptName"]),
+    ...mapMutations(aptStore, ["SET_APT_DATA_LIST_NULL"]),
     showWaiting(time) {
       if (!this.isWait) {
         this.isWait = true;
@@ -125,6 +125,14 @@ export default {
         }, time);
       }
     },
+    clearSido() {
+      this.gugunList = [];
+      this.dongList = [];
+    },
+    clearGugun() {
+      this.dongList = [];
+    },
+
     // 카카오맵 init 메서드
     initMap() {
       kakomapInit();
@@ -165,27 +173,21 @@ export default {
       await this.setAptDataList(this.dong, param);
     },
 
-    addAptMarkers(lat, lng, aptName) {
-      let position = {
-        title: aptName,
-        latlng: new kakao.maps.LatLng(lat, lng),
+    // 카카오맵 마커 추가메서드
+    addMarkerByKeyword(keyword) {
+      this.searchKeyword = "";
+      this.dong = "";
+      this.apartmentName = keyword.split(" ")[1];
+      markKeywordMarker(keyword);
+
+      let param = {
+        aptName: this.apartmentName,
+        pgNo: this.pageNo,
+        listSize: 20,
       };
-
-      // 마커의 이미지 주소
-      var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-
-      var imageSize = new kakao.maps.Size(24, 35);
-
-      // 마커 이미지를 생성합니다
-      var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-
-      // 마커를 생성합니다
-      var marker = new kakao.maps.Marker({
-        map: window.kakao.map, // 마커를 표시할 지도
-        position: position.latlng, // 마커를 표시할 위치
-        title: position.title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-        image: markerImage, // 마커 이미지
-      });
+      this.SET_APT_DATA_LIST_NULL();
+      this.showWaiting(1500);
+      this.setAptDataAptName(param);
     },
 
     // 무한스크롤
@@ -202,15 +204,14 @@ export default {
             listSize: 20,
           };
           this.setAptDataListDong(param);
-        } else if (this.searchPos.lat != "") {
+        } else if (this.apartmentName != "") {
           this.showWaiting(1500);
           let param = {
-            lng: this.searchPos.lng,
-            lat: this.searchPos.lat,
+            aptName: this.apartmentName,
             pgNo: this.pageNo,
             listSize: 20,
           };
-          this.setAptDataAptPos(param);
+          this.setAptDataAptName(param);
         } else {
           this.showWaiting(100);
           let param = {
@@ -256,29 +257,15 @@ export default {
         // console.dir(tempDong);
       }
     },
-    // 테이블 아이템 누른거 기준으로 새로 매물 요청
-    requestItems(lat, lng) {
-      console.log(lat, lng);
-      // this.searchKeyword = "";
-      // const container = document.getElementById("apt-items-container");
-      // container.innerHTML = ``;
-
-      // this.showWaiting(1500);
-      // let param = {
-      //   lat:lat,
-      //   lng:lng,
-      //   pgNo: this.pageNo,
-      //   listSize: 20,
-      // };
-      // this.setAptDataAptPos(param);
-    },
   },
   mounted() {
     axios({
       url: `http://localhost:8080/apt/box?type=sido&code=""`,
       method: "get",
     }).then(({ data }) => {
-      this.sidoList = data;
+      data.forEach((item) => {
+        this.sidoList.push(item);
+      });
     });
 
     if (window.kakao && window.kakao.maps) {

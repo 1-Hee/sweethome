@@ -22,6 +22,6 @@ public interface AptMapper {
 	public List<AptInfo> selectAptListByDongName(String dong) throws Exception;
 	public List<AptData> selectAptListByFullCode(int pageNum, int pageSize, String fullCode) throws Exception; // added 11/19
 	public List<AptData> selectAptListByDong(int pageNum, int pageSize, String dongName) throws Exception; // added 11/19
-	public List<AptData> selectAptListByPos(int pageNum, int pageSize, String lat, String lng) throws Exception; // added 11/20
+	public List<AptData> selectAptListByAptName(int pageNum, int pageSize, String aptName) throws Exception; // added 11/20
 
 }

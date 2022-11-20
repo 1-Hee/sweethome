@@ -143,20 +143,23 @@ export default {
       document.getElementById("profile-menu").setAttribute("style", "display:none;");
     },
     async detectLogin(methods) {
-      let actoken = sessionStorage.getItem("access-token");
+      let token = sessionStorage.getItem("access-token");
       // console.log(actoken);
       // console.log(rftoken);
 
-      await this.checkMemberById(actoken);
+      await this.checkMemberById(token);
 
-      if (this.getTokenError) {
-        this.showLoginModal();
-        alert("로그인 이후 이용할 수 있는 기능입니다.");
-        this.REMOVE_MEMBER();
-      } else {
-        //console.log(this.getTokenError);
-        methods();
-      }
+      setTimeout(() => {
+        // console.log(this.getTokenError);
+        if (this.getTokenError) {
+          this.showLoginModal();
+          alert("로그인 이후 이용할 수 있는 기능입니다.");
+          this.REMOVE_MEMBER();
+        } else {
+          //console.log(this.getTokenError);
+          methods();
+        }
+      }, 100);
     },
   },
   components: {

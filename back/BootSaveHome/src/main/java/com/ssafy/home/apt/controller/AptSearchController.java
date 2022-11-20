@@ -137,15 +137,14 @@ public class AptSearchController{
 		}	
 	}
 	
-	// created 11/19 , 아파트 정보를 동 아파트 이름으로부터 가져오는 메서드 추가!
-	@GetMapping("/search/pos")
-	public ResponseEntity<?> getAptListPos(Search search, String lng, String lat) {		
+	// created 11/21 , 아파트 정보를 동 아파트 이름으로부터 가져오는 메서드 추가!
+	@GetMapping("/search/name")
+	public ResponseEntity<?> getAptListPos(Search search, String aptName) {		
 		try {
-			System.out.println(search.toString()+" "+lng+" "+lat);		
+			System.out.println(search.toString()+" "+aptName);		
 			int pageNum = search.getPageNo(); 
 			int pageSize = search.getListSize();
-			List<AptData> aptDataList = aptService.getAptListByPos(pageNum, pageSize, lat, lng);
-			System.out.println(aptDataList.toString());			
+			List<AptData> aptDataList = aptService.getAptListByAptName(pageNum, pageSize, aptName);
 			if(aptDataList != null && !aptDataList.isEmpty()) {
 				return new ResponseEntity<List<AptData>>(aptDataList, HttpStatus.OK);
 			}else return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);			
