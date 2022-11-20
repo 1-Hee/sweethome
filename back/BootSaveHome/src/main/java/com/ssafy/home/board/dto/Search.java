@@ -1,5 +1,8 @@
 package com.ssafy.home.board.dto;
 
+import lombok.ToString;
+
+@ToString
 public class Search {
 	private int pageNum;
 	private int begin;

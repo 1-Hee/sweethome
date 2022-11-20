@@ -22,7 +22,14 @@
           />
         </div>
         <div class="button-div">
-          <input type="button" id="do-login-btn" class="defbtn default-input login-btn" value="로그인" @click="Login" />
+          <input
+            type="button"
+            id="do-login-btn"
+            class="defbtn default-input login-btn"
+            value="로그인"
+            @click="Login"
+            @keyup.enter="Login"
+          />
         </div>
       </form>
       <div class="mv-regist-container flex-even">
@@ -47,7 +54,7 @@ export default {
     };
   },
   methods: {
-    ...mapGetters(memberStore, ["getLoginMember"]),
+    ...mapGetters(memberStore, ["getLoginMember", "getToken"]),
     ...mapActions(memberStore, ["doLoginMember"]),
     clearUserInfo() {
       this.loginUser = {};
@@ -55,7 +62,13 @@ export default {
     async Login() {
       await this.doLoginMember(this.loginUser);
       this.clearUserInfo();
-      this.closeLoginModal();
+      setTimeout(() => {
+        if (this.getToken() == null) {
+          alert("로그인에 실패하였습니다. 다시 시도해주세요.");
+        } else {
+          this.closeLoginModal();
+        }
+      }, 100);
     },
     closeLoginModal() {
       document.getElementById("login-modal-form").setAttribute("style", "display: none");
@@ -80,7 +93,7 @@ export default {
         document.getElementById("cookie-logo").classList.add("rotate");
         setTimeout(() => {
           document.getElementById("cookie-logo").classList.remove("rotate");
-        }, 2000);
+        }, 1500);
       }
     },
   },

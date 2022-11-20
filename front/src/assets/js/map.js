@@ -1,237 +1,154 @@
-if(localStorage.getItem("keyword")!=="" && localStorage.getItem("keyword")!=null){
-    console.log(localStorage.getItem("keyword"));
-    moveByAddress(localStorage.getItem("keyword"));
-    localStorage.removeItem("keyword");    	
-}
-
-/* 시군구 부분 함수 */
-function getCode(type = "sido", code = "") {
-    if (type == "gugun") {
-    document.getElementById("dong").options.length = 1;
-    }
-    fetch(`http://localhost:8080/apt/box?type=${type}&code=${code}`)
-    .then((response) => response.json())
-    .then((items) => {
-            let codeBox = document.getElementById(type);
-            codeBox.options.length = 1;
-            items.forEach(
-            (item) => (codeBox.options[codeBox.options.length] = new Option(item.name, item.code))
-            );
-    });
-}
-getCode();
-
-function onChangeOption(type = "pos", dong) {
-    getAptList(dong);
-    fetch(`http://localhost:8080/apt/box?type=${type}&code=${dong}`)
-    .then((response) => response.json())
-    .then((data) => {
-    	setCenter(data[0].lat, data[0].lng);
-    });
-}
-
-/* 셀렉트 박스 만들어지면 서버로부터 값을 가져와서 element를 만드는 메서드 */
-function getAptList(value) {
-    loadingImg();
-    fetch(`http://localhost:8080/apt/apt-list?code=${value}`)
-        .then((response) => response.json())
-        .then((items) => {
-            makeList(items);
-    });
-}
-
 /* 카카오 맵 init 부분 */
-var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-mapOption = { 
-    center: new kakao.maps.LatLng(37.54699, 127.09598), // 지도의 중심좌표
-    level: 2 // 지도의 확대 레벨
-};
+export function kakomapInit() {
+  var mapContainer = document.getElementById("map"), // 지도를 표시할 div
+    mapOption = {
+      center: new kakao.maps.LatLng(37.54699, 127.09598), // 지도의 중심좌표
+      level: 2, // 지도의 확대 레벨
+    };
 
-var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+  var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
-// 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
-var mapTypeControl = new kakao.maps.MapTypeControl();
+  // 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
+  var mapTypeControl = new kakao.maps.MapTypeControl();
 
-// 지도에 컨트롤을 추가해야 지도위에 표시됩니다
-// kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다
-map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+  // 지도에 컨트롤을 추가해야 지도위에 표시됩니다
+  // kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다
+  map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
 
-// 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
-var zoomControl = new kakao.maps.ZoomControl();
-map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
-
-
-function loadingImg(){
-	const tempContainer = document.getElementById("map-items");
-    tempContainer.innerHTML = ``;
-
-    let tempInfoUl = document.createElement("ul");
- 	tempInfoUl.setAttribute("class", "loading");
-    let tempText = document.createElement("p");
-	let tempTextNode = document.createTextNode("데이터를 불러오는 중입니다. 잠시만 기다려주세요...");
-	tempText.appendChild(tempTextNode);            
-	tempInfoUl.appendChild(tempText);              	
- 	
- 	let tempImg = document.createElement("img");    
-	tempInfoUl.appendChild(tempImg);              	
-	tempContainer.appendChild(tempInfoUl);   
+  // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+  var zoomControl = new kakao.maps.ZoomControl();
+  map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 }
 
-/* 주소 값을 기준으로 이동 */
-function moveByAddress(dongName) {
-    // 주소-좌표 변환 객체를 생성합니다
-    var geocoder = new kakao.maps.services.Geocoder();
+// 주소를 기준으로 카카오맵 이동
+export function searchByAddress(address) {
+  const mapContainer = document.getElementById("map"), // 지도를 표시할 div
+    mapOption = {
+      center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+      level: 3, // 지도의 확대 레벨
+    };
 
-    // 주소로 좌표를 검색합니다
-    geocoder.addressSearch(dongName, function(result, status) {
+  // 지도를 생성합니다
+  const map = new kakao.maps.Map(mapContainer, mapOption);
 
-        // 정상적으로 검색이 완료됐으면 
-        if (status === kakao.maps.services.Status.OK) {            
-            var arr = dongName.split(" ");
-        	
-            loadingImg();             
+  // 주소-좌표 변환 객체를 생성합니다
+  const geocoder = new kakao.maps.services.Geocoder();
 
-            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-            
-            var imageSrc = '/assets/img/marker.png', // 마커이미지의 주소입니다    
-            imageSize = new kakao.maps.Size(64, 64), // 마커이미지의 크기입니다
-            imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+  // 주소로 좌표를 검색합니다
+  geocoder.addressSearch(address, function (result, status) {
+    // 정상적으로 검색이 완료됐으면
+    if (status === kakao.maps.services.Status.OK) {
+      var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
-            // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-            var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
-                markerPosition = new kakao.maps.LatLng(result[0].y, result[0].x); // 마커가 표시될 위치입니다
+      // 결과값으로 받은 위치를 마커로 표시합니다
+      let marker = new kakao.maps.Marker({
+        map: map,
+        position: coords,
+      });
 
-            // 마커를 생성합니다
-            var marker = new kakao.maps.Marker({
-            map : map,
-            position: markerPosition,
-            image: markerImage, // 마커이미지 설정 
-            clickable: true
-            });
-            
+      var iwContent = `<div class="addr-dong-info-box"><p>찾으시는 장소가 여기인가요?</p><hr /><p>${address}</p></div>`; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+      // var iwContent = `<div class="addr-apt-info-box"><p>풍림빌라</p><hr /><p>계덕동</p></div>`;
+      var iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
 
-            // 인포윈도우로 장소에 대한 설명을 표시합니다
-            var infowindow = new kakao.maps.InfoWindow({
-                content: '<div style="width:150px;text-align:center;padding:6px 0;">이 장소를 찾으셨나요?</div>'
-            });
-            infowindow.open(map, marker);
+      // 인포윈도우를 생성하고 지도에 표시합니다
+      var infowindow = new kakao.maps.InfoWindow({
+        map: map, // 인포윈도우가 표시될 지도
+        position: coords,
+        content: iwContent,
+        removable: iwRemoveable,
+      });
+      infowindow.open(map, marker);
 
-            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-            map.setCenter(coords);
-            
-            // 검색 결과를 기준으로 매물을 초기화 합니다.
-            fetch(`http://localhost:8080/apt/search?dong=${arr[0]}`)
-                .then((response) => response.json())
-                .then((data) => {        	
-                    makeList(data);          
-                });
-            
-        }
-    });  
-    
+      // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+      map.setCenter(coords);
+    }
+  });
 }
 
-function makeList(data){
-    const container = document.getElementById("map-items");
-    container.innerHTML = ``;
-    // let head = document.createElement("h2");
-    // head.innerText = "아파트 거래 정보";
-    // container.appendChild(head);    
-    // container.setAttribute("ondblclick", "ScrollTop();"); 
+// 부동산 테이블 생성 메서드
+// export function makeList(data) {
+//   const container = document.getElementById("apt-items-container");
+//   //container.innerHTML = ``;
+//   //console.dir(data);
 
-    
-    data.forEach((item) => {
-        let infoUl = document.createElement("ul");
-        infoUl.setAttribute("class", "apt-info");
-        infoUl.dataset.lat = `${item.lat}`;
-        infoUl.dataset.lng = `${item.lng}`;
-        infoUl.setAttribute("onclick", "setCenter(this.dataset.lat, this.dataset.lng);");    
-        
-        let name = document.createElement("li");
-        let textNode1 = document.createTextNode(`아파트 이름 : ${item.apartmentName}`);
-        name.appendChild(textNode1);            	
-        infoUl.appendChild(name);           	
-                        
-        let price = document.createElement("li");
-        let textNode2 = document.createTextNode(`거래 금액 : ${item.dealAmount}`);
-        price.appendChild(textNode2);
-        infoUl.appendChild(price);           	
-        
-        
-        let area = document.createElement("li");
-        let textNode3 = document.createTextNode(`면적 : ${item.area}`);
-        area.appendChild(textNode3);
-        infoUl.appendChild(area);           	
-
-        let day = document.createElement("li");
-        let textNode4 = document.createTextNode(`거래 일시 : ${item.date}`);
-        day.appendChild(textNode4);
-        infoUl.appendChild(day);      
-        
-        container.appendChild(infoUl);            	
-    });
-}
-
+//   for (let i = 0; i < data.length; i++) {
+//     let table = document.createElement("table");
+//     table.setAttribute("class", "apt-info");
+//     // infoUl.setAttribute("onclick", "setCenter(this.dataset.lat, this.dataset.lng);");
+//     let tr1 = document.createElement("tr");
+//     let th1 = document.createElement("th");
+//     th1.innerText = "아파트 이름";
+//     let td1 = document.createElement("td");
+//     td1.innerText = data[i].apartmentName;
+//     tr1.appendChild(th1);
+//     tr1.appendChild(td1);
+//     let tr2 = document.createElement("tr");
+//     let th2 = document.createElement("th");
+//     th2.innerText = "거래 금액";
+//     let td2 = document.createElement("td");
+//     td2.innerText = data[i].dealAmount;
+//     tr2.appendChild(th2);
+//     tr2.appendChild(td2);
+//     let tr3 = document.createElement("tr");
+//     let th3 = document.createElement("th");
+//     th3.innerText = "거래 일시";
+//     let td3 = document.createElement("td");
+//     td3.innerText = data[i].date;
+//     tr3.appendChild(th3);
+//     tr3.appendChild(td3);
+//     let tr4 = document.createElement("tr");
+//     let th4 = document.createElement("th");
+//     th4.innerText = "전용 면적";
+//     let td4 = document.createElement("td");
+//     td4.innerText = data[i].area;
+//     tr4.appendChild(th4);
+//     tr4.appendChild(td4);
+//     let td5 = document.createElement("td");
+//     td5.colSpan = 2;
+//     let span = document.createElement("span");
+//     span.innerText = data[i].dong;
+//     let a1 = document.createElement("a");
+//     a1.innerText = "👍";
+//     let a2 = document.createElement("a");
+//     a2.innerText = "🤍🧡";
+//     td5.appendChild(span);
+//     td5.appendChild(a1);
+//     td5.appendChild(a2);
+//     td5.setAttribute("style", "text-align:right; margin-right:10px;");
+//     table.appendChild(tr1);
+//     table.appendChild(tr2);
+//     table.appendChild(tr3);
+//     table.appendChild(tr4);
+//     table.appendChild(td5);
+//     table.dataset.aptName = data[i].apartmentName;
+//     console.dir(table);
+//     table.addEventListener("cilck");
+//     container.appendChild(table);
+//   }
+// }
 
 /* 커스텀 마커를 등록하기 위한 자바스크립트 */
+export function addAptMarkers(lat, lng, aptName) {
+  // 마커를 표시할 위치와 title 객체 배열입니다
 
-function setCenter(lat, lng) {            
-	
-    var imageSrc = '/assets/img/marker.png', // 마커이미지의 주소입니다    
-    imageSize = new kakao.maps.Size(64, 64), // 마커이미지의 크기입니다
-    imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+  var positions = [
+    {
+      title: "생태연못",
+      latlng: new kakao.maps.LatLng(33.450936, 126.569477),
+    },
+    {
+      title: "텃밭",
+      latlng: new kakao.maps.LatLng(33.450879, 126.56994),
+    },
+    {
+      title: "근린공원",
+      latlng: new kakao.maps.LatLng(33.451393, 126.570738),
+    },
+  ];
 
-    // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
-        markerPosition = new kakao.maps.LatLng(lat, lng); // 마커가 표시될 위치입니다
+  // 마커 이미지의 이미지 주소입니다
 
-    // 마커를 생성합니다
-    var marker = new kakao.maps.Marker({
-	    position: markerPosition,
-	    image: markerImage, // 마커이미지 설정 
-	    clickable: true
-    });
-    
-    
-    // 마커에 클릭이벤트를 등록합니다
-    kakao.maps.event.addListener(marker, 'click', function() {
-    	loadingImg();
-         // 마커 위에 인포윈도우를 표시합니다
-    	fetch(`http://localhost:8080/apt/around?lat=${lat}&lng=${lng}`)
-        .then((response) => response.json())
-        .then((data) => {        	        	
-            makeList(data);            
-        });
-    });
-
-    // 마커가 지도 위에 표시되도록 설정합니다
-    marker.setMap(map);  
-
-    // 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-    var content = '<div class="customoverlay">' +
-        '  <a href="https://map.kakao.com/link/map/" target="_blank">' +
-        '    <span class="title">카카오맵에서 보기</span>' +
-        '  </a>' +
-        '</div>';
-
-    // 커스텀 오버레이가 표시될 위치입니다 
-    var position = new kakao.maps.LatLng(lat, lng);  
-
-    // 커스텀 오버레이를 생성합니다
-    var customOverlay = new kakao.maps.CustomOverlay({
-        map: map,
-        position: position,
-        content: content,
-        yAnchor: 1 
-    });
-    
-	
-    // 이동할 위도 경도 위치를 생성합니다 
-    var moveLatLon = new kakao.maps.LatLng(lat, lng);    
-    // 지도 중심을 이동 시킵니다
-    map.setCenter(moveLatLon);
-}
-
-function ScrollTop(){	
-	document.getElementById("map-items").scrollTo({ left: 0, top: 0, behavior: "smooth" });
+  for (var i = 0; i < positions.length; i++) {
+    // 마커 이미지의 이미지 크기 입니다
+  }
 }

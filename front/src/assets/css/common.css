@@ -1,80 +1,88 @@
-@import url('https://fonts.googleapis.com/css?family=Jua:400');
+@import url("https://fonts.googleapis.com/css?family=Jua:400");
 
 * {
-    font-family: 'Jua', sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    transition: .15s;
+  font-family: "Jua", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: 0.15s;
 }
 
-hr{
-    margin-top: 0;
-   margin-left: 15px;
-   margin-right: 15px;
-   margin-bottom: 0;
+hr {
+  margin-top: 0;
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-bottom: 0;
 }
 
-body{
-    background-color: rgba(255, 255, 255, 0.666);
+body {
+  background-color: rgba(255, 255, 255, 0.666);
 }
 
 /* a태그 기본속성 제거 */
 a {
-    text-decoration: none;
-    color: black;
+  text-decoration: none;
+  color: black;
 }
-a:hover{
-    color: black;
+a:hover {
+  color: black;
 }
 
 /* ul li 태그 기본속성 제거 */
 ul {
-    list-style: none;
+  list-style: none;
 }
 
 /* 화면에 여백을 주는 div 요소용 css */
-.divider-min {height: 2vh;}
-.divider1 {height: 8vh;}
-.divider2 {height: 12vh;}
-.divider3 {height: 16vh;}
-.divider4 {height: 20vh;}
-.div-silver{background-color: silver;}
+.divider-min {
+  height: 2vh;
+}
+.divider1 {
+  height: 8vh;
+}
+.divider2 {
+  height: 12vh;
+}
+.divider3 {
+  height: 16vh;
+}
+.divider4 {
+  height: 20vh;
+}
+.div-silver {
+  background-color: silver;
+}
 
 /* 웹에서 스크롤바 안보이게 하는 설정 */
-*::-webkit-scrollbar{display: none; /* Chrome, Safari, Opera*/}
-
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+}
 
 /* 기본 버튼 css */
 
 .defbtn {
-    width: 45px;
-    height: 45px;
-    cursor: pointer;
-    background-color: none;
-    border: none;
-    background-color: rgba(0,0,0,0);
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+  background-color: none;
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
 }
-
-
 
 /* 기본 폼태그 관련 css */
 .default-input {
-    width: 100%;
-    height: 45px;
-    outline: none;
-    border: 1.3px solid black;
-    border-radius: 8px; 
-    padding: 12px; 
-    font-size: large;
+  width: 100%;
+  height: 45px;
+  outline: none;
+  border: 1.3px solid black;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: large;
 }
 
-.default-input:focus{
-    transition: .1s;
-    box-shadow: 
-    3px 3px 3px rgb(191, 226, 226),
-    -3px -3px 3px rgb(191, 226, 226),
-    3px -3px 3px rgb(191, 226, 226),
+.default-input:focus {
+  transition: 0.1s;
+  box-shadow: 3px 3px 3px rgb(191, 226, 226), -3px -3px 3px rgb(191, 226, 226), 3px -3px 3px rgb(191, 226, 226),
     -3px 3px 3px rgb(191, 226, 226);
 }
 
@@ -82,86 +90,113 @@ ul {
 /* 뱃지 속성 */
 
 .badge {
-    display: inline-block;
-    width: 70px;
-    height: 35px;
-    text-align: center;
-    line-height: 35px;
-    font-weight: 100;
-    border-radius: 10px;
-    color: white;
+  display: inline-block;
+  width: 70px;
+  height: 35px;
+  text-align: center;
+  line-height: 35px;
+  font-weight: 100;
+  border-radius: 10px;
+  color: white;
 }
 
-.lcy-badge{
-    background-color: lightcyan;
-    font-size: 16px;
+.lcy-badge {
+  background-color: lightcyan;
+  font-size: 16px;
 }
 
-
-.dgr-badge{
-    background-color: darkgrey;
-    font-size: 16px;
+.dgr-badge {
+  background-color: darkgrey;
+  font-size: 16px;
 }
 
-.def-badge{
-    background-color: var(--defColor);
-    font-size: 16px;
+.def-badge {
+  background-color: var(--defColor);
+  font-size: 16px;
 }
 
-.r-badge{
-    background-color: red;
-    font-size: 16px;
+.r-badge {
+  background-color: red;
+  font-size: 16px;
 }
 
-.b-badge{
-    background-color: skyblue;
-    font-size: 16px;
+.b-badge {
+  background-color: skyblue;
+  font-size: 16px;
 }
 
-
-.y-badge{
-    background-color: yellow;
-    font-size: 16px;
-    color: black;
+.y-badge {
+  background-color: yellow;
+  font-size: 16px;
+  color: black;
 }
 
-
-.g-badge{
-    background-color: green;
-    font-size: 16px;
+.g-badge {
+  background-color: green;
+  font-size: 16px;
 }
 
-.o-badge{
-    background-color: orange;
-    font-size: 16px;
+.o-badge {
+  background-color: orange;
+  font-size: 16px;
 }
-
 
 /* 플렉스 속성 */
-.flex-def{
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-
+.flex-def {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 }
 
-.flex-even{
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-evenly;
+.flex-even {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-evenly;
 }
-
 
 /* 폼태그 속성 */
 
-
 /* 메인 테마 색상 */
 :root {
-    --defColor : #ffaa66;
-    --defColorDark : #e99a5a;
-    --dangerColor : rgb(218, 49, 49);
-    --dangerColorDark : rgb(187, 38, 38);
+  --defColor: #ffaa66;
+  --defColorDark: #e99a5a;
+  --dangerColor: rgb(218, 49, 49);
+  --dangerColorDark: rgb(187, 38, 38);
+  --pastelPink: #f28cd0d0;
+  --pastelPurple: #af6cbec1;
+}
 
+@import "animate.css";
+
+/* 대기열 폰트 */
+.wating-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 998;
+  width: 100vw;
+  height: 150vh;
+  background-color: rgba(0, 0, 0, 0.045) !important;
+  transition: 0.7s;
+}
+
+.wating-icon {
+  z-index: 999;
+  position: fixed;
+  top: 40vh;
+  left: 50vw;
+  font-size: 70px;
+  animation-duration: 0.4s;
+  animation-iteration-count: infinite;
+  animation-name: spin;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

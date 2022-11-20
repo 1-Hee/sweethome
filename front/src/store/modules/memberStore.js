@@ -1,6 +1,13 @@
-// import jwtDecode from "jwt-decode";
+import jwtDecode from "jwt-decode";
 // import router from "@/router";
-import { selectMemberList, doLogin, updateMember, deleteMember } from "@/api/member";
+import {
+  selectMemberList,
+  doLogin,
+  updateMember,
+  deleteMember,
+  confirmMemberById,
+  tokenRegeneration,
+} from "@/api/member";
 
 const memberStore = {
   namespaced: true,
@@ -8,7 +15,8 @@ const memberStore = {
     loginMember: null,
     memberList: [],
     token: {},
-    pastListNo: 0,
+    pastListNo: 1,
+    tokenError: false,
   },
   getters: {
     getMemberList(state) {
@@ -20,19 +28,48 @@ const memberStore = {
     getToken(state) {
       return state.token;
     },
-    clearMemberInfo(state) {
-      state.loginMember = null;
+    getTokenError(state) {
+      return state.tokenError;
     },
     getPastListNo(state) {
       return state.pastListNo;
     },
   },
   actions: {
+    async checkMemberById({ commit, dispatch }, token) {
+      let decodeToken = jwtDecode(token);
+      //console.dir(decodeToken);
+      confirmMemberById(
+        decodeToken.userid,
+        ({ data }) => {
+          //console.dir(data);
+          commit("SET_ACCESS_TOKEN", token);
+        },
+        (err) => {
+          //console.log(err);
+          console.log("getUserInfo() error code [토큰 만료되어 사용 불가능.] ::: ", err.response.status);
+          dispatch("doTokenRegeneration");
+        }
+      );
+    },
+    async doTokenRegeneration({ commit, state }) {
+      tokenRegeneration(
+        state.loginMember,
+        ({ data }) => {
+          console.dir(data);
+          commit("SET_ACCESS_TOKEN", data);
+        },
+        (err) => {
+          console.log(err.response.status);
+          commit("SET_TOKEN_ERROR");
+        }
+      );
+    },
+
     doLoginMember({ commit }, member) {
       doLogin(
         member,
         ({ data }) => {
-          // console.dir(data);
           commit("DO_LOGIN_MEMBER", data);
         },
         (err) => {
@@ -44,8 +81,8 @@ const memberStore = {
       updateMember(
         member,
         ({ data }) => {
-          console.log(data);
-          console.dir(member);
+          // console.log(data);
+          // console.dir(member);
           commit("UPDATE_MEMBER", member, isReload);
         },
         (err) => {
@@ -65,22 +102,26 @@ const memberStore = {
         }
       );
     },
-    // addMember({ commit }, member) {
-    //   createMember(
-    //     member,
-    //     ({ data }) => {
-    //       console.log(data);
-    //       commit("ADD_MEMBER");
-    //     },
-    //     (err) => {
-    //       return this.validateStatus;
-    //     }
-    //   );
-    // },
+    checkValidation() {},
   },
   mutations: {
-    DO_LOGIN_MEMBER(state, member) {
-      state.loginMember = member;
+    DO_LOGIN_MEMBER(state, data) {
+      state.loginMember = data["member"];
+      sessionStorage.setItem("access-token", data["access-token"]);
+      sessionStorage.setItem("refresh-token", data["refresh-token"]);
+      state.tokenError = false;
+      // state.token["access-token"] = data["access-token"];
+      // state.token["refresh-token"] = data["refresh-token"];
+    },
+    SET_USER_TOKEN(state, data) {
+      state.token["access-token"] = data["access-token"];
+      sessionStorage.setItem("access-token", data["access-token"]);
+    },
+    SET_ACCESS_TOKEN(state, token) {
+      state.token["access-token"];
+    },
+    SET_TOKEN_ERROR(state) {
+      state.tokenError = true;
     },
     UPDATE_MEMBER(state, member, isReload) {
       if (!isReload) {
@@ -91,10 +132,13 @@ const memberStore = {
     },
     REMOVE_MEMBER(state) {
       state.loginMember = null;
+      state.tokenError = false;
+      state.loginMember = null;
+      state.pastListNo = 1;
+      sessionStorage.removeItem("access-token");
+      sessionStorage.removeItem("refresh-token");
     },
-    // ADD_MEMBER(state) {
-    //   // 로그인을 하면...? state에 등록을 해야할까..?
-    // },
+
     EDIT_LAST_PAGE_NO(state, no) {
       state.pastListNo = no;
     },

@@ -1,144 +1,148 @@
-.regist-container{
-    position: fixed;
-    width: 450px;
-    height: 650px;
-    border: 1px solid black;
-    background-color: white;
-    border-radius: 10px;
-    z-index: 7;
-    top: 100px;
-    left: 38vw;
+.regist-container {
+  position: fixed;
+  width: 450px;
+  height: 650px;
+  border: 1px solid black;
+  background-color: white;
+  border-radius: 10px;
+  z-index: 7;
+  top: 100px;
+  left: 38vw;
 }
 
-@media(max-width:1024px){
-    .regist-container {
-        left: 25vw;
-    }
+@media (max-width: 1024px) {
+  .regist-container {
+    left: 25vw;
+  }
 }
-@media(max-width:720px){
-    .regist-container {
-        left: 20vw;
-    }
+@media (max-width: 720px) {
+  .regist-container {
+    left: 20vw;
+  }
 }
-@media(max-width:580px){
-    .regist-container {
-        left: 10vw;
-    }
+@media (max-width: 580px) {
+  .regist-container {
+    left: 10vw;
+  }
 }
-@media(max-width:580px){
-    .regist-container {
-        left: 7vw;
-    }
+@media (max-width: 580px) {
+  .regist-container {
+    left: 7vw;
+  }
 }
 
 .regist-container > p {
-    text-align: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    font-size: 24px;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 24px;
 }
 
 .regist-container > hr {
-    width: 90%;
-    margin: 0 auto;
+  width: 90%;
+  margin: 0 auto;
 }
 
 .regist-container > .regist-img-container {
-    width: max-content;
-    height: max-content;
-    margin: 10px auto;
+  width: max-content;
+  height: max-content;
+  margin: 10px auto;
 }
 
-.regist-container > .regist-img-container > a > i{
-    font-size: 70px;
-    color: var(--defColor);
+.regist-container > .regist-img-container > a > i {
+  font-size: 70px;
+  color: var(--defColor);
 }
-.regist-container > .regist-img-container > a > i:hover{
-    color: var(--defColorDark);
+.regist-container > .regist-img-container > a > i:hover {
+  color: var(--defColorDark);
 }
 
 .regist-container > form > div {
-    width: 400px;
-    height: 50px;
-    margin: 0 auto;
+  width: 400px;
+  height: 50px;
+  margin: 0 auto;
 }
 
-.regist-container > form > div > input{
-    height: 40px;
-    padding-left: 15px;
+.regist-container > form > div > input {
+  height: 40px;
+  padding-left: 15px;
 }
 
-.regist-container > form > .button-div{
-    width: 100%;
+.regist-container > form > .button-div {
+  width: 100%;
 }
 
-.regist-container > form > .button-div > .regist-btn{
-    display: block;
-    width: 400px;
-    height: 45px;
-    background-color: var(--defColor);
-    margin: 30px auto;
-    color: white;    
+.regist-container > form > .button-div > .regist-btn {
+  display: block;
+  width: 400px;
+  height: 45px;
+  background-color: var(--defColor);
+  margin: 30px auto;
+  color: white;
 }
-.regist-container > form > .button-div > .regist-btn:hover{
-    background-color: var(--defColorDark);
-
+.regist-container > form > .button-div > .regist-btn:hover {
+  background-color: var(--defColorDark);
 }
 
 .regist-container > .mv-regist-container {
-    display: block;
-    text-align: center;
-    margin-top: 20px;
+  display: block;
+  text-align: center;
+  margin-top: 20px;
 }
 
 .regist-container > .mv-regist-container > a {
-    padding: 10px;
+  padding: 10px;
 }
 
-.regist-container > form > .confirm-password-text{
-    /* background-color: violet; */
+.regist-container > form > .confirm-password-text {
+  /* background-color: violet; */
 }
-.regist-container > form > .confirm-password-text > p{
-    line-height: 30px;
-    text-align: left;
-    padding-left: 15px;
-}
-
-.regist-container > form > .confirm-password-text > .ok{
-    color: rgb(51, 141, 51);
-    transition: .5s;
+.regist-container > form > .confirm-password-text > p {
+  line-height: 30px;
+  text-align: left;
+  padding-left: 15px;
 }
 
-.regist-container > form > .confirm-password-text > .wrong{
-    color: rgb(206, 38, 38);
-    transition: .5s;
+.regist-container > form > .confirm-password-text > .ok {
+  color: rgb(51, 141, 51);
+  transition: 0.5s;
 }
 
-.regist-container > form > .email{
-    width: max-content;
-    margin: 0 auto;
-}
-.regist-container > form > .email > .email-item{
-    width: 175px;
-
-}
-.email-span{
-    font-size: 20px;
-    padding-left: 15px;
-    padding-right: 15px;
+.regist-container > form > .confirm-password-text > .wrong {
+  color: rgb(206, 38, 38);
+  transition: 0.5s;
 }
 
-.regist-container > form > .age{
-    margin-top: 10px;
+.regist-container > form > .email {
+  width: max-content;
+  margin: 0 auto;
+}
+.regist-container > form > .email > .email-item {
+  width: 175px;
+}
+.email-span {
+  font-size: 20px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.regist-container > form > .age {
+  margin-top: 10px;
 }
 
 /* 회원가입 모달용 백그라운드 창 */
-#background2{
-    position: fixed;
-    width: 100%;
-    height: 420vh;
-    background-color: rgba(0, 0, 0, .4);
-    transition: .15s;
-    z-index: 6;
-    top: 0;
+#background2 {
+  position: fixed;
+  width: 100%;
+  height: 420vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  transition: 0.15s;
+  z-index: 6;
+  top: 0;
+}
+
+/* 애니메이션 관련 속성 */
+.purple {
+  color: var(--pastelPurple) !important;
+  transition: 0.3s;
 }

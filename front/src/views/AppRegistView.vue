@@ -4,8 +4,8 @@
       <p class="regist-title">회원가입</p>
       <hr class="regist-hr" />
       <div class="regist-img-container">
-        <a href="#">
-          <i class="fa-solid fa-cookie-bite"></i>
+        <a href="#" @click="spinBling()">
+          <i id="re-cookie-icon" class="fa-solid fa-cookie-bite animate__animated"></i>
         </a>
       </div>
       <form class="id-form" action="#" method="post">
@@ -59,7 +59,13 @@
         </div>
 
         <div class="button-div">
-          <input type="button" class="defbtn default-input regist-btn" value="회원가입" @click="doRegistUser" />
+          <input
+            type="button"
+            class="defbtn default-input regist-btn"
+            value="회원가입"
+            @click="doRegistUser"
+            @keyup.enter="doRegistUser"
+          />
         </div>
       </form>
     </div>
@@ -122,6 +128,14 @@ export default {
     closeRegistModal() {
       document.getElementById("regist-modal-form").setAttribute("style", "display: none");
       document.getElementById("background2").setAttribute("style", "display: none");
+    },
+    spinBling() {
+      if (!document.getElementById("re-cookie-icon").classList.contains("purple")) {
+        document.getElementById("re-cookie-icon").classList.add("animate__bounce", "purple");
+        setTimeout(() => {
+          document.getElementById("re-cookie-icon").classList.remove("animate__bounce", "purple");
+        }, 1000);
+      }
     },
   },
   mounted() {},
