@@ -60,6 +60,57 @@ public class MemberController {
 		}
 	}
 	
+	// 엑세스 토큰으로 사용자 정보 재검증
+	@GetMapping("/info/access/{userid}")
+	public ResponseEntity<Map<String, Object>> getInfo(@PathVariable("userid") String userId, HttpServletRequest request) {
+//		logger.debug("userid : {} ", userid);
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.UNAUTHORIZED;
+		if (jwtService.checkToken(request.getHeader("access-token"))) {
+			logger.info("사용 가능한 토큰!!!");
+			try {
+//				로그인 사용자 정보.
+				Member member = service.selectById(userId);
+				resultMap.put("userInfo", member);
+				resultMap.put("message", SUCCESS);
+				status = HttpStatus.ACCEPTED;
+			} catch (Exception e) {
+				logger.error("정보조회 실패 : {}", e);
+				resultMap.put("message", e.getMessage());
+				status = HttpStatus.INTERNAL_SERVER_ERROR;
+			}
+		} else {
+			logger.error("사용 불가능 토큰!!!");
+			resultMap.put("message", FAIL);
+			status = HttpStatus.UNAUTHORIZED;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+	
+	
+	// 리프레시 토큰으로 사용자 정보 검증
+	@PostMapping("/refresh")
+	private ResponseEntity<?> refreshToken(@RequestBody Member member, HttpServletRequest request) throws Exception {
+		Map<String, Object> resultMap = new HashMap<>();
+		String token = request.getHeader("refresh-token");
+		logger.debug("token : {}, member : {}", token, member);
+		if(jwtService.checkToken(token)) {
+			if(token.equals(service.getRefreshToken(member.getId()))) {
+				String accessToken = jwtService.createAccessToken("id", member.getId());
+				logger.debug("token : {}", accessToken);
+				logger.debug("정상적으로 액세스토큰 재발급!!!");
+				resultMap.put("access-token", accessToken);
+				resultMap.put("message", SUCCESS);
+			}
+		} else {
+			logger.debug("리프레쉬토큰도 사용불!!!!!!!");
+			return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.UNAUTHORIZED);
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.ACCEPTED);
+	}
+	
+	
+	
 	@PostMapping("login/user")
 	private ResponseEntity<?> tempLogin(@RequestBody Member member) throws Exception {
 		String id = member.getId();
@@ -144,23 +195,4 @@ public class MemberController {
 		return new ResponseEntity<List<Member>>(list,HttpStatus.OK);
 	}
 	
-	@PostMapping("/refresh")
-	private ResponseEntity<?> refreshToken(@RequestBody Member member, HttpServletRequest request) throws Exception {
-		Map<String, Object> resultMap = new HashMap<>();
-		String token = request.getHeader("refresh-token");
-		logger.debug("token : {}, member : {}", token, member);
-		if(jwtService.checkToken(token)) {
-			if(token.equals(service.getRefreshToken(member.getId()))) {
-				String accessToken = jwtService.createAccessToken("id", member.getId());
-				logger.debug("token : {}", accessToken);
-				logger.debug("정상적으로 액세스토큰 재발급!!!");
-				resultMap.put("access-token", accessToken);
-				resultMap.put("message", SUCCESS);
-			}
-		} else {
-			logger.debug("리프레쉬토큰도 사용불!!!!!!!");
-			return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.UNAUTHORIZED);
-		}
-		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.ACCEPTED);
-	}
 }

@@ -65,72 +65,90 @@ export function searchByAddress(address) {
   });
 }
 
-export function checkTableName(value) {
-  alert(value, "입니다");
-}
-
-// TODO. 승범이형 이 만든 함수 + 서버에서 매물 가져오는 코드...
 // 부동산 테이블 생성 메서드
-export function makeList(data) {
-  const container = document.getElementById("apt-items-container");
-  //container.innerHTML = ``;
-  //console.dir(data);
+// export function makeList(data) {
+//   const container = document.getElementById("apt-items-container");
+//   //container.innerHTML = ``;
+//   //console.dir(data);
 
-  for (let i = 0; i < data.length; i++) {
-    let table = document.createElement("table");
-    table.setAttribute("class", "apt-info");
-    // infoUl.setAttribute("onclick", "setCenter(this.dataset.lat, this.dataset.lng);");
-    let tr1 = document.createElement("tr");
-    let th1 = document.createElement("th");
-    th1.innerText = "아파트 이름";
-    let td1 = document.createElement("td");
-    td1.innerText = data[i].apartmentName;
-    tr1.appendChild(th1);
-    tr1.appendChild(td1);
-    let tr2 = document.createElement("tr");
-    let th2 = document.createElement("th");
-    th2.innerText = "거래 금액";
-    let td2 = document.createElement("td");
-    td2.innerText = data[i].dealAmount;
-    tr2.appendChild(th2);
-    tr2.appendChild(td2);
-    let tr3 = document.createElement("tr");
-    let th3 = document.createElement("th");
-    th3.innerText = "거래 일시";
-    let td3 = document.createElement("td");
-    td3.innerText = data[i].date;
-    tr3.appendChild(th3);
-    tr3.appendChild(td3);
-    let tr4 = document.createElement("tr");
-    let th4 = document.createElement("th");
-    th4.innerText = "전용 면적";
-    let td4 = document.createElement("td");
-    td4.innerText = data[i].area;
-    tr4.appendChild(th4);
-    tr4.appendChild(td4);
-    let td5 = document.createElement("td");
-    td5.colSpan = 2;
-    let span = document.createElement("span");
-    span.innerText = data[i].dong;
-    let a1 = document.createElement("a");
-    a1.innerText = "👍";
-    let a2 = document.createElement("a");
-    a2.innerText = "🤍🧡";
-    td5.appendChild(span);
-    td5.appendChild(a1);
-    td5.appendChild(a2);
-    td5.setAttribute("style", "text-align:right; margin-right:10px;");
-    table.appendChild(tr1);
-    table.appendChild(tr2);
-    table.appendChild(tr3);
-    table.appendChild(tr4);
-    table.appendChild(td5);
-    container.appendChild(table);
-  }
-}
+//   for (let i = 0; i < data.length; i++) {
+//     let table = document.createElement("table");
+//     table.setAttribute("class", "apt-info");
+//     // infoUl.setAttribute("onclick", "setCenter(this.dataset.lat, this.dataset.lng);");
+//     let tr1 = document.createElement("tr");
+//     let th1 = document.createElement("th");
+//     th1.innerText = "아파트 이름";
+//     let td1 = document.createElement("td");
+//     td1.innerText = data[i].apartmentName;
+//     tr1.appendChild(th1);
+//     tr1.appendChild(td1);
+//     let tr2 = document.createElement("tr");
+//     let th2 = document.createElement("th");
+//     th2.innerText = "거래 금액";
+//     let td2 = document.createElement("td");
+//     td2.innerText = data[i].dealAmount;
+//     tr2.appendChild(th2);
+//     tr2.appendChild(td2);
+//     let tr3 = document.createElement("tr");
+//     let th3 = document.createElement("th");
+//     th3.innerText = "거래 일시";
+//     let td3 = document.createElement("td");
+//     td3.innerText = data[i].date;
+//     tr3.appendChild(th3);
+//     tr3.appendChild(td3);
+//     let tr4 = document.createElement("tr");
+//     let th4 = document.createElement("th");
+//     th4.innerText = "전용 면적";
+//     let td4 = document.createElement("td");
+//     td4.innerText = data[i].area;
+//     tr4.appendChild(th4);
+//     tr4.appendChild(td4);
+//     let td5 = document.createElement("td");
+//     td5.colSpan = 2;
+//     let span = document.createElement("span");
+//     span.innerText = data[i].dong;
+//     let a1 = document.createElement("a");
+//     a1.innerText = "👍";
+//     let a2 = document.createElement("a");
+//     a2.innerText = "🤍🧡";
+//     td5.appendChild(span);
+//     td5.appendChild(a1);
+//     td5.appendChild(a2);
+//     td5.setAttribute("style", "text-align:right; margin-right:10px;");
+//     table.appendChild(tr1);
+//     table.appendChild(tr2);
+//     table.appendChild(tr3);
+//     table.appendChild(tr4);
+//     table.appendChild(td5);
+//     table.dataset.aptName = data[i].apartmentName;
+//     console.dir(table);
+//     table.addEventListener("cilck");
+//     container.appendChild(table);
+//   }
+// }
 
 /* 커스텀 마커를 등록하기 위한 자바스크립트 */
+export function addAptMarkers(lat, lng, aptName) {
+  // 마커를 표시할 위치와 title 객체 배열입니다
 
-function ScrollTop() {
-  document.getElementById("map-items").scrollTo({ left: 0, top: 0, behavior: "smooth" });
+  var positions = [
+    {
+      title: "생태연못",
+      latlng: new kakao.maps.LatLng(33.450936, 126.569477),
+    },
+    {
+      title: "텃밭",
+      latlng: new kakao.maps.LatLng(33.450879, 126.56994),
+    },
+    {
+      title: "근린공원",
+      latlng: new kakao.maps.LatLng(33.451393, 126.570738),
+    },
+  ];
+
+  // 마커 이미지의 이미지 주소입니다
+
+  for (var i = 0; i < positions.length; i++) {
+    // 마커 이미지의 이미지 크기 입니다
+  }
 }

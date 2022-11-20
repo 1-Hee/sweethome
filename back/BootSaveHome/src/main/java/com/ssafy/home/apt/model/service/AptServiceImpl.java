@@ -63,9 +63,18 @@ public class AptServiceImpl implements AptService {
 		return aptMapper.selectAptListByFullCode(pageNum, pageSize, fullCode);
 	}
 
-
+	// added 11/19
 	@Override
 	public List<AptData> getAptListByDong(int pageNum, int pageSize, String dongName) throws Exception {		
 		return aptMapper. selectAptListByDong(pageNum,pageSize,dongName);
 	}
+
+	// added 11/20
+	@Override
+	public List<AptData> getAptListByPos(int pageNum, int pageSize, String lat, String lng) throws Exception {
+		return aptMapper.selectAptListByPos(pageNum, pageSize, lat, lng);
+	}
+
+
+
 }

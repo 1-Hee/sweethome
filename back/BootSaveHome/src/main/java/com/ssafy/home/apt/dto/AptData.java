@@ -17,5 +17,7 @@ public class AptData { // added 11/19
 	String area;
 	String date;
 	String dong;
+	String lng;
+	String lat;
 
 }

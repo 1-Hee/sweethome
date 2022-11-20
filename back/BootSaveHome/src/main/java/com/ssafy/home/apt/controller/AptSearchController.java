@@ -126,7 +126,7 @@ public class AptSearchController{
 			List<AptData> aptDataList = aptService.getAptListByDong(pageNum, pageSize, dongName);
 //			System.out.println(aptDataList.toString());			
 			if(aptDataList != null && !aptDataList.isEmpty()) {
-				System.out.println(aptDataList.toString());
+				// System.out.println(aptDataList.toString());
 				return new ResponseEntity<List<AptData>>(aptDataList, HttpStatus.OK);
 			}else return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);			
 			
@@ -136,5 +136,26 @@ public class AptSearchController{
 			return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}	
 	}
+	
+	// created 11/19 , 아파트 정보를 동 아파트 이름으로부터 가져오는 메서드 추가!
+	@GetMapping("/search/pos")
+	public ResponseEntity<?> getAptListPos(Search search, String lng, String lat) {		
+		try {
+			System.out.println(search.toString()+" "+lng+" "+lat);		
+			int pageNum = search.getPageNo(); 
+			int pageSize = search.getListSize();
+			List<AptData> aptDataList = aptService.getAptListByPos(pageNum, pageSize, lat, lng);
+			System.out.println(aptDataList.toString());			
+			if(aptDataList != null && !aptDataList.isEmpty()) {
+				return new ResponseEntity<List<AptData>>(aptDataList, HttpStatus.OK);
+			}else return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);			
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}	
+	}
+	// /search/name
 	
 }

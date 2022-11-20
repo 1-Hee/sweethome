@@ -20,4 +20,6 @@ public interface AptService {
 	List<AptData> getAptListByFullCode(int pageNum, int pageSize, String fullCode) throws Exception; // added 11/19
 	
 	List<AptData> getAptListByDong(int pageNum, int pageSize, String dongName) throws Exception; // added 11/19
+	
+	List<AptData> getAptListByPos(int pageNum, int pageSize, String lat, String lng) throws Exception; // added 11/20
 }

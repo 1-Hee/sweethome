@@ -54,7 +54,7 @@ export default {
     };
   },
   methods: {
-    ...mapGetters(memberStore, ["getLoginMember"]),
+    ...mapGetters(memberStore, ["getLoginMember", "getToken"]),
     ...mapActions(memberStore, ["doLoginMember"]),
     clearUserInfo() {
       this.loginUser = {};
@@ -63,7 +63,7 @@ export default {
       await this.doLoginMember(this.loginUser);
       this.clearUserInfo();
       setTimeout(() => {
-        if (this.getLoginMember() == null) {
+        if (this.getToken() == null) {
           alert("로그인에 실패하였습니다. 다시 시도해주세요.");
         } else {
           this.closeLoginModal();

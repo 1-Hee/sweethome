@@ -44,7 +44,38 @@
           </select>
           <h2>아파트 거래정보</h2>
         </div>
-        <div class="apt-items-container" id="apt-items-container" @scroll="watchScroll"></div>
+        <div class="apt-items-container" id="apt-items-container" @scroll="watchScroll">
+          <table
+            class="apt-info"
+            v-for="(item, index) in getAptDataList"
+            :key="index"
+            @click="requestItems(item.lng, item.lat), addAptMarkers(item.lng, item.lat, item.apartmentName)"
+          >
+            <tr>
+              <th>아파트 이름</th>
+              <td>{{ item.apartmentName }}</td>
+            </tr>
+            <tr>
+              <th>거래 금액</th>
+              <td>{{ item.dealAmount }}</td>
+            </tr>
+            <tr>
+              <th>거래 일시</th>
+              <td>{{ item.date }}</td>
+            </tr>
+            <tr>
+              <th>전용 면적</th>
+              <td>{{ item.area }} m2</td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <span>{{ item.dong }}</span>
+                <a>👍</a>
+                <a>🤍🧡</a>
+              </td>
+            </tr>
+          </table>
+        </div>
       </div>
       <div id="map"></div>
       <i v-if="isWait" id="waiting-circle" class="fa-solid fa-circle-notch wating-icon"></i>
@@ -56,7 +87,7 @@
 
 <script>
 import axios from "axios";
-import { kakomapInit, searchByAddress, makeList } from "@/assets/js/map";
+import { kakomapInit, searchByAddress } from "@/assets/js/map";
 import { mapGetters, mapActions } from "vuex";
 const aptStore = "aptStore";
 
@@ -67,7 +98,6 @@ export default {
       sidoList: [],
       gugunList: [],
       dongList: [],
-      aptDataList: [],
       sido: "",
       gugun: "",
       dong: "",
@@ -78,12 +108,15 @@ export default {
       isWait: false,
       pageNo: 1,
       searchKeyword: "",
+      searchPos: {
+        lng: "",
+        lat: "",
+      },
     };
   },
   created() {},
   methods: {
-    ...mapGetters(aptStore, ["getAptDataList", "getPgInfo"]),
-    ...mapActions(aptStore, ["setAptDataList", "setAptDataListDong"]),
+    ...mapActions(aptStore, ["setAptDataList", "setAptDataListDong", "setAptDataAptPos"]),
     showWaiting(time) {
       if (!this.isWait) {
         this.isWait = true;
@@ -92,6 +125,7 @@ export default {
         }, time);
       }
     },
+    // 카카오맵 init 메서드
     initMap() {
       kakomapInit();
     },
@@ -105,9 +139,8 @@ export default {
         else if (type === "pos") this.aptList = data;
       });
     },
-    async makeTable(data) {
-      makeList(data);
-    },
+
+    // 백앤드로부터 가져온 동코드 정보를 지역 변수(?) 로 저장
     setSidoText() {
       const sidoEl = document.getElementById("sido");
       this.selectedSidoText = sidoEl.options[sido.selectedIndex].text;
@@ -119,8 +152,8 @@ export default {
     async setDongText() {
       const dongEl = document.getElementById("dong");
       this.selectedDongText = dongEl.options[dong.selectedIndex].text;
-      //console.log(this.selectedSidoText, this.selectedGugunText, this.selectedDongText);
       this.searchKeyword = "";
+      this.searchAptName = "";
       const container = document.getElementById("apt-items-container");
       container.innerHTML = ``;
 
@@ -129,24 +162,39 @@ export default {
         pgNo: this.pageNo,
         listSize: 20,
       };
-      //console.log(this.selectedSidoText);
       await this.setAptDataList(this.dong, param);
-      this.aptDataList = await this.getAptDataList();
-      await this.makeTable(this.aptDataList);
     },
+
+    addAptMarkers(lat, lng, aptName) {
+      let position = {
+        title: aptName,
+        latlng: new kakao.maps.LatLng(lat, lng),
+      };
+
+      // 마커의 이미지 주소
+      var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+
+      var imageSize = new kakao.maps.Size(24, 35);
+
+      // 마커 이미지를 생성합니다
+      var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+
+      // 마커를 생성합니다
+      var marker = new kakao.maps.Marker({
+        map: window.kakao.map, // 마커를 표시할 지도
+        position: position.latlng, // 마커를 표시할 위치
+        title: position.title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+        image: markerImage, // 마커 이미지
+      });
+    },
+
+    // 무한스크롤
     async watchScroll() {
       const scrollBody = document.querySelector("#apt-items-container");
       if (Math.round(scrollBody.scrollHeight - scrollBody.scrollTop) <= scrollBody.clientHeight) {
-        this.pageNo = this.pageNo + 1;
-        if (this.searchKeyword == "") {
-          this.showWaiting(100);
-          let param = {
-            pgNo: this.pageNo,
-            listSize: 20,
-          };
-          await this.setAptDataList(this.dong, param);
-          await this.makeTable(this.getAptDataList());
-        } else {
+        this.pageNo++;
+
+        if (this.searchKeyword != "") {
           this.showWaiting(1500);
           let param = {
             dongName: this.searchKeyword,
@@ -154,16 +202,34 @@ export default {
             listSize: 20,
           };
           this.setAptDataListDong(param);
-          this.makeTable(this.getAptDataList());
+        } else if (this.searchPos.lat != "") {
+          this.showWaiting(1500);
+          let param = {
+            lng: this.searchPos.lng,
+            lat: this.searchPos.lat,
+            pgNo: this.pageNo,
+            listSize: 20,
+          };
+          this.setAptDataAptPos(param);
+        } else {
+          this.showWaiting(100);
+          let param = {
+            pgNo: this.pageNo,
+            listSize: 20,
+          };
+          await this.setAptDataList(this.dong, param);
         }
       }
     },
-    ScrollTop() {
-      document.getElementById("apt-items-container").scrollTo({ left: 0, top: 0, behavior: "smooth" });
+    // 스크롤 위로 올리는 메서드
+    ScrollTop(e) {
+      e.target.scrollTo({ left: 0, top: 0, behavior: "smooth" });
     },
+
+    // 검색어 기준 매물 설정 및 위치 조정...
     async searchByKeyword() {
       let item = localStorage.getItem("keyword");
-      console.log(item == null);
+      // console.log(item == null);
       if (item != null) {
         searchByAddress(item);
         // console.log(item);
@@ -183,20 +249,28 @@ export default {
               listSize: 20,
             };
             await this.setAptDataListDong(param);
-
             this.showWaiting(2000);
-
-            setTimeout(() => {
-              this.aptDataList = this.getAptDataList();
-              console.dir(this.aptDataList);
-              this.makeTable(this.aptDataList);
-            }, 2000);
             break;
           }
         }
-
-        console.dir(tempDong);
+        // console.dir(tempDong);
       }
+    },
+    // 테이블 아이템 누른거 기준으로 새로 매물 요청
+    requestItems(lat, lng) {
+      console.log(lat, lng);
+      // this.searchKeyword = "";
+      // const container = document.getElementById("apt-items-container");
+      // container.innerHTML = ``;
+
+      // this.showWaiting(1500);
+      // let param = {
+      //   lat:lat,
+      //   lng:lng,
+      //   pgNo: this.pageNo,
+      //   listSize: 20,
+      // };
+      // this.setAptDataAptPos(param);
     },
   },
   mounted() {
@@ -205,7 +279,6 @@ export default {
       method: "get",
     }).then(({ data }) => {
       this.sidoList = data;
-      // console.dir(this.sidoList);
     });
 
     if (window.kakao && window.kakao.maps) {
@@ -218,24 +291,12 @@ export default {
       document.head.appendChild(script);
     }
     this.showWaiting(100);
-
-    setTimeout(() => {
-      this.searchByKeyword();
-    }, 100);
+    this.searchByKeyword();
   },
-  computed: {},
-  updated() {
-    // console.dir(document.getElementById("apt-items-container"));
-    let cont = document.getElementById("apt-items-container");
-    for (let i = 0; i < cont.childElementCount; i++) {
-      cont.childNodes[i].addEventListener("click", function () {
-        console.dir(cont.childNodes[i].childNodes[4].childNodes[0].innerText);
-        alert(cont.childNodes[i].childNodes[4].childNodes[0].innerText);
-        searchByAddress(cont.childNodes[i].childNodes[4].childNodes[0].innerText);
-      });
-    }
-    //console.dir(document.getElementById("apt-items-container").childNodes);
+  computed: {
+    ...mapGetters(aptStore, ["getAptDataList", "getPgInfo"]),
   },
+  updated() {},
 };
 </script>
 

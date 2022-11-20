@@ -20,7 +20,7 @@ async function selectMemberList(success, fail) {
 
 // 로그인
 async function doLogin(member, success, fail) {
-  api.post(`${cURL}/login/user`, JSON.stringify(member)).then(success).catch(fail);
+  api.post(`${cURL}/login`, JSON.stringify(member)).then(success).catch(fail);
 }
 
 async function updateMember(member, success, fail) {
@@ -31,4 +31,15 @@ async function deleteMember(userId, success, fail) {
   api.delete(`${cURL}/delete/${userId}`).then(success).catch(fail);
 }
 
-export { selectMemberList, doLogin, updateMember, deleteMember };
+async function confirmMemberById(userId, success, fail) {
+  // console.log(userId);
+  api.defaults.headers["access-token"] = sessionStorage.getItem("access-token");
+  api.get(`${cURL}/info/access/${userId}`).then(success).catch(fail);
+}
+
+async function tokenRegeneration(member, success, fail) {
+  api.defaults.headers["refresh-token"] = sessionStorage.getItem("refresh-token");
+  api.post(`${cURL}/refresh`, JSON.stringify(member)).then(success).catch(fail);
+}
+
+export { selectMemberList, doLogin, updateMember, deleteMember, confirmMemberById, tokenRegeneration };

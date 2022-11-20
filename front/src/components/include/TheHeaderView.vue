@@ -42,16 +42,16 @@
           </li>
         </ul>
         <ul class="nav-ul">
-          <li class="head-menu" v-if="getUser == null" @click="showLoginModal">
+          <li class="head-menu" v-if="getLoginMember == null" @click="showLoginModal">
             <a class="login-btn" id="do-login-btn">로그인</a>
           </li>
-          <li v-if="getUser != null" class="head-menu user-greet b-hover">
+          <li v-if="getLoginMember != null" class="head-menu user-greet b-hover">
             <span
-              ><span>{{ getUser.name }}</span> 님 안녕하세요</span
+              ><span>{{ getLoginMember.name }}</span> 님 안녕하세요</span
             >
           </li>
           <li
-            v-if="getUser != null"
+            v-if="getLoginMember != null"
             class="head-menu b-hover"
             id="profile-li"
             @mouseenter="showProfileMenu"
@@ -97,7 +97,7 @@ import AppLoginView from "@/views/AppLoginView";
 import AppRegistView from "@/views/AppRegistView";
 import AppUserInquiry from "@/views/AppUserInquiry";
 
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 const memberStore = "memberStore";
 
 export default {
@@ -109,7 +109,8 @@ export default {
     };
   },
   methods: {
-    ...mapGetters(memberStore, ["getLoginMember", "clearMemberInfo"]),
+    ...mapActions(memberStore, ["checkMemberById"]),
+    ...mapMutations(memberStore, ["REMOVE_MEMBER"]),
     showLoginModal() {
       document.getElementById("login-modal-form").setAttribute("style", "display: block;");
       document.getElementById("background1").setAttribute("style", "display: block;");
@@ -132,9 +133,8 @@ export default {
       this.$router.push({ name: "MapView" }).catch(() => {});
     },
     async logOut() {
-      this.clearMemberInfo();
+      this.REMOVE_MEMBER();
       this.goIndex();
-      location.reload();
     },
     showProfileMenu(e) {
       document.getElementById("profile-menu").setAttribute("style", "display:block;");
@@ -142,11 +142,19 @@ export default {
     hideProfileMenu(e) {
       document.getElementById("profile-menu").setAttribute("style", "display:none;");
     },
-    detectLogin(methods) {
-      if (this.getUser == null) {
+    async detectLogin(methods) {
+      let actoken = sessionStorage.getItem("access-token");
+      // console.log(actoken);
+      // console.log(rftoken);
+
+      await this.checkMemberById(actoken);
+
+      if (this.getTokenError) {
         this.showLoginModal();
         alert("로그인 이후 이용할 수 있는 기능입니다.");
+        this.REMOVE_MEMBER();
       } else {
+        //console.log(this.getTokenError);
         methods();
       }
     },
@@ -157,7 +165,7 @@ export default {
     AppUserInquiry,
   },
   created() {
-    this.loginUser = this.getLoginMember();
+    this.loginUser = this.getLoginMember;
   },
   mounted() {
     // this.$store.state.loginUser = null;
@@ -165,9 +173,10 @@ export default {
     header.allMenuInit();
   },
   computed: {
-    getUser() {
-      return this.getLoginMember();
-    },
+    ...mapGetters(memberStore, ["getLoginMember", "clearMemberInfo", "getTokenError"]),
+    // getUser() {
+    //   return this.getLoginMember();
+    // },
   },
   watch: {},
 };
