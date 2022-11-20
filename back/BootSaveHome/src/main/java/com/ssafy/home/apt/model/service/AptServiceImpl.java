@@ -71,8 +71,8 @@ public class AptServiceImpl implements AptService {
 
 	// added 11/20
 	@Override
-	public List<AptData> getAptListByPos(int pageNum, int pageSize, String lat, String lng) throws Exception {
-		return aptMapper.selectAptListByPos(pageNum, pageSize, lat, lng);
+	public List<AptData> getAptListByAptName(int pageNum, int pageSize, String aptName) throws Exception {
+		return aptMapper.selectAptListByAptName(pageNum, pageSize, aptName);
 	}
 
 

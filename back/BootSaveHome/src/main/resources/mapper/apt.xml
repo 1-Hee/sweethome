@@ -68,11 +68,11 @@
 	</select>
 	
 			<!-- added 11/20 -->
-	<select id="selectAptListByPos" parameterType="map" resultType="aptData">
+	<select id="selectAptListByAptName" parameterType="map" resultType="aptData">
 		select 
 		apartmentName, dealAmount, area, date, dong, lng, lat
 		from apt_table 
-		where lng = #{lng} and lat = #{lat}
+		where apartmentName = #{aptName}
 		limit #{pageNum}, #{pageSize};
 	</select>
 </mapper>

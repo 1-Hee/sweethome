@@ -13,12 +13,13 @@ async function selectAptDataListDong(param, success, fail) {
   await api.get(`${cURL}/search/dong`, { params: param }).then(success).catch(fail);
 }
 
-async function selectAptDataListPos(param, success, fail) {
-  await api.get(`${cURL}/search/pos`, { params: param }).then(success).catch(fail);
+async function selectAptDataListAptName(param, success, fail) {
+  console.dir(param);
+  await api.get(`${cURL}/search/name`, { params: param }).then(success).catch(fail);
 }
 
 // async function getCode(type, code, success, fail) {
 //   await api.get(`${cURL}/box?type=${type}&code=${code}`, { params: param }).then(success).catch(fail);
 // }
 
-export { selectAptDataList, selectAptDataListDong, selectAptDataListPos };
+export { selectAptDataList, selectAptDataListDong, selectAptDataListAptName };
