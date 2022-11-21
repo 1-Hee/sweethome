@@ -1,0 +1,67 @@
+.user-info-conatiner{
+    width: 600px;
+    min-height: 600px;
+    height: max-content;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+
+
+/* user-info 영역 속성 */
+.user-info-box > ul{
+    padding: 0;
+}
+.user-info-box > ul{
+    list-style: none;
+}
+.user-info-box > ul > li{
+    font-size: 18px;
+    margin-top: 20px;
+}
+.user-info-box > ul > li > *{
+    margin-top: 15px;
+}
+
+.user-info-box > ul > li > div> img {
+    width: 120px;
+    height: 120px;
+    border-radius: 60px;
+}
+
+.sort{
+    font-size: 28px;
+}
+
+/* 사진 쪽 속성 */
+
+#file{
+    display: none;
+}
+
+.upload-file{
+    padding: 8px;
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+
+.btn-custom{
+    background-color: lightgrey;
+}
+.btn-custom:hover{
+    background-color: darkgrey;
+    color: whitesmoke;
+}
+
+/* 개인정보쪽 속성 */
+
+.form-input{
+    font-size: 16px;
+}
+
+.user-info > *{
+    margin-top: 8px;
+    font-size: 18px;
+}
+
