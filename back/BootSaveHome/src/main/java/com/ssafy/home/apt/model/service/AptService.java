@@ -6,6 +6,7 @@ import java.util.Map;
 import com.ssafy.home.apt.dto.Apt;
 import com.ssafy.home.apt.dto.AptData;
 import com.ssafy.home.apt.dto.AptInfo;
+import com.ssafy.home.apt.dto.LikeDto;
 import com.ssafy.home.board.dto.Search;
 
 public interface AptService {
@@ -22,4 +23,14 @@ public interface AptService {
 	List<AptData> getAptListByDong(int pageNum, int pageSize, String dongName) throws Exception; // added 11/19
 	
 	List<AptData> getAptListByAptName(int pageNum, int pageSize, String aptName) throws Exception; // added 11/20
+
+	int addLike(LikeDto likedto) throws Exception;
+
+	int getLikeCount(int no) throws Exception;
+
+	List<AptInfo> getTopFourLike() throws Exception;
+
+	int updateLike(int no) throws Exception;
+
+	List<AptInfo> getLikeApt(String id) throws Exception;
 }

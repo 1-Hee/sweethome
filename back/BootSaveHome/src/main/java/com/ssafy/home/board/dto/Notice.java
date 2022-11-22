@@ -1,5 +1,7 @@
 package com.ssafy.home.board.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,5 +19,4 @@ public class Notice {
 	private int hit;
 	private int commentNo;
 	private String registDate;
-	
 }

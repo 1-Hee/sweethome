@@ -24,11 +24,13 @@ import com.ssafy.home.member.dto.Member;
 import com.ssafy.home.member.model.service.MemberService;
 import com.ssafy.home.util.VerifyEmail;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("/member")
 public class MemberController {
 
-	public static final Logger logger = LoggerFactory.getLogger(MemberController.class);
+	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
 	

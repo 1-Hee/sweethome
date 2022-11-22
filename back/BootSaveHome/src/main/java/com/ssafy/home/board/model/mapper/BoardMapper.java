@@ -18,5 +18,6 @@ public interface BoardMapper {
 	void updateHit(int articleNo) throws SQLException;
 	void modifyArticle(Board board) throws SQLException;
 	void deleteArticle(int articleNo) throws SQLException;
+	List<Board> selectTopFourLike() throws SQLException;
 	
 }

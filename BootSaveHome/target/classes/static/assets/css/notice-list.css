@@ -1,0 +1,100 @@
+/* 글쓰기 버튼 관련 속성 */
+
+/* 테이블 헤더 부분 속성 */
+.list-header{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.list-header:first-child{
+    margin-left: 15px;
+}
+
+.list-header:last-child{
+    margin-right: 15px;
+}
+
+.btn-write{
+    width: 100px;
+    font-size: 20px;
+    background-color: lightblue;
+    color: white;
+    margin-right: 60px;
+}
+.btn-write:hover{
+    background-color: rgb(117, 168, 186);
+    color: whitesmoke;
+}
+
+/*테이블 크기 설정 */
+.table-container{
+    width: 80%;
+    min-height: 600px;
+    height: max-content;
+    margin: 0 auto;
+}
+
+
+/* 테이블 tr 하나하나에 대한 설정 */
+.table > * > tr {
+    height: 60px;
+}
+.table > * > tr > *{
+    padding-top: 10px;
+    font-size: 20px;
+}
+
+.table > * > tr > th:first-child, 
+.table > * > tr > td:first-child,
+.table > * > tr > th:nth-child(4),
+.table > * > tr > td:nth-child(4){
+    text-align: center;
+}
+
+/* 페이지 관련 CSS 속성 */
+.page-tab{
+    width: 250px;
+    height: 50px;
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+
+    margin: 0 auto;
+    margin-top: 50px;
+
+}
+
+.page-tab>li{
+    border: 1px solid black;
+    background-color: white;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    font-size: 16px;
+    line-height: 30px;
+    margin: .5px;
+}
+.page-tab>li>a{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.page-tab>li:first-child{
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    margin-right: 8px;
+}
+
+.page-tab>li:last-child{
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    margin-left: 8px;
+}
+
+.page-tab>.select{
+    background-color: skyblue;
+}

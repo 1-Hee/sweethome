@@ -14,4 +14,5 @@ public interface BoardService {
 	void updateHit(int articleNo) throws Exception;
 	void modifyArticle(Board board) throws Exception;
 	void deleteArticle(int articleNo) throws Exception;
+	List<Board> getTopFourLike() throws Exception;
 }

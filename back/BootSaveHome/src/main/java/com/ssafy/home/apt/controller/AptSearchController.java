@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +21,7 @@ import com.github.pagehelper.PageInfo;
 import com.ssafy.home.apt.dto.Apt;
 import com.ssafy.home.apt.dto.AptData;
 import com.ssafy.home.apt.dto.AptInfo;
+import com.ssafy.home.apt.dto.LikeDto;
 import com.ssafy.home.apt.model.service.AptService;
 import com.ssafy.home.board.dto.Search;
 
@@ -32,6 +35,18 @@ public class AptSearchController{
 	@Autowired
 	public AptSearchController(AptService aptService) {
 		this.aptService = aptService;		
+	}
+	
+	@GetMapping("/index/recommend") 
+	public ResponseEntity<?> getTopFourLike() {
+		try {
+			List<AptInfo> aptList = aptService.getTopFourLike();
+			System.out.println(aptList.get(0).getAptNo());
+			return new ResponseEntity<List<AptInfo>>(aptList, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 	@GetMapping("/box")
@@ -157,4 +172,38 @@ public class AptSearchController{
 	}
 	// /search/name
 	
+	@GetMapping("/like/{id}")
+	public ResponseEntity<?> getLikeApt(@PathVariable String id) {
+		try {
+			List<AptInfo> list = aptService.getLikeApt(id);
+			return new ResponseEntity<List<AptInfo>>(list, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}	
+	}
+	
+	@PostMapping("/like")
+	public ResponseEntity<?> giveLike(@RequestBody LikeDto likedto) {
+		try {
+			aptService.addLike(likedto);
+			aptService.updateLike(likedto.getAptNo());
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}	
+	}
+	
+//	@GetMapping("/like/{no}")
+//	public ResponseEntity<?> getLikeCount(@PathVariable int no) {
+//		try {
+//			int cnt = aptService.getLikeCount(no);
+//			return new ResponseEntity<Integer>(cnt, HttpStatus.OK);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+//		}	
+//	}
+
 }
