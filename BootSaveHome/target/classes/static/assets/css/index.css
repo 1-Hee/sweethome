@@ -1,0 +1,191 @@
+
+
+/* 배너 관련 속성 */
+.banner{
+    width: 100%;
+    height: 40vh;
+    overflow: hidden;    
+
+}
+.banner .banner-img {
+    width: 100%;
+    height: 40vh;
+    margin: 0 auto;
+    background-image: url("../img/banner-sample.jpg");
+    background-position: center;
+    background-repeat: no-repeat;        
+}
+.banner-img:hover{
+    transform: scale(1.1);
+    transition: 1s;    
+}
+
+.banner > img {    
+    margin: 0 auto;
+}
+
+/* 검색상자 관련 속성 */
+
+.main-search-box{
+    width: max-content;
+    margin: 0 auto;
+}
+
+
+.main-search-box > p{
+    font-size: 48px;
+    text-align: center;
+}
+
+
+.main-search-box > div > input{
+    width: 45vw;
+    height: 60px;
+    font-size: 20px;
+    text-align: center;
+}
+
+
+/* 썸네일 관련 속성 */
+
+.main-thumbnail-title > p{
+    font-size: 48px;
+    text-align: center;
+}
+
+.m-span{
+    color: orange;
+}
+
+.thumbnail-container{
+    display: flex;
+    width: 90%;
+    margin: 0 auto;
+    justify-content: center;
+
+}
+
+.thumbnail{
+    display: inline-block;
+    cursor: pointer;
+    padding: 0;
+    margin: 10px;
+    width: 320px;
+    height: 400px;
+    box-sizing: border-box;
+    border: 3px solid black;
+    border-radius: 16px;
+
+    background-color: rgb(255, 255, 255);
+    box-shadow: 
+    5px 5px 5px rgba(158, 157, 157, 0.648); 
+}
+
+.thumbnail:hover{
+    transition: .3s;
+    transform: translate(0px, -5px);
+
+}
+
+.thumbnail img{
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 60%;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    margin-bottom: 24px;
+}
+
+.text-caption {
+    padding-left: 10px;
+}
+
+/* 뱃지 속성 */
+
+.badge {
+    font-weight: 100;
+}
+
+
+
+.r-badge{
+    background-color: red;
+    font-size: 16px;
+}
+
+.b-badge{
+    background-color: skyblue;
+    font-size: 16px;
+}
+
+
+.y-badge{
+    background-color: yellow;
+    font-size: 16px;
+    color: black;
+}
+
+
+.g-badge{
+    background-color: green;
+    font-size: 16px;
+}
+
+.o-badge{
+    background-color: orange;
+    font-size: 16px;
+}
+
+
+
+/* 태그 박스 관련 속성 */
+
+.tag-box{
+    width: 800px;
+    margin: 0 auto;
+
+}
+
+.tag-badge {
+    width: 180px;
+    height: 40px;
+    background-color: darkgrey;
+    font-size: 24px;
+    font-weight: 12px;
+    margin: 10px;
+
+}
+
+.tag-badge:hover {
+    background-color: orangered;
+    transition: .3s;
+    color: white;
+}
+
+.tag-badge{
+    color: white;
+}
+
+
+
+
+/* 컨텐츠 박스 영역 속성 */
+.house-news, .boards{
+    margin: 15px;
+    width: 500px;
+}
+
+.house-news > ul, .boards > ul {
+    list-style: none;
+}
+
+.house-news > ul > li, .boards > ul > li{
+    font-size: 16px;
+}
+
+.press{
+    color: rgb(109, 109, 109)
+}
+
+

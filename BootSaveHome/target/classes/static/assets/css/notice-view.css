@@ -1,0 +1,60 @@
+
+/* 글 수정 버튼 부근 속성 */
+.view-form-container{
+    width: 200px;
+    height: 50px;
+    margin: 20px 60%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.btn-default{
+    background-color: lightblue;
+    color: white;
+}
+.btn-default:hover{
+    background-color: rgb(48, 121, 178);
+    color: wheat;
+}
+
+.content-input{
+    width: 100%;
+    height: max-content;
+    min-height: 350px;
+}
+
+.send-modify{
+    width: 400px;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+.send-modify>button{
+    height: 60px;
+    font-size: 20px;
+}
+
+/* view 속성 */
+.view-container{
+    width: 700px;
+    height: max-content;
+    min-height : 600px;
+    margin: 10px auto;
+}
+
+.title-section, .title, .article-info-section, .content {
+    padding-left: 15px;
+}
+.content-box{
+    font-size: 20px;
+}
+.content-box>.content{
+    font-size: 18px;
+}
+
+.view-container > hr{
+    border: 2px solid black;
+    color: black;
+}
+.content-box > hr{
+    border: 1px solid black;
+}

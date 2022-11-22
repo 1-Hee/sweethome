@@ -1,0 +1,57 @@
+
+/* 글쓰기 영역 속성 */
+.write-form-container{
+    width: 700px;
+    height: max-content ;
+    min-height: 500px;
+    margin: 50px auto;
+}
+
+
+.category{
+    width: 100px;
+    height: 50px;
+    text-align: center;
+    border-top: 1px solid black;  
+    border-bottom: 1px solid black;  
+}
+
+
+.input-item{
+    width: 600px;
+    height: 50px;
+    padding-left: 25px;
+    border-top: 1px solid black;  
+    border-left: 1px solid black;  
+    border-bottom: 1px solid black; 
+}
+
+.input-item > .division{
+    width: 30%;
+    height: 30px;
+}
+
+.input-item > .title{
+    width: 100%;
+}
+
+
+.content-item{
+    width: 600px;
+    height: 400px;
+}
+.content-item > .content{
+    width: 100%;
+    height: 90%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.write-btn{
+    display: block;
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 30px;
+    height: 50px;
+    font-size: 24px;
+}
