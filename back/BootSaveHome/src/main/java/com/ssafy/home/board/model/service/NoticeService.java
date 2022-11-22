@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ssafy.home.board.dto.Board;
+import com.ssafy.home.board.dto.FileInfoDto;
 import com.ssafy.home.board.dto.Notice;
 
 
@@ -14,4 +15,7 @@ public interface NoticeService {
 	void updateHit(int articleNo) throws Exception;
 	void modifyArticle(Notice notice) throws Exception;
 	void deleteArticle(int articleNo) throws Exception;
+	List<Notice> getTopFourLike() throws Exception;
+	int addFileInfo(FileInfoDto fileInfoDto) throws Exception;
+	List<FileInfoDto> getFiles(int no) throws Exception;
 }

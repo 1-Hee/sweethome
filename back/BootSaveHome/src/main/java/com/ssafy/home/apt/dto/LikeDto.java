@@ -11,15 +11,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class AptInfo {
+public class LikeDto {
+	private String userId;
 	private int aptNo;
-	private String dongCode;
-	private String apartmentName;
-	private String dealAmount;
-	private String area;
-	private String date;
-	private String lng;
-	private String lat;
-	private String dong;
-	private int lc;
 }

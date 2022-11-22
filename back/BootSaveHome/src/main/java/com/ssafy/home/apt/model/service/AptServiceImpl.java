@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.ssafy.home.apt.dto.Apt;
 import com.ssafy.home.apt.dto.AptData;
 import com.ssafy.home.apt.dto.AptInfo;
+import com.ssafy.home.apt.dto.LikeDto;
 import com.ssafy.home.apt.model.mapper.AptMapper;
 import com.ssafy.home.board.dto.Search;
 
@@ -73,6 +74,36 @@ public class AptServiceImpl implements AptService {
 	@Override
 	public List<AptData> getAptListByAptName(int pageNum, int pageSize, String aptName) throws Exception {
 		return aptMapper.selectAptListByAptName(pageNum, pageSize, aptName);
+	}
+
+
+	@Override
+	public int addLike(LikeDto likedto) throws Exception {
+		return aptMapper.insertLike(likedto);
+	}
+
+
+	@Override
+	public int getLikeCount(int no) throws Exception {
+		return aptMapper.selectAptCount(no);
+	}
+
+
+	@Override
+	public List<AptInfo> getTopFourLike() throws Exception {
+		return aptMapper.selectTopFourLike();
+	}
+
+
+	@Override
+	public int updateLike(int no) throws Exception {
+		return aptMapper.updateLike(no);
+	}
+
+
+	@Override
+	public List<AptInfo> getLikeApt(String id) throws Exception {
+		return aptMapper.selectLikeApt(id);
 	}
 
 

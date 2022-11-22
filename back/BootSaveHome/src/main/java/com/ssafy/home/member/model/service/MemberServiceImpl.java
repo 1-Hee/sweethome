@@ -16,7 +16,7 @@ public class MemberServiceImpl implements MemberService {
 	private final MemberMapper mapper;
 	
 	@Autowired
-	private MemberServiceImpl(MemberMapper mapper) {
+	public MemberServiceImpl(MemberMapper mapper) {
 		this.mapper = mapper;
 	}
 	

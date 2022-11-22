@@ -3,6 +3,20 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.home.apt.model.mapper.AptMapper">
 
+	<resultMap type="aptInfo" id="aptinfo">
+		<result column="apt_no" property="aptNo"/>
+		<result column="dongCode" property="dongCode"/>
+		<result column="apartmentName" property="apartmentName"/>
+		<result column="dealAmount" property="dealAmount"/>
+		<result column="area" property="area"/>
+		<result column="date" property="date"/>
+		<result column="lng" property="lng"/>
+		<result column="lat" property="lat"/>
+		<result column="dong" property="dong"/>
+		<result column="lc" property="lc"/>
+	</resultMap>
+	
+
 	<select id="selectSido" resultType="apt">
 		select * 
 		from sidocode
@@ -31,19 +45,19 @@
 		where dongCode = #{code}
 	</select>
 	
-	<select id="selectAptList" parameterType="string" resultType="aptInfo">
+	<select id="selectAptList" parameterType="string" resultMap="aptinfo">
 		select * 
 		from apt_table
 		where dongCode= #{code} 
 	</select>
 	
-	<select id="selectAptListByLatLng" parameterType="map" resultType="aptInfo">
-		select * 
+	<select id="selectAptListByLatLng" parameterType="map" resultMap="aptinfo">
+		select *
 		from apt_table
 		where lat = #{lat} and lng = #{lng}
 	</select>
 	
-	<select id="selectAptListByDongName" parameterType="string" resultType="aptInfo">
+	<select id="selectAptListByDongName" parameterType="string" resultMap="aptinfo">
 		select * 
 		from apt_table
 		where dong = #{dongName}
@@ -75,5 +89,36 @@
 		where apartmentName = #{aptName}
 		limit #{pageNum}, #{pageSize};
 	</select>
+	
+	<insert id="insertLike" parameterType="likeDto">
+		insert into apt_like (user_id, apt_no)
+		values (#{userId}, #{aptNo})
+	</insert>
+	
+	<select id="selectAptCount" parameterType="int" resultType="int">
+		select lc
+		from apt_table
+		where apt_no = #{no}
+	</select>
+	
+	<select id="selectTopFourLike" resultMap="aptinfo">
+		select *
+		from apt_table
+		order by lc desc
+		limit 4
+	</select>
+	
+	<update id="updateLike" parameterType="int">
+		update apt_table
+		set lc = lc + 1
+		where apt_no = #{no}
+	</update>
+	
+	<select id="selectLikeApt" parameterType="string" resultMap="aptinfo">
+		select t.apt_no, dongCode, apartmentName, dealAmount, area, date, lng, lat, dong, lc
+		from apt_like l inner join apt_table t on l.apt_no = t.apt_no
+		where user_id = #{id}
+	</select>
+	
 </mapper>
 

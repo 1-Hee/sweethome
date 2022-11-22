@@ -1,22 +1,21 @@
 package com.ssafy.home.board.dto;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Notice {
+@ToString
+public class FileInfoDto {
+
 	private int articleNo;
-	private String userId;
-	private String title;
-	private String content;
-	private int hit;
-	private int commentNo;
-	private String registDate;
+	private String saveFolder;
+	private String originalFile;
+	private String saveFile;
+
 }

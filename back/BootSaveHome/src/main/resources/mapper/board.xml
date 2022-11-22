@@ -68,4 +68,10 @@
 		where article_no = #{articleNo}
 	</delete>
 
+	<select id="selectTopFourLike" resultMap="article">
+		select *
+		from board
+		order by hit desc
+		limit 4
+	</select>
 </mapper>

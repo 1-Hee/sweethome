@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.home.board.dto.FileInfoDto;
 import com.ssafy.home.board.dto.Notice;
 import com.ssafy.home.board.model.mapper.NoticeMapper;
 import com.ssafy.home.util.SizeConstant;
@@ -65,6 +66,21 @@ public class NoticeServiceImpl implements NoticeService {
 	@Override
 	public void deleteArticle(int articleNo) throws Exception {
 		mapper.deleteArticle(articleNo);
+	}
+
+	@Override
+	public List<Notice> getTopFourLike() throws Exception {
+		return mapper.selectTopFourLike();
+	}
+
+	@Override
+	public int addFileInfo(FileInfoDto fileInfoDto) throws Exception{
+		return mapper.insertFileInfo(fileInfoDto);
+	}
+
+	@Override
+	public List<FileInfoDto> getFiles(int no) throws Exception {
+		return mapper.getFiles(no);
 	}
 
 }

@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Notice {
+public class WriteNotice {
 	private int articleNo;
 	private String userId;
 	private String title;

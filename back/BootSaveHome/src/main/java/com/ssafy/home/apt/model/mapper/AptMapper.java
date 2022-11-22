@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.ssafy.home.apt.dto.Apt;
 import com.ssafy.home.apt.dto.AptData;
 import com.ssafy.home.apt.dto.AptInfo;
+import com.ssafy.home.apt.dto.LikeDto;
 import com.ssafy.home.board.dto.Search;
 
 
@@ -23,5 +24,10 @@ public interface AptMapper {
 	public List<AptData> selectAptListByFullCode(int pageNum, int pageSize, String fullCode) throws Exception; // added 11/19
 	public List<AptData> selectAptListByDong(int pageNum, int pageSize, String dongName) throws Exception; // added 11/19
 	public List<AptData> selectAptListByAptName(int pageNum, int pageSize, String aptName) throws Exception; // added 11/20
+	public int insertLike(LikeDto likedto) throws Exception;
+	public int selectAptCount(int no) throws Exception;
+	public List<AptInfo> selectTopFourLike() throws Exception;
+	public int updateLike(int no) throws Exception;
+	public List<AptInfo> selectLikeApt(String id) throws Exception;
 
 }

@@ -14,6 +14,13 @@
 		<result column="regist_date" property="registDate"/>
 	</resultMap>
 	
+	<resultMap type="fileInfoDto" id="file">
+		<result column="article_no" property="articleNo"/>
+		<result column="s_folder" property="saveFolder"/>
+		<result column="o_file" property="originalFile"/>
+		<result column="s_file" property="saveFile"/>
+	</resultMap>
+	
 	<insert id="writeArticle" parameterType="notice">
 		insert into notice (user_id, title, content, hit, regist_date)
 		values (#{userId}, #{title}, #{content}, 0, now())
@@ -43,7 +50,7 @@
 	</select>
 	
 	<select id="getArticle" parameterType="int" resultMap="article">
-		select b.article_no, b.user_id, b.title, b.content, b.hit, b.comment_no, b.regist_date
+		select *
 		from notice b, member m
 		where b.user_id = m.user_id
 		and b.article_no = #{articleNo}
@@ -66,4 +73,21 @@
 		where article_no = #{articleNo}
 	</delete>
 
+	<select id="selectTopFourLike" resultMap="article">
+		select *
+		from notice
+		order by hit desc
+		limit 4
+	</select>
+	
+	<insert id="insertFileInfo" parameterType="fileInfoDto">
+		insert into file_info (article_no, s_folder, o_file, s_file)
+		values (#{articleNo}, #{saveFolder}, #{originalFile}, #{saveFile})
+	</insert>
+	
+	<select id="getFiles" parameterType="int" resultMap="file">
+		select *
+		from file_info
+		where article_no = #{articleNo}
+	</select>
 </mapper>

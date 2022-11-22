@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ssafy.home.board.dto.Board;
+import com.ssafy.home.board.dto.Notice;
 import com.ssafy.home.board.dto.Search;
 import com.ssafy.home.board.model.service.BoardService;
 import com.ssafy.home.member.dto.Member;
@@ -31,8 +32,19 @@ public class BoardController {
 	private Map<String, String> map;
 	private final BoardService boardService;
 	
-	private BoardController(BoardService service) {
+	public BoardController(BoardService service) {
 		this.boardService = service;
+	}
+	
+	@GetMapping("/index/recommend") 
+	public ResponseEntity<?> getTopFourLike() {
+		try {
+			List<Board> list = boardService.getTopFourLike();
+			return new ResponseEntity<List<Board>>(list, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 	@GetMapping("list")

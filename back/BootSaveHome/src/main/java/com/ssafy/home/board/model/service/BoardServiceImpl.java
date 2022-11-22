@@ -18,7 +18,7 @@ public class BoardServiceImpl implements BoardService {
 	private BoardMapper mapper;
 	
 	@Autowired
-	private BoardServiceImpl(BoardMapper mapper) {
+	public BoardServiceImpl(BoardMapper mapper) {
 		this.mapper = mapper;
 	}
 	
@@ -50,6 +50,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void deleteArticle(int articleNo) throws Exception {
 		mapper.deleteArticle(articleNo);
+	}
+
+	@Override
+	public List<Board> getTopFourLike() throws Exception {
+		return mapper.selectTopFourLike();
 	}
 
 }
