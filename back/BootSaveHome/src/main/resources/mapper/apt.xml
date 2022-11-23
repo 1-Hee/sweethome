@@ -12,7 +12,7 @@
 		<result column="date" property="date"/>
 		<result column="lng" property="lng"/>
 		<result column="lat" property="lat"/>
-		<result column="dong" property="dong"/>
+		<result column="address" property="address"/>
 		<result column="lc" property="lc"/>
 	</resultMap>
 	
@@ -60,13 +60,13 @@
 	<select id="selectAptListByDongName" parameterType="string" resultMap="aptinfo">
 		select * 
 		from apt_table
-		where dong = #{dongName}
+		where address = #{dongName}
 	</select>
 	
 	<!-- added 11/19 -->
 	<select id="selectAptListByFullCode" parameterType="map" resultType="aptinfo">
 		select 
-		apartmentName, dealAmount, area, date, dong, lat, lng
+		apartmentName, dealAmount, area, date, address, lat, lng
 		from home.apt_table 
 		where dongCode=#{fullCode}
 		limit #{pageNum}, #{pageSize};
@@ -75,16 +75,16 @@
 		<!-- added 11/19 -->
 	<select id="selectAptListByDong" parameterType="map" resultType="aptinfo">
 		select 
-		apartmentName, dealAmount, area, date, dong, lat, lng
+		apartmentName, dealAmount, area, date, address, lat, lng
 		from home.apt_table 
-		where dong=#{dongName}
+		where address=#{dongName}
 		limit #{pageNum}, #{pageSize};
 	</select>
 	
 			<!-- added 11/20 -->
 	<select id="selectAptListByAptName" parameterType="map" resultType="aptinfo">
 		select 
-		apartmentName, dealAmount, area, date, dong, lng, lat
+		apartmentName, dealAmount, area, date, address, lng, lat
 		from apt_table 
 		where apartmentName = #{aptName}
 		limit #{pageNum}, #{pageSize};
@@ -122,7 +122,7 @@
 	</update>
 	
 	<select id="selectLikeApt" parameterType="string" resultMap="aptinfo">
-		select t.apt_no, dongCode, apartmentName, dealAmount, area, date, lng, lat, dong, lc
+		select t.apt_no, dongCode, apartmentName, dealAmount, area, date, lng, lat, address, lc
 		from apt_like l inner join apt_table t on l.apt_no = t.apt_no
 		where user_id = #{id}
 	</select>
