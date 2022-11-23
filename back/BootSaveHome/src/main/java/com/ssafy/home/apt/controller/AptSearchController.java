@@ -1,9 +1,6 @@
 package com.ssafy.home.apt.controller;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.pagehelper.PageInfo;
 import com.ssafy.home.apt.dto.Apt;
 import com.ssafy.home.apt.dto.AptData;
 import com.ssafy.home.apt.dto.AptInfo;
@@ -25,9 +21,15 @@ import com.ssafy.home.apt.dto.LikeDto;
 import com.ssafy.home.apt.model.service.AptService;
 import com.ssafy.home.board.dto.Search;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 
 @RestController
 @RequestMapping("/apt")
+@Api("아파트 컨트롤러 API V1")
 public class AptSearchController{	
 	
 	private final AptService aptService;
@@ -37,11 +39,14 @@ public class AptSearchController{
 		this.aptService = aptService;		
 	}
 	
-	@GetMapping("/index/recommend") 
+	@ApiOperation(value="좋아요 역순 상위4개 아파트 조회", notes="apt_table의 lc 역순으로 상위 4개 아파트를 반환합니다.")
+	@ApiResponses({
+		@ApiResponse(code=200,message="조회 성공!"), @ApiResponse(code=404,message="페이지 없음!"), @ApiResponse(code=500,message="서버 에러!")
+	})
+	@GetMapping("/index/recommend/like") 
 	public ResponseEntity<?> getTopFourLike() {
 		try {
 			List<AptInfo> aptList = aptService.getTopFourLike();
-			System.out.println(aptList.get(0).getAptNo());
 			return new ResponseEntity<List<AptInfo>>(aptList, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -49,6 +54,19 @@ public class AptSearchController{
 		}
 	}
 	
+	@ApiOperation(value="가격 순 상위4개 아파트 조회", notes="apt_table의 dealAmount 순으로 상위 4개 아파트를 반환합니다.")
+	@GetMapping("/index/recommend/price") 
+	public ResponseEntity<?> getTopFourPrice() {
+		try {
+			List<AptInfo> aptList = aptService.getTopFourPrice();
+			return new ResponseEntity<List<AptInfo>>(aptList, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@ApiOperation(value="type, code 별 아파트 목록", notes="type과 code를 넘겨받아 해당 아파트 목록을 반환합니다.")
 	@GetMapping("/box")
 	public ResponseEntity<?> box(HttpServletRequest request, String type, String code) {
 		try {
@@ -64,6 +82,7 @@ public class AptSearchController{
 		}
 	}		
 	
+	@ApiOperation(value="code 별 아파트 목록", notes="code를 넘겨받아 해당 아파트 목록을 반환합니다.")
 	@GetMapping("/apt-list")
 	public ResponseEntity<?> aptList(String code){ 
 		try {
@@ -79,7 +98,7 @@ public class AptSearchController{
 		}		
 	}
 	
-	
+	@ApiOperation(value="lat, lng 별 아파트 목록", notes="lat, lng를 넘겨받아 해당 아파트 목록을 반환합니다.")
 	@GetMapping("/around")
 	public ResponseEntity<?> aroundList(String lat, String lng) {
 		System.out.println(lat + " " + lng);
@@ -96,7 +115,7 @@ public class AptSearchController{
 		}	
 	}
 	
-	
+	@ApiOperation(value="dong 별 아파트 목록", notes="dong을 넘겨받아 해당 아파트 목록을 반환합니다.")
 	@GetMapping("/search")
 	public ResponseEntity<?> searchList(String dong) {
 		System.out.println(dong);
@@ -114,14 +133,15 @@ public class AptSearchController{
 	}
 	
 	// created 11/19 , 아파트 정보를 db로부터 가져오는 메서드 추가!. com.ssafy.home.apt.dto 패키지에 AptData도 만듦.
+	@ApiOperation(value="fullCode 별 아파트 목록", notes="fullCode를 넘겨받아 해당 아파트 목록을 반환합니다.")
 	@GetMapping("/search/apt-list")
 	public ResponseEntity<?> getAptListByDongCode(Search search, String fullCode) {		
 		try {
 //			System.out.println(search.toString()+" "+fullCode);			
-			List<AptData> aptDataList = aptService.getAptListByFullCode(search.getPageNo(), search.getListSize(), fullCode);
+			List<AptInfo> aptDataList = aptService.getAptListByFullCode(search.getPageNo(), search.getListSize(), fullCode);
 //			System.out.println(aptDataList.toString());			
 			if(aptDataList != null && !aptDataList.isEmpty()) {
-				return new ResponseEntity<List<AptData>>(aptDataList, HttpStatus.OK);
+				return new ResponseEntity<List<AptInfo>>(aptDataList, HttpStatus.OK);
 			}else return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);			
 			
 			
@@ -132,17 +152,18 @@ public class AptSearchController{
 	}
 	
 	// created 11/19 , 아파트 정보를 동 이름으로부터 가져오는 메서드 추가!
+	@ApiOperation(value="dongName 별 아파트 목록", notes="dongName을 넘겨받아 해당 아파트 목록을 반환합니다.")
 	@GetMapping("/search/dong")
 	public ResponseEntity<?> getAptListByDong(Search search, String dongName) {		
 		try {
 //			System.out.println(search.toString()+" "+fullCode);		
 			int pageNum = search.getPageNo(); 
 			int pageSize = search.getListSize();
-			List<AptData> aptDataList = aptService.getAptListByDong(pageNum, pageSize, dongName);
+			List<AptInfo> aptDataList = aptService.getAptListByDong(pageNum, pageSize, dongName);
 //			System.out.println(aptDataList.toString());			
 			if(aptDataList != null && !aptDataList.isEmpty()) {
 				// System.out.println(aptDataList.toString());
-				return new ResponseEntity<List<AptData>>(aptDataList, HttpStatus.OK);
+				return new ResponseEntity<List<AptInfo>>(aptDataList, HttpStatus.OK);
 			}else return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);			
 			
 			
@@ -153,15 +174,16 @@ public class AptSearchController{
 	}
 	
 	// created 11/21 , 아파트 정보를 동 아파트 이름으로부터 가져오는 메서드 추가!
+	@ApiOperation(value="aptName 별 아파트 목록", notes="aptName을 넘겨받아 해당 아파트 목록을 반환합니다.")
 	@GetMapping("/search/name")
 	public ResponseEntity<?> getAptListPos(Search search, String aptName) {		
 		try {
 			System.out.println(search.toString()+" "+aptName);		
 			int pageNum = search.getPageNo(); 
 			int pageSize = search.getListSize();
-			List<AptData> aptDataList = aptService.getAptListByAptName(pageNum, pageSize, aptName);
+			List<AptInfo> aptDataList = aptService.getAptListByAptName(pageNum, pageSize, aptName);
 			if(aptDataList != null && !aptDataList.isEmpty()) {
-				return new ResponseEntity<List<AptData>>(aptDataList, HttpStatus.OK);
+				return new ResponseEntity<List<AptInfo>>(aptDataList, HttpStatus.OK);
 			}else return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);			
 			
 			
@@ -170,8 +192,9 @@ public class AptSearchController{
 			return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}	
 	}
-	// /search/name
 	
+	// /search/name
+	@ApiOperation(value="UserId 별 좋아하는 아파트 목록", notes="UserId를 넘겨받아 좋아요를 누른 아파트 목록을 반환합니다.")
 	@GetMapping("/like/{id}")
 	public ResponseEntity<?> getLikeApt(@PathVariable String id) {
 		try {
@@ -183,6 +206,7 @@ public class AptSearchController{
 		}	
 	}
 	
+	@ApiOperation(value="좋아요 버튼 동작", notes="UserId와 AptNo을 넘겨받아 apt_like table에 좋아요를 누른 사람과 해당 아파트를 등록합니다.")
 	@PostMapping("/like")
 	public ResponseEntity<?> giveLike(@RequestBody LikeDto likedto) {
 		try {
@@ -205,5 +229,6 @@ public class AptSearchController{
 //			return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 //		}	
 //	}
-
+	
+	
 }

@@ -19,14 +19,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/naver")
+@Api("네이버 뉴스 크롤링 컨트롤러 API V1")
 public class NaverController {
 	private final String clientId = "tFUMY6WTkJ8fltcjVoI0";
 	private final String clientSecret = "1XyxyI8GMx";
 	
-	
+	@ApiOperation(value="네이버 부동산 검색어 조회", notes="네이버 뉴스에서 부동산 검색어를 통해 조회합니다.")
+	@ApiResponses({
+		@ApiResponse(code=200,message="조회 성공!"), @ApiResponse(code=404,message="페이지 없음!"), @ApiResponse(code=500,message="서버 에러!")
+	})
 	@GetMapping("/news")
 	public ResponseEntity<?> getNewsInfo() {
 		String text = null;
@@ -37,7 +46,7 @@ public class NaverController {
         }
 
 
-        String apiURL = "https://openapi.naver.com/v1/search/blog?query=" + text;    // JSON 결과
+        String apiURL = "https://openapi.naver.com/v1/search/news?query=" + text;    // JSON 결과
         //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // XML 결과
 
 

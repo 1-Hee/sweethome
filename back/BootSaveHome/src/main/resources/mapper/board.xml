@@ -72,6 +72,6 @@
 		select *
 		from board
 		order by hit desc
-		limit 4
+		limit 5
 	</select>
 </mapper>

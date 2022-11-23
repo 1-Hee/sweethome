@@ -77,7 +77,7 @@
 		select *
 		from notice
 		order by hit desc
-		limit 4
+		limit 5
 	</select>
 	
 	<insert id="insertFileInfo" parameterType="fileInfoDto">
