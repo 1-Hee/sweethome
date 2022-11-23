@@ -44,12 +44,12 @@ const memberStore = {
         decodeToken.userid,
         ({ data }) => {
           // console.dir(data); // 여긴 유저 정보만 줌,
-          // commit("SET_ACCESS_TOKEN", data);
-          // console.log("엑세스에 성공함");
+          //console.log(data);
           commit("SET_TOKEN_VARIABLE");
         },
         (err) => {
-          //console.log(err);
+          console.dir("에러 :", err);
+          //console.log("에러다 에러");
           // console.log("엑세스에 실패해서 리프레시로 재발급");
           // console.log("getUserInfo() error code [토큰 만료되어 사용 불가능.] ::: ", err.response.status);
           dispatch("doTokenRegeneration");
@@ -66,6 +66,8 @@ const memberStore = {
           commit("SET_TOKEN_VARIABLE");
         },
         (err) => {
+          console.log("here");
+          console.dir(err);
           // console.log("리프레시도 만료...");
           // console.log(err.response.status);
           commit("SET_TOKEN_ERROR");
@@ -80,7 +82,8 @@ const memberStore = {
           commit("DO_LOGIN_MEMBER", data);
         },
         (err) => {
-          console.log(err);
+          // console.dir(err.response.data.message);
+          alert(err.response.data.message);
         }
       );
     },

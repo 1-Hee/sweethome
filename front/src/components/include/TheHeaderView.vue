@@ -108,6 +108,7 @@ export default {
     return {
       loginUser: {},
       code: 9,
+      isTokenError: false,
     };
   },
   methods: {
@@ -154,12 +155,11 @@ export default {
       let token = sessionStorage.getItem("access-token");
       // console.log(actoken);
       // console.log(rftoken);
-
-      await this.checkMemberById(token);
+      this.checkMemberById(token);
 
       setTimeout(() => {
         // console.log(this.getTokenError);
-        if (this.getTokenError) {
+        if (this.getTokenError || token == null) {
           this.showLoginModal();
           alert("로그인 이후 이용할 수 있는 기능입니다.");
           this.REMOVE_MEMBER();
@@ -176,7 +176,8 @@ export default {
     AppUserInquiry,
   },
   created() {
-    this.loginUser = this.getLoginMember;
+    // this.loginUser = this.getLoginMember;
+    this.isTokenError = this.getTokenError;
   },
   mounted() {
     // this.$store.state.loginUser = null;
@@ -189,7 +190,11 @@ export default {
     //   return this.getLoginMember();
     // },
   },
-  watch: {},
+  // watch: {
+  //   isTokenError: function (value, oldValue) {
+  //     console.log(value, oldValue);
+  //   },
+  // },
 };
 </script>
 

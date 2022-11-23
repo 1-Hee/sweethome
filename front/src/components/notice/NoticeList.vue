@@ -73,7 +73,6 @@ export default {
   },
   methods: {
     ...mapGetters(noticeStore, ["getNoticeList", "getNotice", "getPgInfo"]),
-    ...mapGetters(memberStore, ["getLoginMember"]),
     ...mapActions(noticeStore, ["setNoticeList", "setNotice"]),
     ...mapMutations(memberStore, ["EDIT_LAST_PAGE_NO"]),
     async view(articleNo) {
@@ -97,8 +96,9 @@ export default {
   },
   mounted() {},
   computed: {
+    ...mapGetters(memberStore, ["getLoginMember"]),
     detectAdmin() {
-      return this.getLoginMember().grade == 9;
+      return this.getLoginMember.grade == 9;
     },
     initList() {
       let param = {

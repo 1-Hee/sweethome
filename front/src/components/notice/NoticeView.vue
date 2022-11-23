@@ -111,22 +111,23 @@ export default {
         this.$emit("notice-list");
       }, 100);
     },
-    doModifyNotice() {
-      document.getElementById("view").setAttribute("style", "display:none;");
-      document.getElementById("modiform").setAttribute("style", "display:block;");
-      document.getElementById("modify-btn").setAttribute("style", "display:none;");
-      document.getElementById("modify-cancel-btn").setAttribute("style", "display:block;");
-    },
-    unDoModifyNotice() {
-      document.getElementById("modiform").setAttribute("style", "display:none;");
-      document.getElementById("view").setAttribute("style", "display:block;");
-      document.getElementById("modify-btn").setAttribute("style", "display:block;");
-      document.getElementById("modify-cancel-btn").setAttribute("style", "display:none;");
-    },
+    // doModifyNotice() {
+    //   document.getElementById("view").setAttribute("style", "display:none;");
+    //   document.getElementById("modiform").setAttribute("style", "display:block;");
+    //   document.getElementById("modify-btn").setAttribute("style", "display:none;");
+    //   document.getElementById("modify-cancel-btn").setAttribute("style", "display:block;");
+    // },
+    // unDoModifyNotice() {
+    //   document.getElementById("modiform").setAttribute("style", "display:none;");
+    //   document.getElementById("view").setAttribute("style", "display:block;");
+    //   document.getElementById("modify-btn").setAttribute("style", "display:block;");
+    //   document.getElementById("modify-cancel-btn").setAttribute("style", "display:none;");
+    // },
   },
   mounted() {},
   created() {
     this.Notice = this.getNotice();
+    console.log(this.Notice);
     this.pgInfo = this.getPgInfo();
   },
   computed: {

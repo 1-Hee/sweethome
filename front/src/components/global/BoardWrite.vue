@@ -72,13 +72,12 @@ export default {
       ],
       division: "0",
       newBoard: {
-        userId: "admin",
+        userId: "",
       },
-      pastListNo: 0,
+      pastListNo: 1,
     };
   },
   methods: {
-    ...mapGetters(memberStore, ["getLoginMember", "getPastListNo"]),
     ...mapActions(boardStore, ["addBoard"]),
     ...mapActions(noticeStore, ["addNotice"]),
     getValue() {
@@ -92,10 +91,12 @@ export default {
       }
     },
     async makeBoard() {
+      this.newBoard.userId = this.getLoginMember.id;
       this.addBoard(this.newBoard);
       this.backToList();
     },
     async makeNotice() {
+      this.newBoard.userId = this.getLoginMember.id;
       this.addNotice(this.newBoard);
       this.backToList();
     },
@@ -111,7 +112,8 @@ export default {
     },
   },
   created() {
-    this.pastListNo = this.getPastListNo();
+    // console.log(this.getLoginMember.id);
+    this.pastListNo = this.getPastListNo;
   },
   mounted() {
     if (!this.detectAdmin) {
@@ -119,8 +121,10 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(memberStore, ["getLoginMember", "getPastListNo"]),
+
     detectAdmin() {
-      return this.getLoginMember().grade == 9;
+      return this.getLoginMember.grade == 9;
     },
   },
 };

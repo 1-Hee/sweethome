@@ -84,7 +84,7 @@
           <hr />
           <ul>
             <li v-for="(item, index) in naverNews" :key="index">
-              <a :href="'https://' + item.link" v-html="item.title"></a>
+              <a :href="item.link" v-html="item.title"></a>
             </li>
           </ul>
         </div>
@@ -168,11 +168,11 @@ export default {
     },
     smooth() {
       document.getElementById("waiting-circle").setAttribute("style", "display:block; transition:.3s;");
-      document.getElementById("wating-bg", "display:block; transition:.3s;");
+      document.getElementById("wating-bg").setAttribute("style", "display:block; transition:.3s;");
       setTimeout(() => {
         document.getElementById("waiting-circle").setAttribute("style", "display:none; transition:.3s;");
-        document.getElementById("wating-bg", "display:none; transition:.3s;");
-      }, 1000);
+        document.getElementById("wating-bg").setAttribute("style", "display:none; transition:.3s;");
+      }, 350);
     },
   },
   created() {
@@ -195,7 +195,7 @@ export default {
     //console.dir(this.top4AptList);
     // console.dir(this.top4BoardList);
     //console.dir(this.top4NoticeList);
-    console.dir(this.naverNews);
+    //console.dir(this.naverNews);
   },
   computed: {
     ...mapGetters(aptStore, ["getTop4AptList"]),

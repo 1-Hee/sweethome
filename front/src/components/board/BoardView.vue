@@ -7,17 +7,27 @@
         <a href="#" class="defbtn btn-back" @click="backToList">뒤로가기</a>
       </div>
 
-      <div class="right-menu">
+      <div class="right-menu" v-if="Board.userId == getLoginMember.id">
         <div class="modify-div">
-          <button type="button" id="modify-btn" class="modify defbtn">글 수정</button>
-          <button type="button" id="modify-cancel-btn" style="display: none" class="modify defbtn">수정 취소</button>
+          <button type="button" id="modify-btn" class="modify defbtn" :class="{ show: !isActiveModify }">
+            글 수정
+          </button>
+          <button
+            type="button"
+            id="modify-cancel-btn"
+            style="display: none"
+            class="modify defbtn"
+            :class="{ show: isActiveModify }"
+          >
+            수정 취소
+          </button>
         </div>
         <div class="cancel-div">
           <a class="cancel defbtn" id="delete-btn" @click="deleteBoard(Board.articleNo)">글 삭제</a>
         </div>
       </div>
     </div>
-    <div id="view" class="view-container">
+    <div id="view" class="view-container" :class="{ show: !isActiveModify }">
       <div class="title-section">
         <h1 id="category-text">자유게시판</h1>
       </div>
@@ -34,7 +44,7 @@
       </div>
     </div>
 
-    <div id="modiform" style="display: none">
+    <div id="modiform" style="display: none" :class="{ show: isActiveModify }">
       <div id="modify-view" class="view-container">
         <div class="title-section">
           <h1 id="category-text">자유게시판</h1>
@@ -67,9 +77,9 @@
 </template>
 
 <script>
-import boardView from "@/assets/js/board-view";
 import { mapGetters, mapActions } from "vuex";
 const boardStore = "boardStore";
+const memberStore = "memberStore";
 
 export default {
   name: "BoardView",
@@ -77,12 +87,12 @@ export default {
     return {
       Board: {},
       pgInfo: {},
+      isActiveModify: false,
     };
   },
   methods: {
     ...mapGetters(boardStore, ["getBoardList", "getBoard", "getPgInfo"]),
     ...mapActions(boardStore, ["modifyBoard", "removeBoard", "setBoardList"]),
-
     async sendModifyBoard() {
       this.modifyBoard(this.Board);
 
@@ -105,12 +115,15 @@ export default {
       }, 100);
     },
   },
-  mounted() {
-    boardView.init();
+  computed: {
+    ...mapGetters(memberStore, ["getLoginMember"]),
   },
+  mounted() {},
   created() {
     this.Board = this.getBoard();
     this.pgInfo = this.getPgInfo();
+    //console.log(this.getLoginMember);
+    //console.dir(this.Board);
   },
 };
 </script>
@@ -118,4 +131,7 @@ export default {
 <style>
 @import url("../../assets/css/common.css");
 @import url("../../assets/css/board-list.css");
+.show {
+  display: block;
+}
 </style>
