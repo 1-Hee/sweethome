@@ -50,28 +50,12 @@
     <div class="divider1"></div>
 
     <div class="thumbnail-container flex-def">
-      <a href="#" class="thumbnail">
-        <img src="/assets/img/apt5.jpg" />
+      <a href="#" class="thumbnail" v-for="(item, index) in AptPriceList" :key="index">
+        <img src="https://source.unsplash.com/random" />
         <div class="text-caption">
-          <h3>유성CJ나인파크</h3>
-          <p>대전시 유성구 봉명동 553-2</p>
-          <p><span class="badge o-badge">아파트</span> 559,000,000 WON</p>
-        </div>
-      </a>
-      <a href="#" class="thumbnail">
-        <img src="/assets/img/apt6.jpeg" />
-        <div class="text-caption">
-          <h3>마린시티자이</h3>
-          <p>부산시 해운대구 마린시티1로 9</p>
-          <p><span class="badge o-badge">아파트</span> 1,700,000,000 WON</p>
-        </div>
-      </a>
-      <a href="#" class="thumbnail">
-        <img src="/assets/img/apt7.jpg" />
-        <div class="text-caption">
-          <h3>농성SK뷰센트럴</h3>
-          <p>광주시 서구 농성동 702</p>
-          <p><span class="badge o-badge">아파트</span> 655,000,000 WON</p>
+          <h3>{{ item.apartmentName }}</h3>
+          <p>{{ item.address }}</p>
+          <p><span class="badge o-badge">아파트</span> {{ item.dealAmount }} 만원</p>
         </div>
       </a>
     </div>
@@ -93,13 +77,14 @@
           <hr />
           <ul>
             <li v-for="(item, index) in top4BoardList" :key="index">
-              <a
+              <span class="s-badge def-badge board-badge">{{ item.userId }}</span
+              ><a
                 href="#"
                 @click="
                   view(item.articleNo);
                   smooth();
                 "
-                >{{ item.content }}</a
+                >{{ item.title }}</a
               >
             </li>
           </ul>
@@ -128,6 +113,7 @@ export default {
       top4BoardList: [],
       top4NoticeList: [],
       naverNews: [],
+      AptPriceList: [],
       tagList: [
         "가격이 저렴한",
         "전망이 좋은",
@@ -141,7 +127,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(aptStore, ["setAptTOP4Items"]),
+    ...mapActions(aptStore, ["setAptTOP4Items", "setAptPriceItems"]),
     ...mapActions(boardStore, ["setFourBoardList", "setBoard"]),
     ...mapActions(noticeStore, ["setFourNoticeList"]),
     ...mapActions(naverStore, ["setNaverNews"]),
@@ -183,6 +169,7 @@ export default {
     this.setFourNoticeList();
     this.top4NoticeList = this.getTop4NoticeList;
     this.setNaverNews();
+    this.setAptPriceItems();
 
     // console.dir(this.tagList);
     this.naverNews = [];
@@ -192,13 +179,18 @@ export default {
       this.naverNews.push(list[i]);
     }
 
+    let plist = this.getAptPriceList;
+    for (let i = 0; i < 3; i++) {
+      this.AptPriceList.push(plist[i]);
+    }
+
     //console.dir(this.top4AptList);
-    // console.dir(this.top4BoardList);
+    //console.dir(this.top4BoardList);
     //console.dir(this.top4NoticeList);
     //console.dir(this.naverNews);
   },
   computed: {
-    ...mapGetters(aptStore, ["getTop4AptList"]),
+    ...mapGetters(aptStore, ["getTop4AptList", "getAptPriceList"]),
     ...mapGetters(boardStore, ["getTop4BoardList"]),
     ...mapGetters(noticeStore, ["getTop4NoticeList"]),
     ...mapGetters(naverStore, ["getNaverNews"]),
@@ -216,5 +208,8 @@ b {
 }
 span {
   cursor: pointer;
+}
+.board-badge {
+  margin-right: 15px;
 }
 </style>

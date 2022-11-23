@@ -97,48 +97,54 @@ ul {
   line-height: 35px;
   font-weight: 100;
   border-radius: 10px;
+  font-size: 16px;
+
+  color: white;
+}
+
+.s-badge {
+  display: inline-block;
+  width: 50px;
+  height: 25px;
+  text-align: center;
+  line-height: 25px;
+  font-weight: 100;
+  font-size: 12px;
+  border-radius: 8px;
   color: white;
 }
 
 .lcy-badge {
   background-color: lightcyan;
-  font-size: 16px;
 }
 
 .dgr-badge {
   background-color: darkgrey;
-  font-size: 16px;
 }
 
 .def-badge {
   background-color: var(--defColor);
-  font-size: 16px;
 }
 
 .r-badge {
   background-color: red;
-  font-size: 16px;
 }
 
 .b-badge {
   background-color: skyblue;
-  font-size: 16px;
 }
 
 .y-badge {
   background-color: yellow;
-  font-size: 16px;
   color: black;
 }
 
 .g-badge {
   background-color: green;
-  font-size: 16px;
 }
 
 .o-badge {
   background-color: orange;
-  font-size: 16px;
 }
 
 /* 플렉스 속성 */

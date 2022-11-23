@@ -9,15 +9,21 @@
 
       <div class="right-menu" v-if="Board.userId == getLoginMember.id">
         <div class="modify-div">
-          <button type="button" id="modify-btn" class="modify defbtn" :class="{ show: !isActiveModify }">
+          <button
+            type="button"
+            id="modify-btn"
+            class="modify defbtn"
+            :class="{ 'show-view': !isActiveModify, 'hide-view': isActiveModify }"
+            @click="toggleActive"
+          >
             글 수정
           </button>
           <button
             type="button"
             id="modify-cancel-btn"
-            style="display: none"
             class="modify defbtn"
-            :class="{ show: isActiveModify }"
+            :class="{ 'show-view': isActiveModify, 'hide-view': !isActiveModify }"
+            @click="toggleActive"
           >
             수정 취소
           </button>
@@ -27,7 +33,7 @@
         </div>
       </div>
     </div>
-    <div id="view" class="view-container" :class="{ show: !isActiveModify }">
+    <div id="view" class="view-container" :class="{ 'show-view': !isActiveModify, 'hide-view': isActiveModify }">
       <div class="title-section">
         <h1 id="category-text">자유게시판</h1>
       </div>
@@ -44,7 +50,7 @@
       </div>
     </div>
 
-    <div id="modiform" style="display: none" :class="{ show: isActiveModify }">
+    <div id="modiform" :class="{ 'show-view': isActiveModify, 'hide-view': !isActiveModify }">
       <div id="modify-view" class="view-container">
         <div class="title-section">
           <h1 id="category-text">자유게시판</h1>
@@ -114,6 +120,10 @@ export default {
         this.$emit("board-list");
       }, 100);
     },
+    toggleActive() {
+      //console.log(this.isActiveModify);
+      this.isActiveModify = !this.isActiveModify;
+    },
   },
   computed: {
     ...mapGetters(memberStore, ["getLoginMember"]),
@@ -131,7 +141,10 @@ export default {
 <style>
 @import url("../../assets/css/common.css");
 @import url("../../assets/css/board-list.css");
-.show {
+.show-view {
   display: block;
+}
+.hide-view {
+  display: none;
 }
 </style>
