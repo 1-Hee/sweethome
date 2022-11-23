@@ -42,11 +42,3 @@ export {
   selectAptDataListAptName,
   selectAptTOP4Items,
 };
-await api.get(`${cURL}/index/recommend`).then(success).catch(fail);
-
-export {
-  selectAptDataList,
-  selectAptDataListDong,
-  selectAptDataListAptName,
-  selectAptTOP4Items,
-};
