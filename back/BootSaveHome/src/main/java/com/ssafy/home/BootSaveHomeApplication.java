@@ -10,6 +10,7 @@ public class BootSaveHomeApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BootSaveHomeApplication.class, args);
+		
 	}
 
 }

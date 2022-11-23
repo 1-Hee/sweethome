@@ -43,6 +43,17 @@ public class MemberController {
 	
 	@PostMapping("login")
 	private ResponseEntity<?> login(@RequestBody Member member) throws Exception {
+		logger.trace("trace Log");
+		logger.debug("debug Log");
+		logger.info("info Log");
+		logger.warn("warn Log");
+		logger.error("error Log");
+		logger.error("error Log");
+		logger.error("error Log");
+		logger.error("error Log");
+		logger.error("error Log");
+		logger.error("error Log");
+		logger.error("error Log");
 		Map<String, Object> resultMap = new HashMap<>();
 		String id = member.getId();
 		String password = member.getPassword();
