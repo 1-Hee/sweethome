@@ -2,6 +2,7 @@ package com.ssafy.home.board.dto;
 
 import java.util.List;
 
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

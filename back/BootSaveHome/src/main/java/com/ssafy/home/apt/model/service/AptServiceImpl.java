@@ -60,19 +60,19 @@ public class AptServiceImpl implements AptService {
 
 	// added 11/19
 	@Override
-	public List<AptData> getAptListByFullCode(int pageNum, int pageSize, String fullCode) throws Exception {		
+	public List<AptInfo> getAptListByFullCode(int pageNum, int pageSize, String fullCode) throws Exception {		
 		return aptMapper.selectAptListByFullCode(pageNum, pageSize, fullCode);
 	}
 
 	// added 11/19
 	@Override
-	public List<AptData> getAptListByDong(int pageNum, int pageSize, String dongName) throws Exception {		
+	public List<AptInfo> getAptListByDong(int pageNum, int pageSize, String dongName) throws Exception {		
 		return aptMapper. selectAptListByDong(pageNum,pageSize,dongName);
 	}
 
 	// added 11/20
 	@Override
-	public List<AptData> getAptListByAptName(int pageNum, int pageSize, String aptName) throws Exception {
+	public List<AptInfo> getAptListByAptName(int pageNum, int pageSize, String aptName) throws Exception {
 		return aptMapper.selectAptListByAptName(pageNum, pageSize, aptName);
 	}
 
@@ -94,6 +94,10 @@ public class AptServiceImpl implements AptService {
 		return aptMapper.selectTopFourLike();
 	}
 
+	@Override
+	public List<AptInfo> getTopFourPrice() throws Exception {
+		return aptMapper.selectTopFourPrice();
+	}
 
 	@Override
 	public int updateLike(int no) throws Exception {

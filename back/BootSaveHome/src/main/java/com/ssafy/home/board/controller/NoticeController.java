@@ -37,8 +37,14 @@ import com.ssafy.home.board.dto.Notice;
 import com.ssafy.home.board.dto.Search;
 import com.ssafy.home.board.model.service.NoticeService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
 @RequestMapping("/notice")
+@Api("공지사항 컨트롤러 API V1")
 public class NoticeController extends HttpServlet{
 	
 	private static final long serialVersionUID = 1L;
@@ -53,17 +59,17 @@ public class NoticeController extends HttpServlet{
 		this.noticeService = service;
 	}
 	
+	@ApiOperation(value="조회수 순 상위4개 공지사항 조회", notes="notice table의 hit 역순으로 공지사항을 반환합니다.")
+	@ApiResponses({
+		@ApiResponse(code=200,message="조회 성공!"), @ApiResponse(code=404,message="페이지 없음!"), @ApiResponse(code=500,message="서버 에러!")
+	})
 	@GetMapping("/index/recommend") 
-	public ResponseEntity<?> getTopFourLike() {
-		try {
-			List<Notice> list = noticeService.getTopFourLike();
-			return new ResponseEntity<List<Notice>>(list, HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+	public ResponseEntity<?> getTopFourLike() throws Exception {
+		List<Notice> list = noticeService.getTopFourLike();
+		return new ResponseEntity<List<Notice>>(list, HttpStatus.OK);
 	}
 	
+	@ApiOperation(value="공지사항 목록", notes="전체 공지사항 목록을 반환합니다.")
 	@GetMapping("list")
 	private ResponseEntity<?> list(Search search) throws Exception {
 		PageHelper.startPage(search);
@@ -71,6 +77,7 @@ public class NoticeController extends HttpServlet{
 		return new ResponseEntity<PageInfo>(PageInfo.of(list),HttpStatus.OK);
 	}
 
+	@ApiOperation(value="공지사항 등록", notes="공지사항을 등록합니다. 자유게시판과 다르게 파일을 등록할 수 있습니다.")
 	@PostMapping(value = "write", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
 	private ResponseEntity<?> write(@RequestPart Notice notice, @RequestPart MultipartFile[] files) throws Exception {
 			noticeService.writeArticle(notice);
@@ -98,6 +105,7 @@ public class NoticeController extends HttpServlet{
 			return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
+	@ApiOperation(value="공지사항 조회", notes="articleNo에 해당하는 공지사항을 조회합니다.")
 	@GetMapping("view/{no}")
 	private ResponseEntity<?> view(@PathVariable("no") int no) throws Exception {
 			Map<String, Object> resultMap = new HashMap<>();
@@ -109,6 +117,7 @@ public class NoticeController extends HttpServlet{
 			return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 	}
 	
+	@ApiOperation(value="공지사항 수정", notes="articleNo에 해당하는 공지사항을 수정합니다.")
 	@PutMapping("modify/{no}")
 	private ResponseEntity<?> mvModify(@PathVariable("no") int no, @RequestBody Notice notice) throws Exception {
 		Notice notice2 = noticeService.getArticle(no);
@@ -118,12 +127,14 @@ public class NoticeController extends HttpServlet{
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
+	@ApiOperation(value="공지사항 삭제", notes="articleNo에 해당하는 공지사항을 삭제합니다.")
 	@DeleteMapping("delete/{no}")
 	private ResponseEntity<?> delete(@PathVariable("no") int no) throws Exception {
 		noticeService.deleteArticle(no);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
+	@ApiOperation(value="파일 다운로드", notes="공지사항을 조회할 때, 해당 공지사항의 업로드 파일을 다운로드 합니다.")
 	@PostMapping("download")
 	private ResponseEntity<?> download(@RequestBody FileInfoDto file, HttpServletRequest request) throws Exception {
 		String realPath = servletContext.getRealPath("/upload");

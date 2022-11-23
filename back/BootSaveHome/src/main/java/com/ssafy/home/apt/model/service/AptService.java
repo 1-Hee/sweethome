@@ -18,11 +18,11 @@ public interface AptService {
 	
 	List<AptInfo> getAptListByDongName(String dong) throws Exception;
 	
-	List<AptData> getAptListByFullCode(int pageNum, int pageSize, String fullCode) throws Exception; // added 11/19
+	List<AptInfo> getAptListByFullCode(int pageNum, int pageSize, String fullCode) throws Exception; // added 11/19
 	
-	List<AptData> getAptListByDong(int pageNum, int pageSize, String dongName) throws Exception; // added 11/19
+	List<AptInfo> getAptListByDong(int pageNum, int pageSize, String dongName) throws Exception; // added 11/19
 	
-	List<AptData> getAptListByAptName(int pageNum, int pageSize, String aptName) throws Exception; // added 11/20
+	List<AptInfo> getAptListByAptName(int pageNum, int pageSize, String aptName) throws Exception; // added 11/20
 
 	int addLike(LikeDto likedto) throws Exception;
 
@@ -33,4 +33,7 @@ public interface AptService {
 	int updateLike(int no) throws Exception;
 
 	List<AptInfo> getLikeApt(String id) throws Exception;
+
+	List<AptInfo> getTopFourPrice() throws Exception;
+
 }
