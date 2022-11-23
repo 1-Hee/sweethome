@@ -84,7 +84,7 @@
           <hr />
           <ul>
             <li v-for="(item, index) in naverNews" :key="index">
-              <a :href="'https://' + item.bloggerlink" v-html="item.title"></a>
+              <a :href="'https://' + item.link" v-html="item.title"></a>
             </li>
           </ul>
         </div>
@@ -157,7 +157,7 @@ export default {
         el.classList.remove("tag-badge-selected");
       });
       //e.target.classList.add("tag-badge-selected");
-      console.dir(e.target);
+      //console.dir(e.target);
       e.target.parentNode.classList.add("tag-badge-selected");
     },
     async view(articleNo) {
@@ -183,9 +183,9 @@ export default {
     this.setFourNoticeList();
     this.top4NoticeList = this.getTop4NoticeList;
     this.setNaverNews();
-    // this.naverNews = this.getNaverNews;
 
-    console.dir(this.tagList);
+    // console.dir(this.tagList);
+    this.naverNews = [];
 
     let list = this.getNaverNews;
     for (let i = 0; i < 5; i++) {
@@ -193,7 +193,7 @@ export default {
     }
 
     //console.dir(this.top4AptList);
-    console.dir(this.top4BoardList);
+    // console.dir(this.top4BoardList);
     //console.dir(this.top4NoticeList);
     console.dir(this.naverNews);
   },
