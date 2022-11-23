@@ -1,9 +1,12 @@
-import { selectNoticeList, createNotice, selectNotice, updateNotice, deleteNotice } from "@/api/notice";
+import { selectNoticeList, createNotice, 
+  selectNotice, updateNotice, deleteNotice,
+  selectTop4NoticeList } from "@/api/notice";
 
 const noticeStore = {
   namespaced: true,
   state: {
     NoticeList: [],
+    Top4NoticeList : [],
     Notice: {},
     pgInfo: {},
   },
@@ -16,6 +19,9 @@ const noticeStore = {
     },
     getPgInfo(state) {
       return state.pgInfo;
+    },
+    getTop4NoticeList(state){
+      return state.Top4NoticeList;
     },
   },
   actions: {
@@ -81,6 +87,18 @@ const noticeStore = {
         }
       );
     },
+
+    // 상위 4개 글을 불러오는 메서드
+    setFourNoticeList(context){
+      selectTop4NoticeList(
+        ({data}) => { 
+          // console.dir(data);
+          context.commit("SET_TOP4_NOTICE_LIST", data);
+        },
+        (err) => {console.log(err)}
+      );
+
+    },
   },
   mutations: {
     SET_NOTICE_LIST(state, data) {
@@ -103,6 +121,11 @@ const noticeStore = {
 
     REMOVE_NOTICE(state) {
       state.notice = null;
+    },
+
+    // 상위 4개글
+    SET_TOP4_NOTICE_LIST(state, data){
+      state.Top4NoticeList = data;
     },
   },
 };

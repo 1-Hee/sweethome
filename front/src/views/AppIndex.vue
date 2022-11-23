@@ -27,36 +27,12 @@
     <div class="divider1"></div>
 
     <div class="thumbnail-container flex-def">
-      <a href="#" class="thumbnail">
-        <img src="/assets/img/apt1.jpg" />
+      <a href="#" class="thumbnail" v-for="(item, index) in top4AptList" :key="index">
+        <img src="https://source.unsplash.com/random" />
         <div class="text-caption">
-          <h3>아이파크삼성 웨스트윙동</h3>
-          <p>서울시 강남구 영동대로 640</p>
-          <p><span class="badge r-badge">아파트</span> 6,600,000,000 WON</p>
-        </div>
-      </a>
-      <a href="#" class="thumbnail">
-        <img src="/assets/img/apt2.jpg" />
-        <div class="text-caption">
-          <h3>갤러리아 포레 101동</h3>
-          <p>서울시 성동구 서울숲2길 32-14</p>
-          <p><span class="badge r-badge">아파트</span> 5,000,000,000 WON</p>
-        </div>
-      </a>
-      <a href="#" class="thumbnail">
-        <img src="/assets/img/apt3.jpg" />
-        <div class="text-caption">
-          <h3>한남더힐</h3>
-          <p>서울시 용산구 독서당로 111</p>
-          <p><span class="badge r-badge">아파트</span> 9,500,000,000 WON</p>
-        </div>
-      </a>
-      <a href="#" class="thumbnail">
-        <img src="/assets/img/apt4.jpg" />
-        <div class="text-caption">
-          <h3>래미안퍼스티지</h3>
-          <p>서울시 서초구 반포대로 275</p>
-          <p><span class="badge r-badge">아파트</span> 4,930,000,000 WON</p>
+          <h3>{{ item.apartmentName }}</h3>
+          <p>{{ item.address }}</p>
+          <p><span class="badge r-badge">아파트</span> {{ item.dealAmount }} 만원</p>
         </div>
       </a>
     </div>
@@ -64,15 +40,12 @@
     <div class="main-search-box">
       <h1>태그로 부동산을 검색해보세요</h1>
     </div>
-    <div class="tag-box flex-def">
-      <a class="badge tag-badge" href="#"><span>자주 찾는</span></a>
-      <a class="badge tag-badge" href="#"><span>전망이 좋은</span></a>
-      <a class="badge tag-badge" href="#"><span>조용한</span></a>
-      <a class="badge tag-badge" href="#"><span>가격이 저렴한</span></a>
-      <a class="badge tag-badge" href="#"><span>편의시설을 갖춘</span></a>
-      <a class="badge tag-badge" href="#"><span>학군이 좋은</span></a>
-      <a class="badge tag-badge" href="#"><span>백화점 인근</span></a>
-      <a class="badge tag-badge" href="#"><span>휴양시설이 있는</span></a>
+    <div class="tag-box flex-def" id="tag-container" @click.prevent="">
+      <div>
+        <a v-for="(item, index) in tagList" :key="index" class="badge tag-badge"
+          ><span @click.prevent="giveTageSelect">{{ item }}</span></a
+        >
+      </div>
     </div>
     <div class="divider1"></div>
 
@@ -110,25 +83,8 @@
           <h2><a href="#">부동산 뉴스</a></h2>
           <hr />
           <ul>
-            <li>
-              <a href="#">“서울 아파트값 38%가 거품… 극단적 주택규제로 풍선효과”</a>
-              <span class="press">세계일보</span>
-            </li>
-            <li>
-              <a href="#">한국주택협회, 제14대 회장 윤영준 선출</a>
-              <span class="press">뉴스토마토</span>
-            </li>
-            <li>
-              <a href="#">[서산소식] 공동주택 지하 주차장 침수 방지 실태 점검</a>
-              <span class="press">연합뉴스</span>
-            </li>
-            <li>
-              <a href="#">LH 직원 주택구입대출액, 지난해 758% 급증</a>
-              <span class="press">쿠키뉴스</span>
-            </li>
-            <li>
-              <a href="#">지방 3억 이하 보유 2주택자 종부세 완화</a>
-              <span class="press">한겨레뉴스</span>
+            <li v-for="(item, index) in naverNews" :key="index">
+              <a :href="'https://' + item.bloggerlink" v-html="item.title"></a>
             </li>
           </ul>
         </div>
@@ -136,29 +92,116 @@
           <h2><a href="#">자유게시판</a></h2>
           <hr />
           <ul>
-            <li><a href="#">주택 담보 대출 몇 퍼센트까지 해주나요.</a></li>
-            <li><a href="#">금리 오르는데 LTV에 관해서 궁금합니다.</a></li>
-            <li><a href="#">좋은 매물 찾는 꿀팁 있을까요.</a></li>
-            <li><a href="#">자녀에게 아파트를 증여할 때 세금 계산은 어떻게 하죠?</a></li>
-            <li><a href="#">국세청에서 아파트 시세가액에 따라 세금을 매기는 방법</a></li>
+            <li v-for="(item, index) in top4BoardList" :key="index">
+              <a
+                href="#"
+                @click="
+                  view(item.articleNo);
+                  smooth();
+                "
+                >{{ item.content }}</a
+              >
+            </li>
           </ul>
         </div>
       </div>
     </div>
     <div class="divider4"></div>
+    <!-- <div id="map"></div> -->
     <!-- 메인 영역 -->
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
+const aptStore = "aptStore";
+const boardStore = "boardStore";
+const noticeStore = "noticeStore";
+const naverStore = "naverStore";
+const memberStore = "memberStore";
+
 export default {
   name: "AppIndex",
+  data() {
+    return {
+      top4AptList: [],
+      top4BoardList: [],
+      top4NoticeList: [],
+      naverNews: [],
+      tagList: [
+        "가격이 저렴한",
+        "전망이 좋은",
+        "조용한",
+        "자주 찾는",
+        "편의시설을 갖춘",
+        "학군이 좋은",
+        "백화점 인근",
+        "휴양시설이 있는",
+      ],
+    };
+  },
   methods: {
+    ...mapActions(aptStore, ["setAptTOP4Items"]),
+    ...mapActions(boardStore, ["setFourBoardList", "setBoard"]),
+    ...mapActions(noticeStore, ["setFourNoticeList"]),
+    ...mapActions(naverStore, ["setNaverNews"]),
     searchWithKeyWord(e) {
       //console.log(e.target.value);
       this.$router.push({ name: "MapView" });
       localStorage.setItem("keyword", e.target.value);
     },
+    giveTageSelect(e) {
+      // console.dir(document.getElementById("tag-container"));
+      document.querySelectorAll(".tag-badge").forEach((el) => {
+        // console.dir(el);
+        el.classList.remove("tag-badge-selected");
+      });
+      //e.target.classList.add("tag-badge-selected");
+      console.dir(e.target);
+      e.target.parentNode.classList.add("tag-badge-selected");
+    },
+    async view(articleNo) {
+      this.setBoard(articleNo);
+      setTimeout(() => {
+        this.$router.push({ name: "BoardView" });
+      }, 100);
+    },
+    smooth() {
+      document.getElementById("waiting-circle").setAttribute("style", "display:block; transition:.3s;");
+      document.getElementById("wating-bg", "display:block; transition:.3s;");
+      setTimeout(() => {
+        document.getElementById("waiting-circle").setAttribute("style", "display:none; transition:.3s;");
+        document.getElementById("wating-bg", "display:none; transition:.3s;");
+      }, 1000);
+    },
+  },
+  created() {
+    this.setAptTOP4Items();
+    this.top4AptList = this.getTop4AptList;
+    this.setFourBoardList();
+    this.top4BoardList = this.getTop4BoardList;
+    this.setFourNoticeList();
+    this.top4NoticeList = this.getTop4NoticeList;
+    this.setNaverNews();
+    // this.naverNews = this.getNaverNews;
+
+    console.dir(this.tagList);
+
+    let list = this.getNaverNews;
+    for (let i = 0; i < 5; i++) {
+      this.naverNews.push(list[i]);
+    }
+
+    //console.dir(this.top4AptList);
+    console.dir(this.top4BoardList);
+    //console.dir(this.top4NoticeList);
+    console.dir(this.naverNews);
+  },
+  computed: {
+    ...mapGetters(aptStore, ["getTop4AptList"]),
+    ...mapGetters(boardStore, ["getTop4BoardList"]),
+    ...mapGetters(noticeStore, ["getTop4NoticeList"]),
+    ...mapGetters(naverStore, ["getNaverNews"]),
   },
   mounted() {},
 };
@@ -167,4 +210,11 @@ export default {
 <style>
 @import url("../assets/css/common.css");
 @import url("../assets/css/index.css");
+b {
+  margin-right: 15px;
+  color: rgb(255, 174, 0);
+}
+span {
+  cursor: pointer;
+}
 </style>

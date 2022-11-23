@@ -23,8 +23,7 @@ const memberStore = {
       return state.memberList;
     },
     getLoginMember(state) {
-      // state.loginMember =
-      console.log(sessionStorage.getItem("member"));
+      // console.log(sessionStorage.getItem("member"));
       return state.loginMember;
     },
     getToken(state) {

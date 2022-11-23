@@ -12,6 +12,9 @@ import UserInfo from '@/components/user/UserInfo';
 import BoardWrite from '@/components/global/BoardWrite';
 import AppMapView from '@/components/map/AppMapView';
 
+import App404Error from '@/views/App404Error';
+import App500Error from '@/views/App500Error';
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -60,6 +63,18 @@ const routes = [
     name : 'MapView',
     component : AppMapView
   },
+  // errors
+  {
+    path : '/404',
+    name : 'App404Error',
+    component : App404Error
+  },
+  {
+    path : '/500',
+    name : 'App500Error',
+    component : App500Error
+  }
+
 ]
 
 const router = new VueRouter({

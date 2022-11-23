@@ -7,6 +7,7 @@ import noticeStore from "@/store/modules/noticeStore";
 import memberStore from "@/store/modules/memberStore";
 
 import aptStore from "@/store/modules/aptStore";
+import naverStore from "@/store/modules/naverStore"
 
 Vue.use(Vuex);
 
@@ -16,6 +17,7 @@ export default new Vuex.Store({
     noticeStore,
     memberStore,
     aptStore,
+    naverStore,
   },
   plugins: [
     createPersistedState({

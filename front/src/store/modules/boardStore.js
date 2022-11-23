@@ -1,9 +1,11 @@
-import { selectBoardList, selectBoard, createBoard, updateBoard, deleteBoard } from "@/api/board";
+import { selectBoardList, selectBoard, createBoard, 
+  updateBoard, deleteBoard, selectTop4BoardList  } from "@/api/board";
 
 const userStore = {
   namespaced: true,
   state: {
     BoardList: [],
+    Top4BoardList : [],
     Board: {},
     pgInfo: {},
   },
@@ -17,6 +19,9 @@ const userStore = {
     getPgInfo(state) {
       return state.pgInfo;
     },
+    getTop4BoardList(state){
+      return state.Top4BoardList;
+    }
   },
   actions: {
     setBoardList(context, params) {
@@ -81,6 +86,18 @@ const userStore = {
         }
       );
     },
+
+    // 상위 4개 글을 불러오는 메서드
+    setFourBoardList(context){
+      selectTop4BoardList(
+        ({data}) => { 
+          // console.dir(data);
+          context.commit("SET_TOP4_BOARD_LIST", data);
+        },
+        (err) => {console.log(err)}
+      )
+
+    },
   },
   mutations: {
     SET_BOARD_LIST(state, data) {
@@ -103,6 +120,11 @@ const userStore = {
 
     REMOVE_BOARD(state) {
       state.board = null;
+    },
+
+    // 상위 4개글
+    SET_TOP4_BOARD_LIST(state, data){
+      state.Top4BoardList = data;
     },
   },
 };

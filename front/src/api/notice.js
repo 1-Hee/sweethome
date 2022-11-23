@@ -24,5 +24,12 @@ async function deleteNotice(articleno, success, fail) {
   await api.delete(`${cURL}/delete/${articleno}`).then(success).catch(fail);
 }
 
-export { selectNoticeList,  createNotice, selectNotice, updateNotice, deleteNotice};
+// 아파트 공지사항 4개주는 메서드
+async function selectTop4NoticeList(success, fail){
+  await api.get(`${cURL}/index/recommend`).then(success).catch(fail);
+}
+
+export { selectNoticeList,  createNotice, 
+  selectNotice, updateNotice, deleteNotice,
+  selectTop4NoticeList};
 
