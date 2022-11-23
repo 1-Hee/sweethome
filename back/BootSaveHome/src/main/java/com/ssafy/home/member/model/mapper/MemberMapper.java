@@ -7,6 +7,8 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.ssafy.home.member.dto.Member;
+import com.ssafy.home.member.dto.MemberImageDTO;
+import com.ssafy.home.member.dto.ProFileInfoDto;
 
 @Mapper
 public interface MemberMapper {
@@ -25,4 +27,8 @@ public interface MemberMapper {
 	void deleteRefreshToken(Map<String, String> map);
 
 	String getRefreshToken(String id);
+
+	int insertProfileInfo(ProFileInfoDto proFileInfoDto) throws SQLException;
+
+	MemberImageDTO selectByIdAndImage(String id) throws SQLException;
 }

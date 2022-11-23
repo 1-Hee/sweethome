@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.home.member.dto.Member;
+import com.ssafy.home.member.dto.MemberImageDTO;
+import com.ssafy.home.member.dto.ProFileInfoDto;
 import com.ssafy.home.member.model.mapper.MemberMapper;
 
 @Service
@@ -73,4 +75,16 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 
+	@Override
+	public int addProfileInfo(ProFileInfoDto proFileInfoDto) throws Exception {
+		return mapper.insertProfileInfo(proFileInfoDto);
+	}
+
+
+	@Override
+	public MemberImageDTO selectByIdAndImage(String id) throws Exception {
+		return mapper.selectByIdAndImage(id);
+	}
+
+	
 }

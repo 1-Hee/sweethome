@@ -15,6 +15,27 @@
 		<result column="join_date" property="date"/>
 	</resultMap>
 	
+	<resultMap type="proFileInfoDto" id="file">
+		<result column="user_id" property="id"/>
+		<result column="s_folder" property="saveFolder"/>
+		<result column="o_file" property="originalFile"/>
+		<result column="s_file" property="saveFile"/>
+	</resultMap>
+	
+	<resultMap type="memberImageDTO" id="memberimagedto">
+		<result column="user_id" property="id"/>
+		<result column="password" property="password"/>
+		<result column="name" property="name"/>
+		<result column="age" property="age"/>
+		<result column="email" property="email"/>
+		<result column="domain" property="domain"/>
+		<result column="grade" property="grade"/>
+		<result column="join_date" property="date"/>
+		<result column="s_folder" property="saveFolder"/>
+		<result column="o_file" property="originalFile"/>
+		<result column="s_file" property="saveFile"/>
+	</resultMap>
+	
 	<select id="select" parameterType="String" resultMap="member">
 		select user_id, password, name, age, email, domain, grade, join_date
 		from member
@@ -59,6 +80,17 @@
 		select token
 		from member
 		where user_id = #{id}
+	</select>
+	
+	<insert id="insertProfileInfo" parameterType="proFileInfoDto">
+		insert into profile_info (user_id, s_folder, o_file, s_file)
+		values (#{id}, #{saveFolder}, #{originalFile}, #{saveFile})
+	</insert>
+	
+	<select id="selectByIdAndImage" parameterType="String" resultMap="memberimagedto">
+		select m.user_id, password, name, age, email, domain, grade, join_date, s_folder, o_file, s_file
+		from member m inner join profile_info p on m.user_id = p.user_id 
+		where m.user_id = #{id}
 	</select>
 	
 </mapper>
