@@ -23,6 +23,8 @@ const memberStore = {
       return state.memberList;
     },
     getLoginMember(state) {
+      // state.loginMember =
+      console.log(sessionStorage.getItem("member"));
       return state.loginMember;
     },
     getToken(state) {
@@ -114,6 +116,7 @@ const memberStore = {
     DO_LOGIN_MEMBER(state, data) {
       // console.dir(data);
       state.loginMember = data["member"];
+      sessionStorage.setItem("member", data["member"]);
       sessionStorage.setItem("access-token", data["access-token"]);
       sessionStorage.setItem("refresh-token", data["refresh-token"]);
       state.tokenError = false;
@@ -144,6 +147,7 @@ const memberStore = {
       state.pastListNo = 1;
       sessionStorage.removeItem("access-token");
       sessionStorage.removeItem("refresh-token");
+      sessionStorage.removeItem("member");
     },
 
     EDIT_LAST_PAGE_NO(state, no) {
