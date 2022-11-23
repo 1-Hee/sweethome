@@ -1,10 +1,14 @@
 package com.ssafy.home.member.controller;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -13,23 +17,31 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.home.board.dto.FileInfoDto;
 import com.ssafy.home.exception.NoArgsException;
 import com.ssafy.home.exception.NoIDException;
 import com.ssafy.home.exception.PasswordException;
 import com.ssafy.home.jwt.model.service.JwtServiceImpl;
 import com.ssafy.home.member.dto.Member;
+import com.ssafy.home.member.dto.MemberImageDTO;
 import com.ssafy.home.member.dto.MemberLoginDTO;
 import com.ssafy.home.member.dto.MemberSignUpDTO;
+import com.ssafy.home.member.dto.ProFileInfoDto;
 import com.ssafy.home.member.model.service.MemberService;
 import com.ssafy.home.util.VerifyEmail;
 
@@ -46,6 +58,9 @@ public class MemberController {
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
+	
+	@Autowired
+	private ServletContext servletContext;
 	
 	@Autowired
 	private JwtServiceImpl jwtService;
@@ -66,7 +81,7 @@ public class MemberController {
 		Map<String, Object> resultMap = new HashMap<>();
 		String id = member.getId();
 		String password = member.getPassword();
-		Member member2 = service.selectById(id);
+		MemberImageDTO member2 = service.selectByIdAndImage(id);
 		if(member2==null) throw new NoIDException("아이디가 존재하지 않습니다.");
 		else if(!member2.getPassword().equals(password)) throw new PasswordException("비밀번호가 맞지 않습니다.");
 		String accessToken = jwtService.createAccessToken("userid", member2.getId());// key, data
@@ -147,11 +162,11 @@ public class MemberController {
 	}
 	
 	@ApiOperation(value="비밀번호, 이메일 변경", notes="비밀번호 또는 이메일을 변경합니다.")
-	@PostMapping("update")
-	private ResponseEntity<?> update(@RequestBody Member member) throws Exception {
+	@PutMapping(value = "update", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+	private ResponseEntity<?> update(@RequestPart Member member, @RequestPart MultipartFile file) throws Exception {
 		Member member2 = service.selectById(member.getId());
 		String password = member.getPassword();
-		String fullEmail = member.getEmail()+member.getDomain();
+		String fullEmail = member.getEmail()+"@"+member.getDomain();
 		if(password==null&&fullEmail==null) throw new NoArgsException("입력값이 올바르지 않습니다.");
 		if(password!=null) {
 			member2.setPassword(password);
@@ -164,10 +179,30 @@ public class MemberController {
 			member2.setDomain(str[1]);
 		}
 		service.updateUser(member);
+		if(!file.isEmpty()) {
+			String realPath = servletContext.getRealPath("/upload");
+			String today = new SimpleDateFormat("yyMMdd").format(new Date());
+			String saveFolder = realPath + File.separator + today;
+			File folder = new File(saveFolder);
+			if(!folder.exists()) folder.mkdirs();
+			ProFileInfoDto proFileInfoDto = new ProFileInfoDto();
+			String originalFilename = file.getOriginalFilename();
+			if(!originalFilename.isEmpty()) {
+				String saveFileName = Long.toString(System.nanoTime())
+						+ originalFilename.substring(originalFilename.lastIndexOf('.'));
+				proFileInfoDto.setId(member.getId());
+				proFileInfoDto.setSaveFolder(today);
+				proFileInfoDto.setOriginalFile(originalFilename);
+				proFileInfoDto.setSaveFile(saveFileName);
+				file.transferTo(new File(folder, saveFileName));
+			}
+			service.addProfileInfo(proFileInfoDto);
+			return new ResponseEntity<ProFileInfoDto>(proFileInfoDto, HttpStatus.OK);
+		}
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	@ApiOperation(value="계정 삭제", notes="계정을 삭제합니다.")
-	@GetMapping("delete/{id}")
+	@DeleteMapping("delete/{id}")
 	private ResponseEntity<?> delete(@PathVariable String id) throws Exception {
 		service.deleteById(id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
@@ -186,8 +221,6 @@ public class MemberController {
 		String email = member.getEmail();
 		String domain = member.getDomain();
 		Member registMember = new Member(id,password,name,age,email,domain,0,LocalDate.now().toString());
-		Member temp = service.selectById(id);
-		if(temp!=null)
 		service.insertUser(registMember);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
@@ -198,5 +231,6 @@ public class MemberController {
 		List<Member> list = service.selectAll();
 		return new ResponseEntity<List<Member>>(list,HttpStatus.OK);
 	}
+	
 	
 }
