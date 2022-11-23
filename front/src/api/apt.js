@@ -6,16 +6,25 @@ const api = apiInstance();
 const cURL = "/apt";
 
 async function selectAptDataList(code, param, success, fail) {
-  await api.get(`${cURL}/search/apt-list?fullCode=${code}`, { params: param }).then(success).catch(fail);
+  await api
+    .get(`${cURL}/search/apt-list?fullCode=${code}`, { params: param })
+    .then(success)
+    .catch(fail);
 }
 
 async function selectAptDataListDong(param, success, fail) {
-  await api.get(`${cURL}/search/dong`, { params: param }).then(success).catch(fail);
+  await api
+    .get(`${cURL}/search/dong`, { params: param })
+    .then(success)
+    .catch(fail);
 }
 
 async function selectAptDataListAptName(param, success, fail) {
   console.dir(param);
-  await api.get(`${cURL}/search/name`, { params: param }).then(success).catch(fail);
+  await api
+    .get(`${cURL}/search/name`, { params: param })
+    .then(success)
+    .catch(fail);
 }
 
 // async function getCode(type, code, success, fail) {
@@ -27,4 +36,9 @@ async function selectAptTOP4Items(success, fail) {
   await api.get(`${cURL}/index/recommend/like`).then(success).catch(fail);
 }
 
-export { selectAptDataList, selectAptDataListDong, selectAptDataListAptName, selectAptTOP4Items };
+export {
+  selectAptDataList,
+  selectAptDataListDong,
+  selectAptDataListAptName,
+  selectAptTOP4Items,
+};
