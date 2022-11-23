@@ -23,5 +23,12 @@ async function deleteBoard(articleno, success, fail) {
   await api.delete(`${cURL}/delete/${articleno}`).then(success).catch(fail);
 }
 
-export {selectBoardList, selectBoard, createBoard, updateBoard, deleteBoard };
+// 아파트 자유게시판 4개주는 메서드
+async function selectTop4BoardList(success, fail){
+  await api.get(`${cURL}/index/recommend`).then(success).catch(fail);
+}
+
+export {selectBoardList, selectBoard, 
+  createBoard, updateBoard, deleteBoard,
+  selectTop4BoardList };
 

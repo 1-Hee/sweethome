@@ -35,10 +35,10 @@
             <a href="#" class="" @click="goMap">부동산 매물 조회</a>
           </li>
           <li class="head-menu">
-            <a href="#" class="">이달의 부동산 매물</a>
+            <a href="#" class="" @click="go404">이달의 부동산 매물</a>
           </li>
           <li class="head-menu">
-            <a href="#" class="">부동산 Stock</a>
+            <a href="#" class="" @click="go500">부동산 Stock</a>
           </li>
         </ul>
         <ul class="nav-ul">
@@ -84,6 +84,8 @@
     <app-login-view></app-login-view>
     <app-regist-view></app-regist-view>
     <app-user-inquiry></app-user-inquiry>
+    <div style="display: none" class="wating-bg" id="wating-bg"></div>
+    <i style="display: none" id="waiting-circle" class="fa-solid fa-circle-notch wating-icon"></i>
 
     <!-- 헤더 영역 -->
   </div>
@@ -131,6 +133,12 @@ export default {
     },
     goMap() {
       this.$router.push({ name: "MapView" }).catch(() => {});
+    },
+    go404() {
+      this.$router.push({ name: "App404Error" }).catch(() => {});
+    },
+    go500() {
+      this.$router.push({ name: "App500Error" }).catch(() => {});
     },
     async logOut() {
       this.REMOVE_MEMBER();
