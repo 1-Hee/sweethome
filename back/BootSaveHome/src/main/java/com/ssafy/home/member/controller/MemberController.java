@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +28,8 @@ import com.ssafy.home.exception.NoIDException;
 import com.ssafy.home.exception.PasswordException;
 import com.ssafy.home.jwt.model.service.JwtServiceImpl;
 import com.ssafy.home.member.dto.Member;
+import com.ssafy.home.member.dto.MemberLoginDTO;
+import com.ssafy.home.member.dto.MemberSignUpDTO;
 import com.ssafy.home.member.model.service.MemberService;
 import com.ssafy.home.util.VerifyEmail;
 
@@ -55,7 +59,7 @@ public class MemberController {
 		@ApiResponse(code=200,message="조회 성공!"), @ApiResponse(code=404,message="페이지 없음!"), @ApiResponse(code=500,message="서버 에러!")
 	})
 	@PostMapping("login")
-	private ResponseEntity<?> login(@RequestBody @Validated Member member, BindingResult bindingResult) throws Exception {
+	private ResponseEntity<?> login(@RequestBody @Validated MemberLoginDTO member, BindingResult bindingResult) throws Exception {
 		if(bindingResult.hasErrors()) {
 			throw new NoArgsException("입력값이 올바르지 않습니다.");
 		}
@@ -171,7 +175,7 @@ public class MemberController {
 	
 	@ApiOperation(value="회원가입", notes="회원가입 합니다.")
 	@PostMapping("signup")
-	private ResponseEntity<?> signup(@RequestBody @Validated Member member, BindingResult bindingResult) throws Exception {
+	private ResponseEntity<?> signup(@RequestBody @Validated MemberSignUpDTO member, BindingResult bindingResult) throws Exception {
 		if(bindingResult.hasErrors()) {
 			throw new NoArgsException("입력값이 올바르지 않습니다.");
 		}
@@ -182,6 +186,8 @@ public class MemberController {
 		String email = member.getEmail();
 		String domain = member.getDomain();
 		Member registMember = new Member(id,password,name,age,email,domain,0,LocalDate.now().toString());
+		Member temp = service.selectById(id);
+		if(temp!=null)
 		service.insertUser(registMember);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
