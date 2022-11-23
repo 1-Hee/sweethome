@@ -46,8 +46,8 @@ const noticeStore = {
       selectNotice(
         articleNo,
         ({ data }) => {
-          console.dir(data);
-          context.commit("SET_NOTICE", data);
+          //console.dir(data);
+          context.commit("SET_NOTICE", data.notice);
         },
         (err) => {
           console.log(err);
@@ -72,7 +72,7 @@ const noticeStore = {
       updateNotice(
         notice,
         ({ data }) => {
-          console.log(data);
+          // console.log(data);
           context.commit("MODIFY_NOTICE", notice);
         },
         (err) => {
@@ -85,7 +85,7 @@ const noticeStore = {
       deleteNotice(
         articleNo,
         ({ data }) => {
-          console.log(data);
+          // console.log(data);
           context.commit("REMOVE_NOTICE");
         },
         (err) => {

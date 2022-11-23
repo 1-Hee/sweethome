@@ -9,13 +9,21 @@
 
       <div class="right-menu" v-if="detectAdmin">
         <div class="modify-div">
-          <button type="button" id="modify-btn" class="modify defbtn" @click="doModifyNotice">글 수정</button>
+          <button
+            type="button"
+            id="modify-btn"
+            class="modify defbtn"
+            :class="{ 'show-view': !isActiveModify, 'hide-view': isActiveModify }"
+            @click="toggleActive"
+          >
+            글 수정
+          </button>
           <button
             type="button"
             id="modify-cancel-btn"
-            style="display: none"
             class="modify defbtn"
-            @click="unDoModifyNotice"
+            :class="{ 'show-view': isActiveModify, 'hide-view': !isActiveModify }"
+            @click="toggleActive"
           >
             수정 취소
           </button>
@@ -25,7 +33,7 @@
         </div>
       </div>
     </div>
-    <div id="view" class="view-container">
+    <div id="view" class="view-container" :class="{ 'show-view': !isActiveModify, 'hide-view': isActiveModify }">
       <div class="title-section">
         <h1 id="category-text">공지사항</h1>
       </div>
@@ -42,7 +50,7 @@
       </div>
     </div>
 
-    <div id="modiform" style="display: none" action="#" method="post">
+    <div id="modiform" action="#" method="post" :class="{ 'show-view': isActiveModify, 'hide-view': !isActiveModify }">
       <div id="modify-view" class="view-container">
         <div class="title-section">
           <h1 id="category-text">공지사항</h1>
@@ -85,11 +93,11 @@ export default {
     return {
       Notice: {},
       pgInfo: {},
+      isActiveModify: false,
     };
   },
   methods: {
     ...mapGetters(noticeStore, ["getNoticeList", "getNotice", "getPgInfo"]),
-    ...mapGetters(memberStore, ["getLoginMember"]),
     ...mapActions(noticeStore, ["modifyNotice", "removeNotice", "setNoticeList"]),
     async sendModifyBoard() {
       this.modifyNotice(this.Notice);
@@ -111,28 +119,20 @@ export default {
         this.$emit("notice-list");
       }, 100);
     },
-    // doModifyNotice() {
-    //   document.getElementById("view").setAttribute("style", "display:none;");
-    //   document.getElementById("modiform").setAttribute("style", "display:block;");
-    //   document.getElementById("modify-btn").setAttribute("style", "display:none;");
-    //   document.getElementById("modify-cancel-btn").setAttribute("style", "display:block;");
-    // },
-    // unDoModifyNotice() {
-    //   document.getElementById("modiform").setAttribute("style", "display:none;");
-    //   document.getElementById("view").setAttribute("style", "display:block;");
-    //   document.getElementById("modify-btn").setAttribute("style", "display:block;");
-    //   document.getElementById("modify-cancel-btn").setAttribute("style", "display:none;");
-    // },
+    toggleActive() {
+      //console.log(this.isActiveModify);
+      this.isActiveModify = !this.isActiveModify;
+    },
   },
   mounted() {},
   created() {
     this.Notice = this.getNotice();
-    console.log(this.Notice);
     this.pgInfo = this.getPgInfo();
   },
   computed: {
+    ...mapGetters(memberStore, ["getLoginMember"]),
     detectAdmin() {
-      return this.getLoginMember().grade == 9;
+      return this.getLoginMember.grade == 9;
     },
   },
 };
@@ -141,4 +141,10 @@ export default {
 <style>
 @import url("../../assets/css/common.css");
 @import url("../../assets/css/board-view.css");
+.show-view {
+  display: block;
+}
+.hide-view {
+  display: none;
+}
 </style>

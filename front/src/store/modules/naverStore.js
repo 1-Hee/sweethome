@@ -14,7 +14,7 @@ const naverStore = {
     setNaverNews({ commit }) {
       selectNaverNews(
         ({ data }) => {
-          console.dir(data.items);
+          // console.dir(data.items);
           commit("SET_NAVER_NEWS", data);
         },
         (err) => {
