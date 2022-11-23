@@ -1,14 +1,19 @@
-import { selectAptDataList, selectAptDataListDong, 
-  selectAptDataListAptName, selectAptTOP4Items } from "@/api/apt";
-import {getAddressByPOS} from "@/assets/js/map";
-
+import {
+  selectAptDataList,
+  selectAptDataListDong,
+  selectAptDataListAptName,
+  selectAptTOP4Items,
+  selectAptPriceItems,
+} from "@/api/apt";
+import { getAddressByPOS } from "@/assets/js/map";
 
 const aptStore = {
   namespaced: true,
   state: {
     AptDataList: [],
     AptData: {},
-    TOP4AptList : [],
+    TOP4AptList: [],
+    AptPriceList: [],
   },
   getters: {
     // 아파트 리스트 가져오는 메서드
@@ -24,8 +29,11 @@ const aptStore = {
       return state.pgInfo;
     },
     // 메인 페이지 TOP4 매물 가져오는 메서드
-    getTop4AptList(state){
+    getTop4AptList(state) {
       return state.TOP4AptList;
+    },
+    getAptPriceList(state) {
+      return state.AptPriceList;
     },
   },
   actions: {
@@ -61,7 +69,7 @@ const aptStore = {
       selectAptDataListAptName(
         params,
         ({ data }) => {
-          console.dir(data);
+          //console.dir(data);
           context.commit("SET_APT_DATA_LIST_NAME", data);
         },
         (err) => {
@@ -70,17 +78,29 @@ const aptStore = {
       );
     },
     // 메인 페이지에서 MD가 추천하는 매물 4가지 불러오는 메서드
-    async setAptTOP4Items(context){
+    async setAptTOP4Items(context) {
       selectAptTOP4Items(
-        ({data})=>{
+        ({ data }) => {
           // console.dir(data);
           context.commit("SET_APT_TOP4_ITEMS", data);
         },
-        (err)=>{
+        (err) => {
           console.log(err);
         }
       );
-    }
+    },
+    // 메인 화면에서 아파트 가격이 낮은 순서대로 매물을 불러오는 메서드
+    setAptPriceItems({ commit }) {
+      selectAptPriceItems(
+        ({ data }) => {
+          console.dir(data);
+          commit("SET_APT_PRICE_ITEMS", data);
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    },
   },
   mutations: {
     // 아파트 동코드 기준으로 매물을 뷰엑스에 저장.
@@ -106,13 +126,14 @@ const aptStore = {
       state.AptDataList = [];
     },
     // 초기 페이지에서 매물 4개를 불러오는 메서드
-    SET_APT_TOP4_ITEMS(state, data){
-      
+    SET_APT_TOP4_ITEMS(state, data) {
       //console.dir(data[0]);
       // console.log(data[0].lng, data[0].lat);
       //getAddressByPOS(data[0].lng, data[0].lat);
-
       state.TOP4AptList = data;
+    },
+    SET_APT_PRICE_ITEMS(state, data) {
+      state.AptPriceList = data;
     },
   },
 };
