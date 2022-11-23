@@ -22,4 +22,9 @@ async function selectAptDataListAptName(param, success, fail) {
 //   await api.get(`${cURL}/box?type=${type}&code=${code}`, { params: param }).then(success).catch(fail);
 // }
 
-export { selectAptDataList, selectAptDataListDong, selectAptDataListAptName };
+// 메인 화면에서 아파트 좋아요 수가 많은 순서대로 매물을 불러오는 메서드
+async function selectAptTOP4Items(success, fail) {
+  await api.get(`${cURL}/index/recommend/like`).then(success).catch(fail);
+}
+
+export { selectAptDataList, selectAptDataListDong, selectAptDataListAptName, selectAptTOP4Items };

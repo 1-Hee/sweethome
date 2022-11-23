@@ -89,7 +89,7 @@
 
 <script>
 import axios from "axios";
-import { kakomapInit, searchByAddress, addMarker, markKeywordMarker } from "@/assets/js/map";
+import { kakomapInit, searchByAddress, kakaoModule, markKeywordMarker } from "@/assets/js/map";
 import { mapGetters, mapActions, mapMutations } from "vuex";
 const aptStore = "aptStore";
 
@@ -277,6 +277,8 @@ export default {
       script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${process.env.VUE_APP_KAKAOMAP_KEY}&libraries=services`;
       document.head.appendChild(script);
     }
+    // kakaoModule();
+
     this.showWaiting(100);
     this.searchByKeyword();
   },
