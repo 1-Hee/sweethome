@@ -33,9 +33,7 @@ public class AptInfo {
 	@ApiModelProperty(value="위도")
 	private String lat;
 	@ApiModelProperty(value="동")
-	private String dong;
+	private String address;
 	@ApiModelProperty(value="좋아요 수")
 	private int lc;
-	@ApiModelProperty(value="상세 주소")
-	private String address;
 }
