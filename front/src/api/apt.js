@@ -24,16 +24,7 @@ async function selectAptDataListAptName(param, success, fail) {
 
 // 메인 화면에서 아파트 좋아요 수가 많은 순서대로 매물을 불러오는 메서드
 async function selectAptTOP4Items(success, fail) {
-<<<<<<< HEAD
   await api.get(`${cURL}/index/recommend/like`).then(success).catch(fail);
 }
 
 export { selectAptDataList, selectAptDataListDong, selectAptDataListAptName, selectAptTOP4Items };
-=======
-  await api.get(`${cURL}/index/recommend`).then(success).catch(fail);
-}
-
-
-export { selectAptDataList, selectAptDataListDong, 
-  selectAptDataListAptName, selectAptTOP4Items };
->>>>>>> 7950ce87a4bef87e74780617dd6ac3f972ae36c9
