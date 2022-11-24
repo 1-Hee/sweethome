@@ -16,7 +16,10 @@
           <li>
             <div class="sort">프로필</div>
             <div>
-              <img :src="this.getProfileURL" />
+              <img
+                :src="this.getProfileURL"
+                onerror="this.src='https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'"
+              />
             </div>
             <button id="modishow" class="modify-btn">변경하기</button>
           </li>
@@ -56,7 +59,11 @@
 
       <form enctype="multipart/form-data">
         <div class="user-modi-info user-img">
-          <img id="modal-img" :src="this.getProfileURL" />
+          <img
+            id="modal-img"
+            :src="this.getProfileURL"
+            onerror="this.src='https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'"
+          />
           <label for="file" class="upload-btn">업로드</label>
           <input id="file" style="display: none" type="file" accept="image/*" @change="onFileChange" />
         </div>

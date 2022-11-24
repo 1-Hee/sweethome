@@ -59,7 +59,11 @@
           >
             <div class="drop-down-menu">
               <button class="defbtn drop-down-btn">
-                <img id="user-img-header" :src="getProfileURL" />
+                <img
+                  id="user-img-header"
+                  :src="getProfileURL"
+                  onerror="this.src='https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'"
+                />
               </button>
               <ul class="drop-down-items" id="profile-menu">
                 <li>
