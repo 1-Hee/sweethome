@@ -84,7 +84,7 @@
 
 .menu-container > .nav-ul > li > * img {
   /* background-image: url('../img/user-sample.jpg'); */
-  content: url("C:\SSAFY8\workspace\08-1.VueProject\sweethome\back\BootSaveHome\src\main\webapp\upload\default\default_img.png");
+  /* content: url("C:\SSAFY8\workspace\08-1.VueProject\sweethome\back\BootSaveHome\src\main\webapp\upload\default\default_img.png"); */
   /* content: url("C:\SSAFY8\workspace\08-1.VueProject\sweethome\back\BootSaveHome\src\main\webapp\upload\221123/787562764475200.png"); */
   border-radius: 45px;
   width: 45px;

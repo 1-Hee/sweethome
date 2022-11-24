@@ -16,7 +16,10 @@
           <li>
             <div class="sort">프로필</div>
             <div>
-              <img src="@/assets/img/user-sample.jpg" />
+              <img
+                :src="this.getProfileURL"
+                onerror="this.src='https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'"
+              />
             </div>
             <button id="modishow" class="modify-btn">변경하기</button>
           </li>
@@ -56,9 +59,13 @@
 
       <form enctype="multipart/form-data">
         <div class="user-modi-info user-img">
-          <img src="@/assets/img/user-sample.jpg" />
+          <img
+            id="modal-img"
+            :src="this.getProfileURL"
+            onerror="this.src='https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'"
+          />
           <label for="file" class="upload-btn">업로드</label>
-          <input id="file" style="display: none" type="file" multiple accept="image/*" @change="onFileChange" />
+          <input id="file" style="display: none" type="file" accept="image/*" @change="onFileChange" />
         </div>
         <div class="user-modi-info">
           <label for="uid">ID</label>
@@ -93,9 +100,10 @@
 <script>
 // user-info js 적용 필요.
 import modal from "@/assets/js/modal";
-import { updateMember } from "@/api/member";
+import { updateMember, uploadImgFile } from "@/api/member";
+import axios from "axios";
 
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 const memberStore = "memberStore";
 
 export default {
@@ -112,16 +120,14 @@ export default {
     // this.loginUser = this.$store.state.loginUser;
   },
   created() {
-    this.loginUser = this.getLoginMember();
+    this.loginUser = this.getLoginMember;
   },
   computed: {
-    getUser() {
-      return this.getLoginMember();
-    },
+    ...mapGetters(memberStore, ["getLoginMember", "getToken", "getProfileURL"]),
   },
   methods: {
-    ...mapGetters(memberStore, ["getLoginMember", "getToken"]),
     ...mapActions(memberStore, ["modifyMember", "removeMember"]),
+    ...mapMutations(memberStore, ["SET_PROFILE_URL"]),
     async eraseMember() {
       if (confirm("확인을 누르시면 회원탈퇴가 진행됩니다.")) {
         this.removeMember(this.loginUser.userId);
@@ -129,14 +135,11 @@ export default {
       }
     },
     onFileChange(e) {
-      var files = e.target.files || e.dataTransfer.files;
-      if (!files.length) return;
-      // console.dir(e.target.files);
-      // this.file = e.target.files;
-      // this.createImage(files[0]);
-      // console.dir(this.file);
-      // updateMember(this.loginUser, this.file);
-      // this.modifyMember(this.loginUser, this.file);
+      e.preventDefault();
+      var file = e.target.files[0]; //선택된 파일 가져오기
+      this.SET_PROFILE_URL(URL.createObjectURL(file));
+      document.getElementById("modal-img").src = URL.createObjectURL(file);
+      //console.dir(this.getProfileURL);
     },
     async modifyUser() {
       let userInfo = this.loginUser;
