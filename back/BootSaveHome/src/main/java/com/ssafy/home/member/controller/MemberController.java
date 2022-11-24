@@ -146,8 +146,12 @@ public class MemberController {
 	
 	@ApiOperation(value="비밀번호 찾기", notes="이메일을 통해 비밀번호를 찾습니다.")
 	@PostMapping("find")
-	private ResponseEntity<?> find(String id) throws Exception {
-		Member member = service.selectById(id);
+	private ResponseEntity<?> find(@RequestBody String email) throws Exception {
+		Map<String, Object> resultMap = new HashMap<>();
+		String[] str = email.split("@");
+		resultMap.put("email",str[0]);
+		resultMap.put("domain",str[1]);
+		Member member = service.selectByEmail(resultMap);
 		if(member==null) throw new NoIDException("아이디가 존재하지 않습니다.");
 		verifyemail.sendEmail(member);
 		return new ResponseEntity<Void>(HttpStatus.OK);

@@ -86,5 +86,11 @@ public class MemberServiceImpl implements MemberService {
 		return mapper.selectByIdAndImage(id);
 	}
 
+
+	@Override
+	public Member selectByEmail(Map<String, Object> resultMap) throws Exception {
+		return mapper.selectByEmail(resultMap);
+	}
+
 	
 }
