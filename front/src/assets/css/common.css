@@ -37,6 +37,10 @@ ul {
 .divider-min {
   height: 2vh;
 }
+
+.divider0 {
+  height: 4vh;
+}
 .divider1 {
   height: 8vh;
 }

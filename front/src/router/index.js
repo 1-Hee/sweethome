@@ -8,6 +8,7 @@ import BoardList from '@/components/board/BoardList';
 import BoardView from '@/components/board/BoardView';
 
 import UserInfo from '@/components/user/UserInfo';
+import UserLikeApt from '@/components/user/UserLikeApt';
 
 import BoardWrite from '@/components/global/BoardWrite';
 import AppMapView from '@/components/map/AppMapView';
@@ -73,7 +74,13 @@ const routes = [
     path : '/500',
     name : 'App500Error',
     component : App500Error
-  }
+  },
+  // likes
+  {
+    path : '/like',
+    name : 'UserLikeApt',
+    component : UserLikeApt
+  },
 
 ]
 

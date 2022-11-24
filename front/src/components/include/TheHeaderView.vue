@@ -71,7 +71,7 @@
                 </li>
                 <li>
                   <i class="fa-solid fa-heart"></i>
-                  <a class="drop-down-item" href="#">찜목록</a>
+                  <a class="drop-down-item" href="#" @click="goLike">찜목록</a>
                 </li>
                 <li @click="logOut">
                   <i class="fa-solid fa-right-from-bracket"></i>
@@ -144,6 +144,9 @@ export default {
     },
     go500() {
       this.$router.push({ name: "App500Error" }).catch(() => {});
+    },
+    goLike() {
+      this.$router.push({ name: "UserLikeApt" }).catch(() => {});
     },
     async logOut() {
       this.REMOVE_MEMBER();

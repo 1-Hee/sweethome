@@ -309,19 +309,27 @@ export default {
       document.head.appendChild(script);
     }
     this.SET_APT_DATA_LIST_NULL();
+    // console.dir(localStorage.getItem("dongCode"));
 
     setTimeout(() => {
-      // 키워드 검색이 있다면, 그걸 최우선으로 매물 검색
-      if (localStorage.getItem("keyword") != null) {
-        // this.searchByAddressInit();
-      } else if (localStorage.getItem("dongCode") != null) {
+      if (localStorage.getItem("dongCode")) {
+        console.log("yes IN...");
         this.dong = localStorage.getItem("dongCode");
+        console.dir(this.dong);
+        console.dir(localStorage.getItem("dongCode") != null);
         let lat = localStorage.getItem("lat");
         let lng = localStorage.getItem("lng");
         let apartmentName = localStorage.getItem("apartmentName");
         localStorage.clear();
         this.searchByDongCode();
         markByPos2(lat, lng, apartmentName);
+      }
+    }, 500);
+
+    setTimeout(() => {
+      // 키워드 검색이 있다면, 그걸 최우선으로 매물 검색
+      if (localStorage.getItem("keyword")) {
+        // this.searchByAddressInit();
       }
     }, 500);
   },

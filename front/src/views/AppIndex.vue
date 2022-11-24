@@ -28,7 +28,7 @@
 
     <div class="thumbnail-container flex-def">
       <a href="#" class="thumbnail" v-for="(item, index) in top4AptList" :key="index" @click.prevent="showItem(item)">
-        <img src="https://source.unsplash.com/random" />
+        <img :src="imgList[index]" />
         <div class="text-caption">
           <h3>{{ item.apartmentName }}</h3>
           <p>{{ item.address }}</p>
@@ -55,7 +55,7 @@
       :class="{ 'show-view': !isToggle, 'hide-view': isToggle }"
     >
       <a href="#" class="thumbnail" v-for="(item, index) in AptPriceList" :key="index" @click.prevent="showItem(item)">
-        <img src="https://source.unsplash.com/random" />
+        <img :src="imgList[index]" />
         <div class="text-caption">
           <h3>{{ item.apartmentName }}</h3>
           <p>{{ item.address }}</p>
@@ -69,7 +69,7 @@
       :class="{ 'show-view': isToggle, 'hide-view': !isToggle }"
     >
       <a href="#" class="thumbnail" v-for="(item, index) in top4AptList" :key="index" @click.prevent="showItem(item)">
-        <img src="https://source.unsplash.com/random" />
+        <img :src="imgList[index]" />
         <div class="text-caption">
           <h3>{{ item.apartmentName }}</h3>
           <p>{{ item.address }}</p>
@@ -109,7 +109,7 @@
         </div>
       </div>
     </div>
-    <div class="divider4"></div>
+    <div class="divider1"></div>
     <!-- <div id="map"></div> -->
     <!-- 메인 영역 -->
   </div>
@@ -132,6 +132,7 @@ export default {
       top4NoticeList: [],
       naverNews: [],
       AptPriceList: [],
+      imgList: [],
       tagList: [
         "가격이 저렴한",
         "전망이 좋은",
@@ -212,6 +213,13 @@ export default {
     let plist = this.getAptPriceList;
     for (let i = 0; i < 3; i++) {
       this.AptPriceList.push(plist[i]);
+    }
+
+    // 랜덤 이미지 생성
+    for (let i = 0; i < 20; i++) {
+      const idx = Math.floor(Math.random() * 20) + 1;
+      let url = `../assets/img/apt/${idx}.jpg`;
+      this.imgList.push(url);
     }
 
     //console.dir(this.top4AptList);

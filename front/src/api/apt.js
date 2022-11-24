@@ -42,4 +42,10 @@ async function insertAptDataLike(param, success, fail){
   await api.post(`${cURL}/like`, JSON.stringify(param)).then(success).catch(fail);
 }
 
-export { selectAptDataList, selectAptDataListDong, selectAptDataListAptName, selectAptTOP4Items, selectAptPriceItems,selectAptListLatLng, insertAptDataLike };
+// 아파트 좋아요 누른거 가져오기
+async function selectAptDataLike(userId, success, fail){
+  await api.get(`${cURL}/like/${userId}`).then(success).catch(fail);
+}
+
+
+export { selectAptDataList, selectAptDataListDong, selectAptDataListAptName, selectAptTOP4Items, selectAptPriceItems,selectAptListLatLng, insertAptDataLike, selectAptDataLike };
