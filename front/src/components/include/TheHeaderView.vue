@@ -61,7 +61,8 @@
               <button class="defbtn drop-down-btn">
                 <img
                   id="user-img-header"
-                  :src="CURL + '/' + getLoginMember.saveFolder + '/' + getLoginMember.saveFile"
+                  :src="getProfileURL"
+                  onerror="this.src='https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'"
                 />
               </button>
               <ul class="drop-down-items" id="profile-menu">
@@ -112,7 +113,6 @@ export default {
       loginUser: {},
       code: 9,
       isTokenError: false,
-      CURL: "C:/SSAFY8/workspace/08-1.VueProject/sweethome/back/BootSaveHome/src/main/webapp/upload/",
     };
   },
   methods: {
@@ -192,7 +192,7 @@ export default {
     header.allMenuInit();
   },
   computed: {
-    ...mapGetters(memberStore, ["getLoginMember", "clearMemberInfo", "getTokenError"]),
+    ...mapGetters(memberStore, ["getLoginMember", "clearMemberInfo", "getTokenError", "getProfileURL"]),
     // getUser() {
     //   return this.getLoginMember();
     // },

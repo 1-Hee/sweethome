@@ -1,5 +1,9 @@
 @import url("https://fonts.googleapis.com/css?family=Jua:400");
 
+img {
+  /* content: url(../img/def-user.png); */
+}
+
 * {
   font-family: "Jua", sans-serif;
   margin: 0;
