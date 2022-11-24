@@ -93,4 +93,10 @@
 		where m.user_id = #{id}
 	</select>
 	
+	<select id="selectByEmail" parameterType="map" resultMap="member">
+		select user_id, password, name, age, email, domain, grade, join_date
+		from member
+		where email = #{email} and domain = #{domain}
+	</select>
+	
 </mapper>

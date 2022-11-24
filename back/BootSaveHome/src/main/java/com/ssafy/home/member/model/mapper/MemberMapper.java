@@ -31,4 +31,6 @@ public interface MemberMapper {
 	int insertProfileInfo(ProFileInfoDto proFileInfoDto) throws SQLException;
 
 	MemberImageDTO selectByIdAndImage(String id) throws SQLException;
+
+	Member selectByEmail(Object resu) throws SQLException;
 }

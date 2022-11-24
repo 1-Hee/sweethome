@@ -1,6 +1,7 @@
 package com.ssafy.home.member.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ssafy.home.member.dto.Member;
 import com.ssafy.home.member.dto.MemberImageDTO;
@@ -26,4 +27,6 @@ public interface MemberService {
 	int addProfileInfo(ProFileInfoDto proFileInfoDto) throws Exception;
 
 	MemberImageDTO selectByIdAndImage(String id) throws Exception;
+
+	Member selectByEmail(Map<String, Object> resultMap) throws Exception;
 }
