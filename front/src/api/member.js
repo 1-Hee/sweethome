@@ -1,4 +1,5 @@
 import { apiInstance } from "@/api/index.js";
+import axios from "axios";
 
 const api = apiInstance();
 const cURL = "/member";
@@ -23,8 +24,56 @@ async function doLogin(member, success, fail) {
   api.post(`${cURL}/login`, JSON.stringify(member)).then(success).catch(fail);
 }
 
-async function updateMember(member, success, fail) {
+async function updateMember(member, file) {
+  // api.defaults.headers.post['Content-Type'] = 'multipart/form-data';
   api.put(`${cURL}/update`, JSON.stringify(member)).then(success).catch(fail);
+
+  //FormData 객체선언
+  // member.append(img);
+  // const formData = new FormData();
+  // formData.append('file', file);
+  // formData.append('member', new Blob([JSON.stringify(member)], {
+  //   "Content-Type":"application/json;charset=utf-8"
+  // }));
+//   console.dir(member);
+//   console.dir(file);
+//   const formData = new FormData();
+  
+//   //formData.append('member', JSON.stringify(member));
+//   formData.append('id', member.id);
+//   formData.append('date', member.date);
+//   formData.append('domain', member.domain);
+//   formData.append('email', member.email);
+//   formData.append('grade', member.grade);
+//   formData.append('name', member.name);
+
+//   for(let i = 0; i < file.length ; i ++){
+//     console.dir(file[0]);
+//     formData.append("file", file[0]);
+//   }
+
+// // formData.append("member", member); // 텍스트 첨부
+// axios.put('http://localhost:8080/member/update', formData, { // 요청
+//   headers: {
+//     'Content-Type': 'multipart/form-data'
+//   }
+// });
+
+  // axios({
+  //   method: "put",
+  //   url: process.env.VUE_APP_API_BASE_URL+cURL+'/update',
+  //   data: formData,
+  //   headers: { 
+  //  "Content-Type":"application/json;charset=utf-8"},
+  // })
+  //   .then(function (response) {
+  //     //handle success
+  //     console.dir(response);
+  //   })
+  //   .catch(function (response) {
+  //     //handle error
+  //     console.log(response);
+  //   });
 }
 
 async function deleteMember(userId, success, fail) {

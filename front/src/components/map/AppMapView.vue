@@ -47,12 +47,7 @@
           <h2>아파트 거래정보</h2>
         </div>
         <div class="apt-items-container" id="apt-items-container" @scroll="watchScroll">
-          <table
-            class="apt-info"
-            v-for="(item, index) in getAptDataList"
-            :key="index"
-            @click="addMarkerByKeyword(item.dong + ' ' + item.apartmentName)"
-          >
+          <table class="apt-info" v-for="(item, index) in getAptDataList" :key="index" @click="addMarkerByPOS(item)">
             <tr>
               <th>아파트 이름</th>
               <td>{{ item.apartmentName }}</td>
@@ -71,17 +66,14 @@
             </tr>
             <tr>
               <td colspan="2">
-                <span>{{ item.dong }}</span>
-                <a>👍</a>
-                <a>🤍🧡</a>
+                <span>{{ item.address.split(" ")[1] + " " + item.address.split(" ")[2] }}</span>
+                <a @click.prevent="likeItem($event, item, index)">👍</a>
               </td>
             </tr>
           </table>
         </div>
       </div>
       <div id="map"></div>
-      <i v-if="isWait" id="waiting-circle" class="fa-solid fa-circle-notch wating-icon"></i>
-      <div v-if="isWait" class="wating-bg"></div>
     </div>
     <!--맵 컨텐츠 영역-->
   </div>
@@ -89,9 +81,10 @@
 
 <script>
 import axios from "axios";
-import { kakomapInit, searchByAddress, kakaoModule, markKeywordMarker } from "@/assets/js/map";
+import { kakomapInit, searchByAddressKakao, markByPos, fx, markByPos2 } from "@/assets/js/map";
 import { mapGetters, mapActions, mapMutations } from "vuex";
 const aptStore = "aptStore";
+const memberStore = "memberStore";
 
 export default {
   name: "AppMapView",
@@ -100,6 +93,7 @@ export default {
       sidoList: [],
       gugunList: [],
       dongList: [],
+      AptDataList: [],
       sido: "",
       gugun: "",
       dong: "",
@@ -109,21 +103,30 @@ export default {
       map: null,
       isWait: false,
       pageNo: 1,
-      searchKeyword: "",
-      searchName: "",
+      prevDiv: 0,
+      division: 0,
+      apartmentName: "",
+      address: "",
     };
   },
-  created() {},
+  created() {
+    // // this.SET_APT_DATA_LIST_NULL();
+    // // this.AptDataList = [];
+    // this.AptDataList = this.getAptDataList;
+    // console.dir(this.AptDataList);
+  },
   methods: {
-    ...mapActions(aptStore, ["setAptDataList", "setAptDataListDong", "setAptDataAptName"]),
+    ...mapActions(aptStore, [
+      "setAptDataList",
+      "setAptDataListDong",
+      "setAptDataAptName",
+      "setAptListLatLng",
+      "addAptDataLike",
+    ]),
     ...mapMutations(aptStore, ["SET_APT_DATA_LIST_NULL"]),
-    showWaiting(time) {
-      if (!this.isWait) {
-        this.isWait = true;
-        setTimeout(() => {
-          this.isWait = false;
-        }, time);
-      }
+    showWaiting() {
+      document.getElementById("wating-bg").classList.remove("hide");
+      document.getElementById("waiting-circle").classList.remove("hide");
     },
     clearSido() {
       this.gugunList = [];
@@ -143,8 +146,9 @@ export default {
         method: "get",
       }).then(({ data }) => {
         if (type === "gugun") this.gugunList = data;
-        else if (type === "dong") this.dongList = data;
-        else if (type === "pos") this.aptList = data;
+        else if (type === "dong") {
+          this.dongList = data;
+        } else if (type === "pos") this.aptList = data;
       });
     },
 
@@ -164,98 +168,125 @@ export default {
       this.searchAptName = "";
       const container = document.getElementById("apt-items-container");
       container.innerHTML = ``;
+      this.SET_APT_DATA_LIST_NULL(); // 배열 초기화 하고,
+      this.pageNo = 1; // 페이지번호 초기화
+      this.division = 0; // 분기점 초기화;
+      searchByAddressKakao(this.selectedSidoText + " " + this.selectedDongText); // 맵 이동한 후
+      this.searchByDongCode(); // 매물을 불러온다.
+      //console.log(fx("삼성화재 유성연수원"));
+    },
 
-      searchByAddress(this.selectedSidoText + " " + this.selectedDongText);
+    // 카카오맵 마커 추가메서드 + 클릭 기준으로 그 매물 아파트 이름으로 리로드
+    async addMarkerByPOS(item) {
+      this.SET_APT_DATA_LIST_NULL(); // 초기화 한 후
+      this.pageNo = 1;
+      this.division = 1;
+
+      this.apartmentName = item.apartmentName;
+      await this.searchByAptName();
+      // fx();
+      // console.dir(await this.getAptDataList);
+      setTimeout(() => {
+        let data = this.getAptDataList;
+        markByPos(data);
+      }, 1500);
+    },
+    async searchByDongCode() {
+      // 셀렉트 박스 기준으로 배열 불러오는 메서드
+      this.showWaiting();
       let param = {
         pgNo: this.pageNo,
         listSize: 20,
       };
       await this.setAptDataList(this.dong, param);
     },
-
-    // 카카오맵 마커 추가메서드
-    addMarkerByKeyword(keyword) {
-      this.searchKeyword = "";
-      this.dong = "";
-      this.apartmentName = keyword.split(" ")[1];
-      markKeywordMarker(keyword);
-
+    async searchByAptName() {
+      // 매물 아이템 클릭하면 매물 아이템 기준으로 매물 초기화
       let param = {
         aptName: this.apartmentName,
         pgNo: this.pageNo,
         listSize: 20,
       };
-      this.SET_APT_DATA_LIST_NULL();
-      this.showWaiting(1500);
-      this.setAptDataAptName(param);
+      this.showWaiting();
+      await this.setAptDataAptName(param);
     },
 
+    // 검색상자!
+    // async searchByAddress(address) {
+    //   searchByAddressKakao(address);
+    //   // this.pos = this.getPOS;
+    //   //주소지 기준으로 매물 불러오기,
+    //   this.showWaiting();
+    //   let param = {
+    //     lat: this.searchKeyword,
+    //     lng: this.pageNo,
+    //   };
+    //   this.setAptListLatLng(param);
+    // },
+    // // 검색어 기준 매물 설정 및 위치 조정...
+    // async searchByAddressInit() {
+    //   // init...
+    //   let item = localStorage.getItem("keyword");
+    //   localStorage.removeItem("keyword");
+    //   console.log(item);
+    //   this.address = item;
+    //   this.division = 2;
+    //   this.pageNo = 1;
+    //   this.searchByAddress(item);
+    // },
+    // 메인에서 아이템 클릭 해올 때,
+    // async searchByPOS() {
+    //   let address = localStorage.getItem("address");
+    //   searchByAddressKakao(address);
+    //   let lat = localStorage.getItem("lat");
+    //   let lng = localStorage.getItem("lng");
+    //   let param = {
+    //     lat: lat,
+    //     lng: lng,
+    //   };
+    //   this.setAptListLatLng(param);
+    // },
     // 무한스크롤
     async watchScroll() {
       const scrollBody = document.querySelector("#apt-items-container");
       if (Math.round(scrollBody.scrollHeight - scrollBody.scrollTop) <= scrollBody.clientHeight) {
         this.pageNo++;
-
-        if (this.searchKeyword != "") {
-          this.showWaiting(1500);
-          let param = {
-            dongName: this.searchKeyword,
-            pgNo: this.pageNo,
-            listSize: 20,
-          };
-          this.setAptDataListDong(param);
-        } else if (this.apartmentName != "") {
-          this.showWaiting(1500);
-          let param = {
-            aptName: this.apartmentName,
-            pgNo: this.pageNo,
-            listSize: 20,
-          };
-          this.setAptDataAptName(param);
-        } else {
-          this.showWaiting(100);
-          let param = {
-            pgNo: this.pageNo,
-            listSize: 20,
-          };
-          await this.setAptDataList(this.dong, param);
+        //console.log(this.division);
+        this.showWaiting();
+        switch (this.division) {
+          case 0: // 셀렉트 박스
+            this.searchByDongCode();
+            break;
+          case 1: // 매물 클릭
+            this.searchByAptName();
+            break;
+          case 2: // 주소입력 시
+            this.searchByAddress();
+            break;
         }
       }
+    },
+
+    likeItem(e, item, index) {
+      alert("찜목록에 추가되었습니다");
+      // console.dir(e.target);
+      // e.target.innerHTML = ``;
+      // let text = document.createTextNode("♥");
+      // e.target.appendChild(text);
+      // console.dir(e);
+      // console.dir(item);
+      let params = {
+        userId: this.getLoginMember.id,
+        aptNo: item.aptNo,
+      };
+      this.addAptDataLike(params);
+
+      // console.log(index);
+      // console.dir(this.AptDataList[index]);
     },
     // 스크롤 위로 올리는 메서드
     ScrollTop(e) {
       e.target.scrollTo({ left: 0, top: 0, behavior: "smooth" });
-    },
-
-    // 검색어 기준 매물 설정 및 위치 조정...
-    async searchByKeyword() {
-      let item = localStorage.getItem("keyword");
-      // console.log(item == null);
-      if (item != null) {
-        searchByAddress(item);
-        // console.log(item);
-        localStorage.removeItem("keyword");
-
-        let tempDong = item.split(" ");
-        for (let i = tempDong.length - 1; i >= 0; i--) {
-          if (tempDong[i].split("-").length > 1) continue;
-          else if (tempDong[i].split("-").length == 1 && !isNaN(tempDong[i].split("-")[0])) continue;
-          else if (tempDong[i].split("-").length == 1 && isNaN(tempDong[i].split("-")[0])) {
-            // console.log("잘 분기됨 : ", tempDong[i].split("-")[0]);
-            let dongName = tempDong[i].split("-")[0];
-            this.searchKeyword = dongName;
-            let param = {
-              dongName: dongName,
-              pgNo: this.pageNo,
-              listSize: 20,
-            };
-            await this.setAptDataListDong(param);
-            this.showWaiting(2000);
-            break;
-          }
-        }
-        // console.dir(tempDong);
-      }
     },
   },
   mounted() {
@@ -277,13 +308,34 @@ export default {
       script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${process.env.VUE_APP_KAKAOMAP_KEY}&libraries=services`;
       document.head.appendChild(script);
     }
-    // kakaoModule();
+    this.SET_APT_DATA_LIST_NULL();
+    // console.dir(localStorage.getItem("dongCode"));
 
-    this.showWaiting(100);
-    this.searchByKeyword();
+    setTimeout(() => {
+      if (localStorage.getItem("dongCode")) {
+        console.log("yes IN...");
+        this.dong = localStorage.getItem("dongCode");
+        console.dir(this.dong);
+        console.dir(localStorage.getItem("dongCode") != null);
+        let lat = localStorage.getItem("lat");
+        let lng = localStorage.getItem("lng");
+        let apartmentName = localStorage.getItem("apartmentName");
+        localStorage.clear();
+        this.searchByDongCode();
+        markByPos2(lat, lng, apartmentName);
+      }
+    }, 500);
+
+    setTimeout(() => {
+      // 키워드 검색이 있다면, 그걸 최우선으로 매물 검색
+      if (localStorage.getItem("keyword")) {
+        // this.searchByAddressInit();
+      }
+    }, 500);
   },
   computed: {
-    ...mapGetters(aptStore, ["getAptDataList", "getPgInfo"]),
+    ...mapGetters(aptStore, ["getAptDataList", "getPgInfo", "getPOS"]),
+    ...mapGetters(memberStore, ["getLoginMember"]),
   },
   updated() {},
 };

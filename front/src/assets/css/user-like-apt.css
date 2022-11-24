@@ -1,0 +1,63 @@
+/* 제목 속성 */
+.like-h1{
+    color: white;
+    font-size: 40px;
+    line-height: 100px;
+    height: 100px;
+    background-color: var(--defColorDark);
+}
+
+.sentance{
+    margin-top: 50px;
+    font-size: 32px;
+}
+
+.like-h1 > span {
+    color: rgb(0, 0, 0);
+}
+
+
+/* 썸네일 관련 속성 */
+
+.like-thumbnail-container {
+    display: flex;
+    width: 90%;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+.like-thumbnail {
+    text-align: left;
+    display: inline-block;
+    cursor: pointer;
+    padding: 0;
+    margin: 10px;
+    width: 280px;
+    height: 320px;
+    box-sizing: border-box;
+    border: 3px solid black;
+    border-radius: 16px;
+  
+    background-color: rgb(255, 255, 255);
+    box-shadow: 5px 5px 5px rgba(158, 157, 157, 0.648);
+  }
+  
+  .like-thumbnail:hover {
+    transition: 0.3s;
+    transform: translate(0px, -5px);
+  }
+  
+  .like-thumbnail img {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 50%;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    margin-bottom: 24px;
+  }
+  
+  .like-text-caption {
+    padding-left: 10px;
+  }
+  

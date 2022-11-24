@@ -54,11 +54,11 @@
         <button id="modi-close-btn" class="modi-close-btn">X</button>
       </div>
 
-      <form action="#" method="#" enctype="multipart/form-data">
+      <form enctype="multipart/form-data">
         <div class="user-modi-info user-img">
           <img src="@/assets/img/user-sample.jpg" />
           <label for="file" class="upload-btn">업로드</label>
-          <input id="file" style="display: none" type="file" multiple />
+          <input id="file" style="display: none" type="file" multiple accept="image/*" @change="onFileChange" />
         </div>
         <div class="user-modi-info">
           <label for="uid">ID</label>
@@ -93,6 +93,7 @@
 <script>
 // user-info js 적용 필요.
 import modal from "@/assets/js/modal";
+import { updateMember } from "@/api/member";
 
 import { mapGetters, mapActions } from "vuex";
 const memberStore = "memberStore";
@@ -103,6 +104,7 @@ export default {
     return {
       loginUser: {},
       newPassword: "",
+      file: [],
     };
   },
   mounted() {
@@ -126,17 +128,27 @@ export default {
         this.goIndex();
       }
     },
+    onFileChange(e) {
+      var files = e.target.files || e.dataTransfer.files;
+      if (!files.length) return;
+      // console.dir(e.target.files);
+      // this.file = e.target.files;
+      // this.createImage(files[0]);
+      // console.dir(this.file);
+      // updateMember(this.loginUser, this.file);
+      // this.modifyMember(this.loginUser, this.file);
+    },
     async modifyUser() {
       let userInfo = this.loginUser;
-      let isReload = false;
+      // let isReload = false;
       if (this.newPassword != "") {
         userInfo.password = this.newPassword;
         isReload = true;
       }
-      console.log(isReload);
-      this.modifyMember(this.loginUser, isReload);
+      // console.log(isReload);
+      this.modifyMember(this.loginUser, this.file);
       this.closeUserInfoModal();
-      if (isReload) this.goIndex();
+      //if (isReload) this.goIndex();
     },
     closeUserInfoModal() {
       document.getElementById("modal").setAttribute("style", "display: none;");

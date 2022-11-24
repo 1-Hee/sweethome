@@ -34,11 +34,11 @@
 /* 지도 옆 items 에 대한 설정들 */
 .items {
   width: 330px;
-  height: 68vh;
+  height: 65vh;
   margin-right: 5px;
 }
 .items > .apt-items-container {
-  height: 68vh;
+  height: 65vh;
   overflow: scroll;
 }
 

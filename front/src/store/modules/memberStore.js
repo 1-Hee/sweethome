@@ -9,6 +9,8 @@ import {
   tokenRegeneration,
 } from "@/api/member";
 
+import {selectAptDataLike} from "@/api/apt" // select만 가져온다.
+
 const memberStore = {
   namespaced: true,
   state: {
@@ -17,6 +19,7 @@ const memberStore = {
     token: {},
     pastListNo: 1,
     tokenError: false,
+    AptLikeList :[],
   },
   getters: {
     getMemberList(state) {
@@ -34,6 +37,10 @@ const memberStore = {
     },
     getPastListNo(state) {
       return state.pastListNo;
+    },
+    // 좋아요 누른 아파트 정보
+    getAptLikeList(state){
+      return state.AptLikeList;
     },
   },
   actions: {
@@ -79,6 +86,7 @@ const memberStore = {
       doLogin(
         member,
         ({ data }) => {
+          // console.dir(data);
           commit("DO_LOGIN_MEMBER", data);
         },
         (err) => {
@@ -87,17 +95,11 @@ const memberStore = {
         }
       );
     },
-    modifyMember({ commit }, member, isReload) {
+    modifyMember({ commit }, member, img) {
+      console.dir(member);
+      console.dir(img);
       updateMember(
-        member,
-        ({ data }) => {
-          // console.log(data);
-          // console.dir(member);
-          commit("UPDATE_MEMBER", member, isReload);
-        },
-        (err) => {
-          console.log(err);
-        }
+        member, img      
       );
     },
     removeMember({ commit }, userId) {
@@ -113,6 +115,17 @@ const memberStore = {
       );
     },
     checkValidation() {},
+    setAptLikeList({commit}, userId){
+      selectAptDataLike(
+        userId,
+        ({data})=>{
+          console.dir(data);
+          ok();
+          commit("SET_APT_LIKE_LIST", data);
+        },
+        (err)=>{console.log(err);}
+      );
+    },
   },
   mutations: {
     DO_LOGIN_MEMBER(state, data) {
@@ -155,7 +168,18 @@ const memberStore = {
     EDIT_LAST_PAGE_NO(state, no) {
       state.pastListNo = no;
     },
+    SET_APT_LIKE_LIST(state, data){
+      state.AptLikeList = data;
+    }
   },
 };
+
+function ok() {
+  document.getElementById("wating-bg").classList.remove("show");
+  document.getElementById("waiting-circle").classList.remove("show");
+  document.getElementById("wating-bg").classList.add("hide");
+  document.getElementById("waiting-circle").classList.add("hide");
+}
+
 
 export default memberStore;
