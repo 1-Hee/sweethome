@@ -7,6 +7,7 @@ import {
   deleteMember,
   confirmMemberById,
   tokenRegeneration,
+  findUserInfoByEmail,
 } from "@/api/member";
 
 import { selectAptDataLike } from "@/api/apt"; // select만 가져온다.
@@ -132,6 +133,18 @@ const memberStore = {
           // console.dir(data);
           ok();
           commit("SET_APT_LIKE_LIST", data);
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    },
+    // 회원 정보 찾기 메서드
+    findUserInfoByEmail({ commit }, email) {
+      postUserInfoByEmail(
+        email,
+        ({ data }) => {
+          console.log(data);
         },
         (err) => {
           console.log(err);

@@ -4,22 +4,7 @@
     <hr />
     <!-- <div class="banner">
       <div class="banner-img"></div></div> -->
-    <div id="banner">
-      <div class="radio-group">
-        <input type="radio" name="slide" id="slide01" checked />
-        <input type="radio" name="slide" id="slide02" />
-        <input type="radio" name="slide" id="slide03" />
-      </div>
-      <div class="slide-wrap">
-        <ul class="banner-ul slide-list">
-          <li class="fadein banner-img">
-            <!-- <img src="../assets/img/banner-sample.jpg" /> -->
-          </li>
-          <li class="fadein banner-img"></li>
-          <li class="fadein banner-img"></li>
-        </ul>
-      </div>
-    </div>
+    <div class="banner"><div class="banner-img"></div></div>
 
     <div class="divider1"></div>
 

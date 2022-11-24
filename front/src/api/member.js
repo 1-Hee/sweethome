@@ -1,5 +1,4 @@
 import { apiInstance } from "@/api/index.js";
-import { faI } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
 const api = apiInstance();
@@ -61,4 +60,18 @@ async function tokenRegeneration(member, success, fail) {
   api.post(`${cURL}/refresh`, JSON.stringify(member)).then(success).catch(fail);
 }
 
-export { selectMemberList, doLogin, updateMember, deleteMember, confirmMemberById, tokenRegeneration, uploadImgFile };
+// 회원 정보 찾기 (이메일)
+async function postUserInfoByEmail(email, success, fail) {
+  api.post(`${cURL}/find`, JSON.stringify(email)).then(success).then(fail);
+}
+
+export {
+  selectMemberList,
+  doLogin,
+  updateMember,
+  deleteMember,
+  confirmMemberById,
+  tokenRegeneration,
+  uploadImgFile,
+  postUserInfoByEmail,
+};
