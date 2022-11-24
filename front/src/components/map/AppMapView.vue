@@ -47,7 +47,15 @@
           <h2>아파트 거래정보</h2>
         </div>
         <div class="apt-items-container" id="apt-items-container" @scroll="watchScroll">
-          <table class="apt-info" v-for="(item, index) in getAptDataList" :key="index" @click="addMarkerByPOS(item)">
+          <table
+            class="apt-info"
+            v-for="(item, index) in getAptDataList"
+            :key="index"
+            @click="
+              addMarkerByPOS(item);
+              showRoadView(item.lat, item.lng);
+            "
+          >
             <tr>
               <th>아파트 이름</th>
               <td>{{ item.apartmentName }}</td>
@@ -67,13 +75,18 @@
             <tr>
               <td colspan="2">
                 <span>{{ item.address.split(" ")[1] + " " + item.address.split(" ")[2] }}</span>
-                <a @click.prevent="likeItem($event, item, index)">👍</a>
+                <a @click.prevent="likeItem(item)">👍</a>
               </td>
             </tr>
           </table>
         </div>
       </div>
-      <div id="map"></div>
+      <div id="map">
+        <div id="roadview" :class="{ show: isClick, hide: !isClick }"></div>
+        <button class="size-btn size-btn1">사이즈1</button>
+        <button class="size-btn size-btn2">사이즈2</button>
+        <button class="size-btn size-btn3">사이즈3</button>
+      </div>
     </div>
     <!--맵 컨텐츠 영역-->
   </div>
@@ -107,6 +120,7 @@ export default {
       division: 0,
       apartmentName: "",
       address: "",
+      isClick: false,
     };
   },
   created() {
@@ -173,7 +187,6 @@ export default {
       this.division = 0; // 분기점 초기화;
       searchByAddressKakao(this.selectedSidoText + " " + this.selectedDongText); // 맵 이동한 후
       this.searchByDongCode(); // 매물을 불러온다.
-      //console.log(fx("삼성화재 유성연수원"));
     },
 
     // 카카오맵 마커 추가메서드 + 클릭 기준으로 그 매물 아파트 이름으로 리로드
@@ -184,7 +197,6 @@ export default {
 
       this.apartmentName = item.apartmentName;
       await this.searchByAptName();
-      // fx();
       // console.dir(await this.getAptDataList);
       setTimeout(() => {
         let data = this.getAptDataList;
@@ -192,6 +204,7 @@ export default {
       }, 1500);
     },
     async searchByDongCode() {
+      this.isClick = false;
       // 셀렉트 박스 기준으로 배열 불러오는 메서드
       this.showWaiting();
       let param = {
@@ -201,6 +214,7 @@ export default {
       await this.setAptDataList(this.dong, param);
     },
     async searchByAptName() {
+      this.isClick = true;
       // 매물 아이템 클릭하면 매물 아이템 기준으로 매물 초기화
       let param = {
         aptName: this.apartmentName,
@@ -212,40 +226,21 @@ export default {
     },
 
     // 검색상자!
-    // async searchByAddress(address) {
-    //   searchByAddressKakao(address);
-    //   // this.pos = this.getPOS;
-    //   //주소지 기준으로 매물 불러오기,
-    //   this.showWaiting();
-    //   let param = {
-    //     lat: this.searchKeyword,
-    //     lng: this.pageNo,
-    //   };
-    //   this.setAptListLatLng(param);
-    // },
-    // // 검색어 기준 매물 설정 및 위치 조정...
-    // async searchByAddressInit() {
-    //   // init...
-    //   let item = localStorage.getItem("keyword");
-    //   localStorage.removeItem("keyword");
-    //   console.log(item);
-    //   this.address = item;
-    //   this.division = 2;
-    //   this.pageNo = 1;
-    //   this.searchByAddress(item);
-    // },
-    // 메인에서 아이템 클릭 해올 때,
-    // async searchByPOS() {
-    //   let address = localStorage.getItem("address");
-    //   searchByAddressKakao(address);
-    //   let lat = localStorage.getItem("lat");
-    //   let lng = localStorage.getItem("lng");
-    //   let param = {
-    //     lat: lat,
-    //     lng: lng,
-    //   };
-    //   this.setAptListLatLng(param);
-    // },
+    async searchByAddress(address) {
+      searchByAddressKakao(address);
+    },
+    // 검색어 기준 매물 설정 및 위치 조정...
+    async searchByAddressInit() {
+      let item = localStorage.getItem("keyword");
+      localStorage.removeItem("keyword");
+      //console.log(item);
+      this.address = item;
+      this.division = 2;
+      this.pageNo = 1;
+      this.searchByAddress(item);
+      //this.searchByAddress(item);
+    },
+
     // 무한스크롤
     async watchScroll() {
       const scrollBody = document.querySelector("#apt-items-container");
@@ -267,14 +262,8 @@ export default {
       }
     },
 
-    likeItem(e, item, index) {
+    likeItem(item) {
       alert("찜목록에 추가되었습니다");
-      // console.dir(e.target);
-      // e.target.innerHTML = ``;
-      // let text = document.createTextNode("♥");
-      // e.target.appendChild(text);
-      // console.dir(e);
-      // console.dir(item);
       let params = {
         userId: this.getLoginMember.id,
         aptNo: item.aptNo,
@@ -287,6 +276,20 @@ export default {
     // 스크롤 위로 올리는 메서드
     ScrollTop(e) {
       e.target.scrollTo({ left: 0, top: 0, behavior: "smooth" });
+    },
+
+    showRoadView(lat, lng) {
+      console.log(lat, lng);
+      var roadviewContainer = document.getElementById("roadview"); //로드뷰를 표시할 div
+      var roadview = new kakao.maps.Roadview(roadviewContainer); //로드뷰 객체
+      var roadviewClient = new kakao.maps.RoadviewClient(); //좌표로부터 로드뷰 파노ID를 가져올 로드뷰 helper객체
+
+      var position = new kakao.maps.LatLng(lat, lng);
+
+      // 특정 위치의 좌표와 가까운 로드뷰의 panoId를 추출하여 로드뷰를 띄운다.
+      roadviewClient.getNearestPanoId(position, 50, function (panoId) {
+        roadview.setPanoId(panoId, position); //panoId와 중심좌표를 통해 로드뷰 실행
+      });
     },
   },
   mounted() {
@@ -312,24 +315,24 @@ export default {
     // console.dir(localStorage.getItem("dongCode"));
 
     setTimeout(() => {
-      if (localStorage.getItem("dongCode")) {
-        console.log("yes IN...");
-        this.dong = localStorage.getItem("dongCode");
-        console.dir(this.dong);
-        console.dir(localStorage.getItem("dongCode") != null);
-        let lat = localStorage.getItem("lat");
-        let lng = localStorage.getItem("lng");
-        let apartmentName = localStorage.getItem("apartmentName");
-        localStorage.clear();
-        this.searchByDongCode();
-        markByPos2(lat, lng, apartmentName);
-      }
-    }, 500);
-
-    setTimeout(() => {
       // 키워드 검색이 있다면, 그걸 최우선으로 매물 검색
       if (localStorage.getItem("keyword")) {
-        // this.searchByAddressInit();
+        this.searchByAddressInit();
+      } else {
+        setTimeout(() => {
+          if (localStorage.getItem("dongCode")) {
+            console.log("yes IN...");
+            this.dong = localStorage.getItem("dongCode");
+            console.dir(this.dong);
+            console.dir(localStorage.getItem("dongCode") != null);
+            let lat = localStorage.getItem("lat");
+            let lng = localStorage.getItem("lng");
+            let apartmentName = localStorage.getItem("apartmentName");
+            localStorage.clear();
+            this.searchByDongCode();
+            markByPos2(lat, lng, apartmentName);
+          }
+        }, 500);
       }
     }, 500);
   },
@@ -344,4 +347,56 @@ export default {
 <style scoped>
 @import url("../../assets/css/common.css");
 @import url("../../assets/css/map.css");
+#roadview {
+  position: absolute;
+  left: 0;
+  /* width: 500px;
+  height: 400px; */
+
+  min-height: 200px;
+  min-width: 300px;
+  resize: both;
+  overflow: hidden;
+  border-left: 2px;
+
+  z-index: 30;
+  /* border: 1px solid black; */
+  /* background-color: rgba(171, 50, 231, 0.995); */
+}
+
+.hide {
+  transition: 1s;
+  display: none;
+}
+.show {
+  transition: 1s;
+  border: 1px solid black;
+  display: block;
+}
+
+.size-btn {
+  cursor: pointer;
+  width: 60px;
+  height: 35px;
+  position: absolute;
+  top: 5px;
+  z-index: 10;
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: white;
+}
+.size-btn:hover {
+  transition: 0.45s;
+  background-color: rgb(205, 203, 203);
+}
+
+.size-btn1 {
+  right: 265px;
+}
+.size-btn2 {
+  right: 195px;
+}
+.size-btn3 {
+  right: 125px;
+}
 </style>
