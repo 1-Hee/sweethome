@@ -14,7 +14,7 @@
               <ul class="drop-down-items" id="board-menu">
                 <li>
                   <i class="fa-solid fa-building"></i>
-                  <a class="drop-down-item" href="#">회사 소개</a>
+                  <a class="drop-down-item" href="#" @click.prevent="viewIntroduce()">회사 소개</a>
                 </li>
                 <li @click="detectLogin(noticeList)">
                   <i class="fa-solid fa-list-ul"></i>
@@ -105,6 +105,7 @@ import AppUserInquiry from "@/views/AppUserInquiry";
 
 import { mapActions, mapGetters, mapMutations } from "vuex";
 const memberStore = "memberStore";
+const noticeStore = "noticeStore";
 
 export default {
   name: "TheHeaderView",
@@ -117,6 +118,7 @@ export default {
   },
   methods: {
     ...mapActions(memberStore, ["checkMemberById"]),
+    ...mapActions(noticeStore, ["setNotice"]),
     ...mapMutations(memberStore, ["REMOVE_MEMBER"]),
     showLoginModal() {
       document.getElementById("login-modal-form").setAttribute("style", "display: block;");
@@ -174,6 +176,12 @@ export default {
           //console.log(this.getTokenError);
           methods();
         }
+      }, 100);
+    },
+    async viewIntroduce() {
+      this.setNotice(42);
+      setTimeout(() => {
+        this.$router.push({ name: "NoticeView" });
       }, 100);
     },
   },

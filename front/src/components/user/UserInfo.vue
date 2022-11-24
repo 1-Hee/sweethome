@@ -143,15 +143,16 @@ export default {
     },
     async modifyUser() {
       let userInfo = this.loginUser;
-      // let isReload = false;
+      let isReload = false;
       if (this.newPassword != "") {
-        userInfo.password = this.newPassword;
         isReload = true;
+        userInfo.password = this.newPassword;
       }
       // console.log(isReload);
-      this.modifyMember(this.loginUser, this.file);
+      // console.log("hey?");
+      this.modifyMember(userInfo, isReload);
       this.closeUserInfoModal();
-      //if (isReload) this.goIndex();
+      if (isReload) this.goIndex();
     },
     closeUserInfoModal() {
       document.getElementById("modal").setAttribute("style", "display: none;");

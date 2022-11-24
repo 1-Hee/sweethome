@@ -7,10 +7,10 @@
       <p>회원 가입시 등록한 이메일을 입력해주세요.</p>
       <form>
         <div class="email-conatiner">
-          <input type="email" class="email-input default-input" placeholder="이메일을 입력하세요" />
+          <input type="email" class="email-input default-input" placeholder="이메일을 입력하세요" v-model="email" />
         </div>
         <div class="button-conatiner">
-          <button class="defbtn default-input send-email-btn">이메일로 회원 정보 수신</button>
+          <button class="defbtn default-input send-email-btn" @click="sendEmail">이메일로 회원 정보 수신</button>
         </div>
       </form>
       <div class="home-container">
@@ -25,13 +25,19 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+const memberStore = "memberStore";
+
 export default {
   name: "AppUserInquiry",
   mounted() {},
   data() {
-    return {};
+    return {
+      email: "",
+    };
   },
   methods: {
+    ...mapActions(memberStore, ["findUserInfoByEmail"]),
     closeInquiryModal() {
       document.getElementById("user-inquiry-div").setAttribute("style", "display: none");
       document.getElementById("background3").setAttribute("style", "display: none");
@@ -43,6 +49,9 @@ export default {
           document.getElementById("inq-bite-cookie1").classList.remove("animate__heartBeat", "colorChange");
         }, 1000);
       }
+    },
+    sendEmail() {
+      findUserInfoByEmail(this.email);
     },
   },
 };

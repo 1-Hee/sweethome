@@ -31,12 +31,8 @@
           <tr>
             <th class="category">내용</th>
             <td class="input-item content-item">
-              <input
-                type="text"
-                class="content content-input default-input"
-                name="content"
-                v-model="newBoard.content"
-              />
+              <textarea class="content content-input default-input" name="content" v-model="newBoard.content">
+              </textarea>
             </td>
           </tr>
           <tr>

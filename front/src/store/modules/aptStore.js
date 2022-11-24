@@ -151,7 +151,7 @@ const aptStore = {
   mutations: {
     // 아파트 동코드 기준으로 매물을 뷰엑스에 저장.
     SET_APT_DATA_LIST(state, data) {
-      console.log(data == null);
+      //       console.log(data == null);
       data.forEach((el) => {
         state.AptDataList.push(el);
       });

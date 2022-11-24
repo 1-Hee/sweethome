@@ -165,8 +165,10 @@ public class MemberController {
 	}
 	
 	@ApiOperation(value="비밀번호, 이메일 변경", notes="비밀번호 또는 이메일을 변경합니다.")
-	@PutMapping(value = "update", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-	private ResponseEntity<?> update(@RequestPart Member member, @RequestPart MultipartFile file) throws Exception {
+	// MediaType.MULTIPART_FORM_DATA_VALUE
+	// @RequestPart MultipartFile file
+	@PutMapping(value = "update", consumes = {MediaType.APPLICATION_JSON_VALUE})
+	private ResponseEntity<?> update(@RequestBody Member member) throws Exception {
 		Member member2 = service.selectById(member.getId());
 		String password = member.getPassword();
 		String fullEmail = member.getEmail()+"@"+member.getDomain();
@@ -182,27 +184,27 @@ public class MemberController {
 			member2.setDomain(str[1]);
 		}
 		service.updateUser(member);
-		if(!file.isEmpty()) {
-//			String realPath = servletContext.getRealPath("/upload");
-			String realPath = "C:/board/upload/imageUpload";
-			String today = new SimpleDateFormat("yyMMdd").format(new Date());
-			String saveFolder = realPath + File.separator + today;
-			File folder = new File(saveFolder);
-			if(!folder.exists()) folder.mkdirs();
-			ProFileInfoDto proFileInfoDto = new ProFileInfoDto();
-			String originalFilename = file.getOriginalFilename();
-			if(!originalFilename.isEmpty()) {
-				String saveFileName = Long.toString(System.nanoTime())
-						+ originalFilename.substring(originalFilename.lastIndexOf('.'));
-				proFileInfoDto.setId(member.getId());
-				proFileInfoDto.setSaveFolder(today);
-				proFileInfoDto.setOriginalFile(originalFilename);
-				proFileInfoDto.setSaveFile(saveFileName);
-				file.transferTo(new File(folder, saveFileName));
-			}
-			service.addProfileInfo(proFileInfoDto);
-			return new ResponseEntity<ProFileInfoDto>(proFileInfoDto, HttpStatus.OK);
-		}
+//		if(!file.isEmpty()) {
+////			String realPath = servletContext.getRealPath("/upload");
+//			String realPath = "C:/board/upload/imageUpload";
+//			String today = new SimpleDateFormat("yyMMdd").format(new Date());
+//			String saveFolder = realPath + File.separator + today;
+//			File folder = new File(saveFolder);
+//			if(!folder.exists()) folder.mkdirs();
+//			ProFileInfoDto proFileInfoDto = new ProFileInfoDto();
+//			String originalFilename = file.getOriginalFilename();
+//			if(!originalFilename.isEmpty()) {
+//				String saveFileName = Long.toString(System.nanoTime())
+//						+ originalFilename.substring(originalFilename.lastIndexOf('.'));
+//				proFileInfoDto.setId(member.getId());
+//				proFileInfoDto.setSaveFolder(today);
+//				proFileInfoDto.setOriginalFile(originalFilename);
+//				proFileInfoDto.setSaveFile(saveFileName);
+//				file.transferTo(new File(folder, saveFileName));
+//			}
+//			service.addProfileInfo(proFileInfoDto);
+//			return new ResponseEntity<ProFileInfoDto>(proFileInfoDto, HttpStatus.OK);
+//		}
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	@ApiOperation(value="계정 삭제", notes="계정을 삭제합니다.")

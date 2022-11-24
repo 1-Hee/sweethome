@@ -21,6 +21,34 @@
   margin: 0 auto;
 }
 
+.banner .banner-img {
+  display: block;
+  width: 100%;
+  height: 400px;
+  margin: 0 auto;
+  background-image: url("../img/banner-sample.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.banner-img:hover {
+  transform: scale(1.1);
+  transition: 1s;
+}
+
+/*배너 버튼 관련 속성 */
+#bannerBtn {
+  position: absolute;
+  bottom: 0;
+}
+
+#bannerBtn > ul {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+}
+#bannerBtn > ul > li {
+}
+
 /* 검색상자 관련 속성 */
 
 .main-search-box {
