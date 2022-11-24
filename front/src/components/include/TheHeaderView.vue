@@ -59,10 +59,7 @@
           >
             <div class="drop-down-menu">
               <button class="defbtn drop-down-btn">
-                <img
-                  id="user-img-header"
-                  :src="CURL + '/' + getLoginMember.saveFolder + '/' + getLoginMember.saveFile"
-                />
+                <img id="user-img-header" :src="getProfileURL" />
               </button>
               <ul class="drop-down-items" id="profile-menu">
                 <li>
@@ -112,7 +109,6 @@ export default {
       loginUser: {},
       code: 9,
       isTokenError: false,
-      CURL: "C:/SSAFY8/workspace/08-1.VueProject/sweethome/back/BootSaveHome/src/main/webapp/upload/",
     };
   },
   methods: {
@@ -192,7 +188,7 @@ export default {
     header.allMenuInit();
   },
   computed: {
-    ...mapGetters(memberStore, ["getLoginMember", "clearMemberInfo", "getTokenError"]),
+    ...mapGetters(memberStore, ["getLoginMember", "clearMemberInfo", "getTokenError", "getProfileURL"]),
     // getUser() {
     //   return this.getLoginMember();
     // },

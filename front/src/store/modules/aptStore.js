@@ -5,7 +5,7 @@ import {
   selectAptTOP4Items,
   selectAptPriceItems,
   selectAptListLatLng,
-  insertAptDataLike
+  insertAptDataLike,
 } from "@/api/apt";
 
 const aptStore = {
@@ -57,7 +57,8 @@ const aptStore = {
         (err) => {
           ok();
           commit("SET_APT_DATA_LIST_NULL");
-          console.log(err);
+          // console.log(err);
+          alert("조회된 매물이 없습니다.");
         }
       );
     },
@@ -74,7 +75,8 @@ const aptStore = {
         (err) => {
           ok();
           commit("SET_APT_DATA_LIST_NULL");
-          console.log(err);
+          // console.log(err);
+          alert("조회된 매물이 없습니다.");
         }
       );
     },
@@ -120,29 +122,36 @@ const aptStore = {
       );
     },
     // 위경도
-    setAptListLatLng({commit}, pos){
+    setAptListLatLng({ commit }, pos) {
       selectAptListLatLng(
         pos,
-        ({data})=>{
+        ({ data }) => {
           console.dir(data);
-          commit('SET_APT_LIST_LAT_LNG', pos);
+          commit("SET_APT_LIST_LAT_LNG", pos);
         },
-        (err)=>{console.log(err)}
-      )
+        (err) => {
+          console.log(err);
+        }
+      );
     },
-    
-    addAptDataLike({commit}, params){
-      insertAptDataLike(params,
-        ({data})=>{
-          console.log(data)
+
+    addAptDataLike({ commit }, params) {
+      insertAptDataLike(
+        params,
+        ({ data }) => {
+          console.log(data);
           commit("ADD_APT_DATA_LIKE", data);
         },
-        (err)=>{console.log(err)});
+        (err) => {
+          console.log(err);
+        }
+      );
     },
   },
   mutations: {
     // 아파트 동코드 기준으로 매물을 뷰엑스에 저장.
     SET_APT_DATA_LIST(state, data) {
+      console.log(data == null);
       data.forEach((el) => {
         state.AptDataList.push(el);
       });
@@ -172,18 +181,16 @@ const aptStore = {
       state.TOP4AptList = data;
     },
     SET_APT_PRICE_ITEMS(state, data) {
-      state.AptPriceList =[];
-      state.AptPriceList = data;      
+      state.AptPriceList = [];
+      state.AptPriceList = data;
     },
     // 위경도
-    SET_APT_LIST_LAT_LNG(state, data){
+    SET_APT_LIST_LAT_LNG(state, data) {
       state.AptDataList = [];
       state.AptDataList = data;
     },
     // 찜목록 추가
-    ADD_APT_DATA_LIKE(state, data) {
-    },
- 
+    ADD_APT_DATA_LIKE(state, data) {},
   },
 };
 

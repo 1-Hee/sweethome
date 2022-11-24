@@ -9,7 +9,7 @@ import {
   tokenRegeneration,
 } from "@/api/member";
 
-import {selectAptDataLike} from "@/api/apt" // select만 가져온다.
+import { selectAptDataLike } from "@/api/apt"; // select만 가져온다.
 
 const memberStore = {
   namespaced: true,
@@ -19,7 +19,8 @@ const memberStore = {
     token: {},
     pastListNo: 1,
     tokenError: false,
-    AptLikeList :[],
+    AptLikeList: [],
+    profileURL: "",
   },
   getters: {
     getMemberList(state) {
@@ -39,8 +40,12 @@ const memberStore = {
       return state.pastListNo;
     },
     // 좋아요 누른 아파트 정보
-    getAptLikeList(state){
+    getAptLikeList(state) {
       return state.AptLikeList;
+    },
+    // 프로필 이미지 링크 리턴
+    getProfileURL(state) {
+      return state.profileURL;
     },
   },
   actions: {
@@ -98,9 +103,7 @@ const memberStore = {
     modifyMember({ commit }, member, img) {
       console.dir(member);
       console.dir(img);
-      updateMember(
-        member, img      
-      );
+      updateMember(member, img);
     },
     removeMember({ commit }, userId) {
       deleteMember(
@@ -115,15 +118,17 @@ const memberStore = {
       );
     },
     checkValidation() {},
-    setAptLikeList({commit}, userId){
+    setAptLikeList({ commit }, userId) {
       selectAptDataLike(
         userId,
-        ({data})=>{
+        ({ data }) => {
           console.dir(data);
           ok();
           commit("SET_APT_LIKE_LIST", data);
         },
-        (err)=>{console.log(err);}
+        (err) => {
+          console.log(err);
+        }
       );
     },
   },
@@ -168,9 +173,13 @@ const memberStore = {
     EDIT_LAST_PAGE_NO(state, no) {
       state.pastListNo = no;
     },
-    SET_APT_LIKE_LIST(state, data){
+    SET_APT_LIKE_LIST(state, data) {
       state.AptLikeList = data;
-    }
+    },
+    // 프로필 이미지 링크 변경
+    SET_PROFILE_URL(state, url) {
+      state.profileURL = url;
+    },
   },
 };
 
@@ -180,6 +189,5 @@ function ok() {
   document.getElementById("wating-bg").classList.add("hide");
   document.getElementById("waiting-circle").classList.add("hide");
 }
-
 
 export default memberStore;
