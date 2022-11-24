@@ -36,17 +36,10 @@
 }
 
 /*배너 버튼 관련 속성 */
-#bannerBtn {
-  position: absolute;
-  bottom: 0;
-}
-
-#bannerBtn > ul {
-  list-style: none;
-  display: flex;
-  flex-direction: row;
-}
-#bannerBtn > ul > li {
+.banner-btn {
+  background-color: blueviolet;
+  width: 50px;
+  height: 50px;
 }
 
 /* 검색상자 관련 속성 */

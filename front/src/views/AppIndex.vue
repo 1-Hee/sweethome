@@ -2,10 +2,12 @@
   <div>
     <!-- 메인 영역 -->
     <hr />
-    <!-- <div class="banner">
-      <div class="banner-img"></div></div> -->
-    <div class="banner"><div class="banner-img"></div></div>
-
+    <div class="banner">
+      <div class="banner-img"></div>
+    </div>
+    <input type="radio" class="banner-btn" checked />
+    <input type="radio" class="banner-btn" />
+    <input type="radio" class="banner-btn" />
     <div class="divider1"></div>
 
     <div class="main-search-box">

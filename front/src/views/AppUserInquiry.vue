@@ -51,7 +51,7 @@ export default {
       }
     },
     sendEmail() {
-      findUserInfoByEmail(this.email);
+      this.findUserInfoByEmail(this.email);
     },
   },
 };
