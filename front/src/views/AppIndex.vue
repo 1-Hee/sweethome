@@ -152,6 +152,7 @@ export default {
     ...mapActions(noticeStore, ["setFourNoticeList"]),
     ...mapActions(naverStore, ["setNaverNews"]),
     searchWithKeyWord(e) {
+      e.preventDefault();
       //console.log(e.target.value);
       this.$router.push({ name: "MapView" });
       localStorage.setItem("keyword", e.target.value);
