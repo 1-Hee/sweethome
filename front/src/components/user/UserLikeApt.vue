@@ -20,7 +20,7 @@
         </div>
       </a>
     </div>
-    <p class="sentance">당신의 <b>"내 집 마련의 꿈"</b> 을 응원합니다.</p>
+    <p class="sentance">고객님의 <b>"내 집 마련의 꿈"</b> 을 응원합니다.</p>
     <div class="divider2"></div>
   </div>
 </template>

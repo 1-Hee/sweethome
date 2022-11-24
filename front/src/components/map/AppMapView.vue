@@ -82,10 +82,38 @@
         </div>
       </div>
       <div id="map">
+        <div class="category-container">
+          <ul id="category">
+            <li id="BK9" data-order="0">
+              <span class="category_bg bank"></span>
+              은행
+            </li>
+            <li id="MT1" data-order="1">
+              <span class="category_bg mart"></span>
+              마트
+            </li>
+            <li id="PM9" data-order="2">
+              <span class="category_bg pharmacy"></span>
+              약국
+            </li>
+            <li id="OL7" data-order="3">
+              <span class="category_bg oil"></span>
+              주유소
+            </li>
+            <li id="CE7" data-order="4">
+              <span class="category_bg cafe"></span>
+              카페
+            </li>
+            <li id="CS2" data-order="5">
+              <span class="category_bg store"></span>
+              편의점
+            </li>
+          </ul>
+        </div>
         <div id="roadview" :class="{ show: isClick, hide: !isClick }"></div>
-        <button class="size-btn size-btn1">사이즈1</button>
-        <button class="size-btn size-btn2">사이즈2</button>
-        <button class="size-btn size-btn3">사이즈3</button>
+        <button class="size-btn size-btn1 hide" @click="size720">720px</button>
+        <button class="size-btn size-btn2 hide" @click="size1024">1024px</button>
+        <button class="size-btn size-btn3 hide" @click="size100">100%</button>
       </div>
     </div>
     <!--맵 컨텐츠 영역-->
@@ -205,6 +233,10 @@ export default {
     },
     async searchByDongCode() {
       this.isClick = false;
+      document.querySelectorAll(".size-btn").forEach((el) => {
+        el.classList.add("hide");
+      });
+
       // 셀렉트 박스 기준으로 배열 불러오는 메서드
       this.showWaiting();
       let param = {
@@ -215,6 +247,9 @@ export default {
     },
     async searchByAptName() {
       this.isClick = true;
+      document.querySelectorAll(".size-btn").forEach((el) => {
+        el.classList.remove("hide");
+      });
       // 매물 아이템 클릭하면 매물 아이템 기준으로 매물 초기화
       let param = {
         aptName: this.apartmentName,
@@ -279,7 +314,7 @@ export default {
     },
 
     showRoadView(lat, lng) {
-      console.log(lat, lng);
+      // console.log(lat, lng);
       var roadviewContainer = document.getElementById("roadview"); //로드뷰를 표시할 div
       var roadview = new kakao.maps.Roadview(roadviewContainer); //로드뷰 객체
       var roadviewClient = new kakao.maps.RoadviewClient(); //좌표로부터 로드뷰 파노ID를 가져올 로드뷰 helper객체
@@ -290,6 +325,16 @@ export default {
       roadviewClient.getNearestPanoId(position, 50, function (panoId) {
         roadview.setPanoId(panoId, position); //panoId와 중심좌표를 통해 로드뷰 실행
       });
+    },
+    // 로드뷰 사이즈 720px
+    size720() {
+      document.getElementById("roadview").setAttribute("style", "width:720px; height:468px");
+    },
+    size1024() {
+      document.getElementById("roadview").setAttribute("style", "width:1024px; height:720px");
+    },
+    size100() {
+      document.getElementById("roadview").setAttribute("style", "width:100%; height:100%");
     },
   },
   mounted() {
@@ -353,8 +398,8 @@ export default {
   /* width: 500px;
   height: 400px; */
 
-  min-height: 200px;
   min-width: 300px;
+  min-height: 200px;
   resize: both;
   overflow: hidden;
   border-left: 2px;
@@ -362,6 +407,46 @@ export default {
   z-index: 30;
   /* border: 1px solid black; */
   /* background-color: rgba(171, 50, 231, 0.995); */
+}
+
+.category-container > ul {
+  position: absolute;
+  list-style: none;
+  right: 10px;
+  bottom: 10px;
+}
+.category-container > ul > li {
+  display: block;
+  float: left;
+  margin-left: 10px;
+  width: 50px;
+  height: 30px;
+  line-height: 30px;
+  background-color: white;
+  border-radius: 5px;
+}
+.placeinfo {
+  display: block;
+  width: 100px;
+  height: 100px;
+  background-color: white;
+}
+.title {
+}
+.jibun {
+  overflow: hidden;
+}
+.tel {
+}
+
+.category-container > ul > li:hover {
+  cursor: pointer;
+  transition: 0.3s;
+  background-color: lightgrey;
+}
+#map > .category-container * {
+  display: block;
+  z-index: 20;
 }
 
 .hide {

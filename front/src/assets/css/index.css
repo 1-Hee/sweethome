@@ -1,12 +1,11 @@
-/* 배너 관련 속성 */
 .banner {
-  width: 100%;
-  height: 40vh;
-  overflow: hidden;
+  width: 100vw;
 }
+
 .banner .banner-img {
+  display: block;
   width: 100%;
-  height: 40vh;
+  height: 400px;
   margin: 0 auto;
   background-image: url("../img/banner-sample.jpg");
   background-position: center;
@@ -16,9 +15,20 @@
   transform: scale(1.1);
   transition: 1s;
 }
+*/
 
-.banner > img {
-  margin: 0 auto;
+/*배너 버튼 관련 속성 */
+#bannerBtn {
+  position: absolute;
+  bottom: 0;
+}
+
+#bannerBtn > ul {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+}
+#bannerBtn > ul > li {
 }
 
 /* 검색상자 관련 속성 */
