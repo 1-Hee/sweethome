@@ -7,7 +7,7 @@ import {
   deleteMember,
   confirmMemberById,
   tokenRegeneration,
-  findUserInfoByEmail,
+  postUserInfoByEmail,
 } from "@/api/member";
 
 import { selectAptDataLike } from "@/api/apt"; // select만 가져온다.

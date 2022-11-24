@@ -4,10 +4,12 @@
     <hr />
     <div class="banner">
       <div class="banner-img"></div>
+      <div class="radio-container">
+        <input type="radio" name="radio" class="banner-btn" />
+        <input type="radio" name="radio" class="banner-btn" />
+        <input type="radio" name="radio" class="banner-btn" />
+      </div>
     </div>
-    <input type="radio" class="banner-btn" checked />
-    <input type="radio" class="banner-btn" />
-    <input type="radio" class="banner-btn" />
     <div class="divider1"></div>
 
     <div class="main-search-box">
