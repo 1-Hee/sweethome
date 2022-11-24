@@ -24,6 +24,7 @@ public interface AptMapper {
 	public List<AptInfo> selectAptListByFullCode(int pageNum, int pageSize, String fullCode) throws Exception; // added 11/19
 	public List<AptInfo> selectAptListByDong(int pageNum, int pageSize, String dongName) throws Exception; // added 11/19
 	public List<AptInfo> selectAptListByAptName(int pageNum, int pageSize, String aptName) throws Exception; // added 11/20
+//	public List<AptInfo> selectAptListByLatLng(int pageNum, int pageSize, String lat, String lng ) throws Exception; // added 11/24
 	public int insertLike(LikeDto likedto) throws Exception;
 	public int selectAptCount(int no) throws Exception;
 	public List<AptInfo> selectTopFourLike() throws Exception;

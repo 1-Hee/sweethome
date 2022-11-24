@@ -71,10 +71,12 @@ public class MemberController {
 		@ApiResponse(code=200,message="조회 성공!"), @ApiResponse(code=404,message="페이지 없음!"), @ApiResponse(code=500,message="서버 에러!")
 	})
 	@PostMapping("login")
-	private ResponseEntity<?> login(@RequestBody @Validated MemberLoginDTO member, BindingResult bindingResult) throws Exception {
+	private ResponseEntity<?> login(@RequestBody @Validated MemberLoginDTO member, BindingResult bindingResult, HttpServletRequest request) throws Exception {
+		System.out.println(bindingResult);
 		if(bindingResult.hasErrors()) {
 			throw new NoArgsException("입력값이 올바르지 않습니다.");
 		}
+		System.out.println(request.getRequestURL());
 		Map<String, Object> resultMap = new HashMap<>();
 		String id = member.getId();
 		String password = member.getPassword();
@@ -177,7 +179,8 @@ public class MemberController {
 		}
 		service.updateUser(member);
 		if(!file.isEmpty()) {
-			String realPath = servletContext.getRealPath("/upload");
+//			String realPath = servletContext.getRealPath("/upload");
+			String realPath = "C:/board/upload/imageUpload";
 			String today = new SimpleDateFormat("yyMMdd").format(new Date());
 			String saveFolder = realPath + File.separator + today;
 			File folder = new File(saveFolder);

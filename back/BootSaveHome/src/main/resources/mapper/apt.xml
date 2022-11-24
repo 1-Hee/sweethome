@@ -64,27 +64,27 @@
 	</select>
 	
 	<!-- added 11/19 -->
-	<select id="selectAptListByFullCode" parameterType="map" resultType="aptinfo">
+	<select id="selectAptListByFullCode" parameterType="map" resultMap="aptinfo">
 		select 
-		apartmentName, dealAmount, area, date, address, lat, lng
+		apt_no, apartmentName, dealAmount, area, date, address, lat, lng
 		from home.apt_table 
 		where dongCode=#{fullCode}
 		limit #{pageNum}, #{pageSize};
 	</select>
 	
 		<!-- added 11/19 -->
-	<select id="selectAptListByDong" parameterType="map" resultType="aptinfo">
+	<select id="selectAptListByDong" parameterType="map" resultMap="aptinfo">
 		select 
-		apartmentName, dealAmount, area, date, address, lat, lng
+		apt_no, apartmentName, dealAmount, area, date, address, lat, lng
 		from home.apt_table 
 		where address=#{dongName}
 		limit #{pageNum}, #{pageSize};
 	</select>
 	
 			<!-- added 11/20 -->
-	<select id="selectAptListByAptName" parameterType="map" resultType="aptinfo">
+	<select id="selectAptListByAptName" parameterType="map" resultMap="aptinfo">
 		select 
-		apartmentName, dealAmount, area, date, address, lng, lat
+		apt_no, apartmentName, dealAmount, area, date, address, lng, lat
 		from apt_table 
 		where apartmentName = #{aptName}
 		limit #{pageNum}, #{pageSize};

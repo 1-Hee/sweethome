@@ -7,7 +7,7 @@
         <a href="#" class="defbtn btn-back" @click="backToList">뒤로가기</a>
       </div>
 
-      <div class="right-menu" v-if="Board.userId == getLoginMember.id">
+      <div class="right-menu" v-if="getLoginMember != null && Board.userId == getLoginMember.id">
         <div class="modify-div">
           <button
             type="button"

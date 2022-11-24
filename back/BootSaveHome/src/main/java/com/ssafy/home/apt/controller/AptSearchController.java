@@ -210,6 +210,7 @@ public class AptSearchController{
 	@PostMapping("/like")
 	public ResponseEntity<?> giveLike(@RequestBody LikeDto likedto) {
 		try {
+			System.out.println(likedto.toString());
 			aptService.addLike(likedto);
 			aptService.updateLike(likedto.getAptNo());
 			return new ResponseEntity<Void>(HttpStatus.OK);

@@ -59,7 +59,10 @@
           >
             <div class="drop-down-menu">
               <button class="defbtn drop-down-btn">
-                <img />
+                <img
+                  id="user-img-header"
+                  :src="CURL + '/' + getLoginMember.saveFolder + '/' + getLoginMember.saveFile"
+                />
               </button>
               <ul class="drop-down-items" id="profile-menu">
                 <li>
@@ -68,7 +71,7 @@
                 </li>
                 <li>
                   <i class="fa-solid fa-heart"></i>
-                  <a class="drop-down-item" href="#">찜목록</a>
+                  <a class="drop-down-item" href="#" @click="goLike">찜목록</a>
                 </li>
                 <li @click="logOut">
                   <i class="fa-solid fa-right-from-bracket"></i>
@@ -80,12 +83,12 @@
         </ul>
       </div>
     </header>
-    <div class="divider-min"></div>
+    <div class="divider-min" style="background-color: white; z-index: 3"></div>
     <app-login-view></app-login-view>
     <app-regist-view></app-regist-view>
     <app-user-inquiry></app-user-inquiry>
-    <div style="display: none" class="wating-bg" id="wating-bg"></div>
-    <i style="display: none" id="waiting-circle" class="fa-solid fa-circle-notch wating-icon"></i>
+    <div class="wating-bg hide" id="wating-bg"></div>
+    <i class="fa-solid fa-circle-notch wating-icon hide" id="waiting-circle"></i>
 
     <!-- 헤더 영역 -->
   </div>
@@ -109,6 +112,7 @@ export default {
       loginUser: {},
       code: 9,
       isTokenError: false,
+      CURL: "C:/SSAFY8/workspace/08-1.VueProject/sweethome/back/BootSaveHome/src/main/webapp/upload/",
     };
   },
   methods: {
@@ -140,6 +144,9 @@ export default {
     },
     go500() {
       this.$router.push({ name: "App500Error" }).catch(() => {});
+    },
+    goLike() {
+      this.$router.push({ name: "UserLikeApt" }).catch(() => {});
     },
     async logOut() {
       this.REMOVE_MEMBER();
@@ -195,6 +202,7 @@ export default {
   //     console.log(value, oldValue);
   //   },
   // },
+  updated() {},
 };
 </script>
 
