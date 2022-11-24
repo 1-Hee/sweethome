@@ -9,6 +9,8 @@ import {
   tokenRegeneration,
 } from "@/api/member";
 
+import {} from "@/api/apt" // select만 가져온다.
+
 const memberStore = {
   namespaced: true,
   state: {
@@ -17,6 +19,7 @@ const memberStore = {
     token: {},
     pastListNo: 1,
     tokenError: false,
+    likeAptList :[],
   },
   getters: {
     getMemberList(state) {
@@ -79,6 +82,7 @@ const memberStore = {
       doLogin(
         member,
         ({ data }) => {
+          // console.dir(data);
           commit("DO_LOGIN_MEMBER", data);
         },
         (err) => {
@@ -87,17 +91,11 @@ const memberStore = {
         }
       );
     },
-    modifyMember({ commit }, member, isReload) {
+    modifyMember({ commit }, member, img) {
+      console.dir(member);
+      console.dir(img);
       updateMember(
-        member,
-        ({ data }) => {
-          // console.log(data);
-          // console.dir(member);
-          commit("UPDATE_MEMBER", member, isReload);
-        },
-        (err) => {
-          console.log(err);
-        }
+        member, img      
       );
     },
     removeMember({ commit }, userId) {

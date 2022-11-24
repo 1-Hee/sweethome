@@ -14,7 +14,7 @@ async function selectAptDataListDong(param, success, fail) {
 }
 
 async function selectAptDataListAptName(param, success, fail) {
-  console.dir(param);
+  //console.dir(param);
   await api.get(`${cURL}/search/name`, { params: param }).then(success).catch(fail);
 }
 
@@ -32,4 +32,14 @@ async function selectAptPriceItems(success, fail) {
   await api.get(`${cURL}/index/recommend/price`).then(success).catch(fail);
 }
 
-export { selectAptDataList, selectAptDataListDong, selectAptDataListAptName, selectAptTOP4Items, selectAptPriceItems };
+// 아파트 위경도 값으로 매물 검색
+async function selectAptListLatLng(pos, success, fail){
+  await api.get(`${cURL}/around`, JSON.stringify(pos)).then(success).catch(fail);
+}
+
+// 아파트 좋아요 누르면 찜목록에 반영
+async function insertAptDataLike(param, success, fail){
+  await api.post(`${cURL}/like`, JSON.stringify(param)).then(success).catch(fail);
+}
+
+export { selectAptDataList, selectAptDataListDong, selectAptDataListAptName, selectAptTOP4Items, selectAptPriceItems,selectAptListLatLng, insertAptDataLike };

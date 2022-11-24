@@ -27,7 +27,7 @@
     <div class="divider1"></div>
 
     <div class="thumbnail-container flex-def">
-      <a href="#" class="thumbnail" v-for="(item, index) in top4AptList" :key="index">
+      <a href="#" class="thumbnail" v-for="(item, index) in top4AptList" :key="index" @click.prevent="showItem(item)">
         <img src="https://source.unsplash.com/random" />
         <div class="text-caption">
           <h3>{{ item.apartmentName }}</h3>
@@ -42,15 +42,33 @@
     </div>
     <div class="tag-box flex-def" id="tag-container" @click.prevent="">
       <div>
-        <a v-for="(item, index) in tagList" :key="index" class="badge tag-badge"
+        <a v-for="(item, index) in tagList" :key="index" class="badge tag-badge" @click="doToggle"
           ><span @click.prevent="giveTageSelect">{{ item }}</span></a
         >
       </div>
     </div>
     <div class="divider1"></div>
 
-    <div class="thumbnail-container flex-def">
-      <a href="#" class="thumbnail" v-for="(item, index) in AptPriceList" :key="index">
+    <div
+      id="price-container"
+      class="thumbnail-container flex-def"
+      :class="{ 'show-view': !isToggle, 'hide-view': isToggle }"
+    >
+      <a href="#" class="thumbnail" v-for="(item, index) in AptPriceList" :key="index" @click.prevent="showItem(item)">
+        <img src="https://source.unsplash.com/random" />
+        <div class="text-caption">
+          <h3>{{ item.apartmentName }}</h3>
+          <p>{{ item.address }}</p>
+          <p><span class="badge o-badge">아파트</span> {{ item.dealAmount }} 만원</p>
+        </div>
+      </a>
+    </div>
+    <div
+      id="popular-container"
+      class="thumbnail-container flex-def"
+      :class="{ 'show-view': isToggle, 'hide-view': !isToggle }"
+    >
+      <a href="#" class="thumbnail" v-for="(item, index) in top4AptList" :key="index" @click.prevent="showItem(item)">
         <img src="https://source.unsplash.com/random" />
         <div class="text-caption">
           <h3>{{ item.apartmentName }}</h3>
@@ -124,6 +142,7 @@ export default {
         "백화점 인근",
         "휴양시설이 있는",
       ],
+      isToggle: false,
     };
   },
   methods: {
@@ -159,6 +178,17 @@ export default {
         document.getElementById("waiting-circle").setAttribute("style", "display:none; transition:.3s;");
         document.getElementById("wating-bg").setAttribute("style", "display:none; transition:.3s;");
       }, 350);
+    },
+    doToggle() {
+      this.isToggle = !this.isToggle;
+    },
+    showItem(item) {
+      //console.dir(item);
+      localStorage.setItem("dongCode", item.dongCode);
+      localStorage.setItem("lat", item.lat);
+      localStorage.setItem("lng", item.lng);
+      localStorage.setItem("apartmentName", item.apartmentName);
+      this.$router.push({ name: "MapView" });
     },
   },
   created() {
@@ -211,5 +241,13 @@ span {
 }
 .board-badge {
   margin-right: 15px;
+}
+
+.hide-view {
+  display: none;
+}
+
+.show-view {
+  display: block;
 }
 </style>

@@ -111,5 +111,11 @@ public class AptServiceImpl implements AptService {
 	}
 
 
+//	@Override
+//	public List<AptInfo> getAptListByLatLng(int pageNum, int pageSize, String lat, String lng) throws Exception {
+//		return aptMapper.selectAptListByLatLng(pageNum, pageSize, lat, lng);
+//	}
+
+
 
 }

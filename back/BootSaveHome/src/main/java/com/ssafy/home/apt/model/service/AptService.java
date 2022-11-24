@@ -23,6 +23,8 @@ public interface AptService {
 	List<AptInfo> getAptListByDong(int pageNum, int pageSize, String dongName) throws Exception; // added 11/19
 	
 	List<AptInfo> getAptListByAptName(int pageNum, int pageSize, String aptName) throws Exception; // added 11/20
+	
+//	List<AptInfo> getAptListByLatLng(int pageNum, int pageSize, String lat, String lng ) throws Exception; // added 11/24
 
 	int addLike(LikeDto likedto) throws Exception;
 

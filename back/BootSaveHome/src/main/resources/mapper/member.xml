@@ -89,7 +89,7 @@
 	
 	<select id="selectByIdAndImage" parameterType="String" resultMap="memberimagedto">
 		select m.user_id, password, name, age, email, domain, grade, join_date, s_folder, o_file, s_file
-		from member m inner join profile_info p on m.user_id = p.user_id 
+		from member m left join profile_info p on m.user_id = p.user_id 
 		where m.user_id = #{id}
 	</select>
 	
