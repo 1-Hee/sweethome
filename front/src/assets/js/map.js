@@ -4,7 +4,7 @@ import aptStore from "@/store/modules/aptStore";
 export function kakomapInit() {
   var mapContainer = document.getElementById("map"), // 지도를 표시할 div
     mapOption = {
-      center: new kakao.maps.LatLng(37.54699, 127.09598), // 지도의 중심좌표
+      center: new kakao.maps.LatLng(36.35540335774565, 127.30066562367861), // 지도의 중심좌표
       level: 2, // 지도의 확대 레벨
     };
 
@@ -26,7 +26,7 @@ export function kakomapInit() {
 export function searchByAddressKakao(address) {
   const mapContainer = document.getElementById("map"), // 지도를 표시할 div
     mapOption = {
-      center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+      center: new kakao.maps.LatLng(36.35540335774565, 127.30066562367861), // 지도의 중심좌표
       level: 3, // 지도의 확대 레벨
     };
 
@@ -188,7 +188,6 @@ export function markByPos2(lat, lng, apartmentName) {
     infowindow.open(map, marker);
   });
 }
-
 
 // 위 경도로 주소 검색
 export function getAddressByPOS(lng, lat) {
