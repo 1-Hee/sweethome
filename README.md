@@ -3,8 +3,8 @@
 ### 프로젝트 진행 기간 : 2022. 11. 07. ~ 2022. 11. 25.
 
 ## 📜 History
-- 부동산 거래 정보 플랫폼 SweetHome 프로젝트 개발 시작(2022. 12. 19)
-- REST API 기반의 SweetHome v1.0 완성(2022. 11. 25)
+- 부동산 거래 정보 플랫폼 SWEETHOME 프로젝트 개발 시작(2022. 11. 07)
+- REST API 기반의 SWEETHOME v1.0 완성(2022. 11. 25)
 
 ## 💻 Libraries and Frameworks
 - 이번 프로젝트는 아래의 기술 스택이 사용되었습니다.
